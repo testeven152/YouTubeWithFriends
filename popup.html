@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>YouTube With Friends</title>
+        <link rel="stylesheet" href="popup.css">
+        <script src="jquery-3.4.1.js"></script>
+        <script src="popup.js"></script>
+    </head>
+    <body>
+        <h2>YouTube With Friends</h2>
+        <div class="no-error">
+            <div class="disconnected">
+                <p>
+                    <label><input type="checkbox" id="control-lock">Only I have control</label>
+                </p>
+                <p>
+                    <button id="create-session" type="button">Start Session</button>
+                </p>
+            </div>
+            <div class="connected">
+                <input id="share-url" type="text" readonly="true" autocomplete="off" autofocus />
+                <p class="copy-val">
+                    <small><a href="#" id="copy-btn">Copy URL</a></small>
+                </p>
+                <p>
+                    <button id="leave-session" type="button">End Session</button>
+                </p>
+            </div>
+        </div>
+        <div class="error">
+            <p id="error-msg" class="error"></p>
+            <p><button id="close-error" type="button">Dismiss</button></p>
+        </div>
+    </body>
+</html>

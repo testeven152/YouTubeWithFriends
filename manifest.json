@@ -1,0 +1,23 @@
+{
+    "manifest_version": 2,
+    "name": "YouTube With Friends",
+    "version": "1.0",
+    "description": "YouTube With Friends allows you and one friend to watch synced YouTube videos together.",
+    "permissions": [
+        "declarativeContent",
+        "activeTab"
+    ],
+    "background": {
+        "scripts": ["background.js"],
+        "persistent": false
+    },
+    "page_action": {
+        "default_title": "Youtube With Friends",
+        "default_popup": "popup.html"
+    },
+    "icons": {
+        "16": "images/YTlogo16.png",
+        "48": "images/YTlogo48.png",
+        "128": "images/YTlogo128.png"
+    }
+}
