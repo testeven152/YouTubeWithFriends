@@ -1,25 +1,25 @@
 
+
 $(function(){
 
-    var socket = io('https://youtubewfriends.herokuapp.com/');
+    var connectionOptions =  {
+        "force new connection" : true,
+        "reconnectionAttempts": "Infinity", //avoid having user reconnect manually in order to prevent dead clients after a server restart
+        "timeout" : 10000,                  //before connect_error and connect_timeout are emitted.
+        "transports" : ["websocket"]
+    };
+    
+    const socket = io('http://localhost:3000/', connectionOptions);
 
-    var userId = NULL;
+/*     var userId = NULL;
     socket.on('userId', function (data) {
         if(userId == null){
             userId = data;
         }
-    });
+    }); */
 
     socket.on('connect', function() {
-
-    });
-
-    socket.on('reconnect', function() {
-
-    });
-
-    socket.on('update', function() {
-
+        console.log('Client connected')
     });
 
     //popup interactions
@@ -30,15 +30,21 @@ $(function(){
             }
 
             if(request.type == 'createSession') {
-                socket.emit('createSession', 0);
+                socket.emit('createSession', null, function(){
+
+                });
             }
 
             if(request.type == 'joinSession') {
-                socket.emit('joinSession');
+                socket.emit('joinSession', null, function(){
+
+                });
             }
 
             if(request.type == 'leaveSession') {
-                socket.emit('leaveSession');
+                socket.emit('leaveSession', null, function(){
+
+                });
             }
         }
     );

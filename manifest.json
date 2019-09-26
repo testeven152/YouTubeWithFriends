@@ -12,6 +12,11 @@
         "persistent": false
     },
     "page_action": {
+        "default_icon": {
+            "16": "images/YTlogo16.png",
+            "48": "images/YTlogo48.png",
+            "128": "images/YTlogo128.png"
+        },
         "default_title": "Youtube With Friends",
         "default_popup": "popup.html"
     },
@@ -19,5 +24,6 @@
         "16": "images/YTlogo16.png",
         "48": "images/YTlogo48.png",
         "128": "images/YTlogo128.png"
-    }
+    },
+    "content_security_policy": "script-src 'self' https://cdn.jsdelivr.net; object-src 'self'"
 }

@@ -2,19 +2,20 @@
 <html>
     <head>
         <title>YouTube With Friends</title>
+        <script type="text/javascript" src="jquery-3.4.1.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/socket.io-client@2/dist/socket.io.js"></script>
+        <script type="text/javascript" src="popup.js"></script>
         <link rel="stylesheet" href="popup.css">
-        <script src="jquery-3.4.1.js"></script>
-        <script src="popup.js"></script>
     </head>
     <body>
         <h2>YouTube With Friends</h2>
-        <div class="no-error">
+<!--         <div class="no-error">
             <div class="disconnected">
                 <p>
-                    <label><input type="checkbox" id="control-lock">Only I have control</label>
+                    <label><input type="checkbox" id="control-lock">Only you have control.</label>
                 </p>
                 <p>
-                    <button id="create-session" type="button">Start Session</button>
+                    <button id="create-session" type="button">Create a Room</button>
                 </p>
             </div>
             <div class="connected">
@@ -23,13 +24,21 @@
                     <small><a href="#" id="copy-btn">Copy URL</a></small>
                 </p>
                 <p>
-                    <button id="leave-session" type="button">End Session</button>
+                    <button id="playbutton" type="button">Play</button>
+                </p>
+                <p>
+                    <button id="leave-session" type="button">Leave Room</button>
                 </p>
             </div>
         </div>
         <div class="error">
             <p id="error-msg" class="error"></p>
             <p><button id="close-error" type="button">Dismiss</button></p>
+        </div> -->
+        <div class="testclass">
+            <p>
+                <button id="connectbutton" type="button">Connect</button>
+            </p>
         </div>
     </body>
 </html>
