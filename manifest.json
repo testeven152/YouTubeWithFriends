@@ -2,7 +2,7 @@
     "manifest_version": 2,
     "name": "YouTube With Friends",
     "version": "1.0",
-    "description": "YouTube With Friends allows you and one friend to watch synced YouTube videos together.",
+    "description": "YouTube With Friends allows you and friends to watch synced YouTube videos together.",
     "permissions": [
         "declarativeContent",
         "activeTab"
