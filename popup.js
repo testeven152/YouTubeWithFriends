@@ -22,20 +22,32 @@ $(function(){
         localUserId = data;
     });
 
-    socket.on('playpause', function() {
-
-    });
-
-    socket.on('sync', function() {
-
-    });
 
     chrome.tabs.query({
         active: true,
         currentWindow: true
     }, function(tabs) {
 
-        
+
+        socket.on('playpause', function() {
+            chrome.tabs.executeScript(
+                tabs[0].id,
+                {code: "document.getElementsById('" + videoId + "')[0].play()"});
+        });
+
+        socket.on('pause', function() {
+            chrome.tabs.executeScript(
+                tabs[0].id,
+                {code: "document.getElementsById('" + videoId + "')[0].pause()"});
+        });
+
+        socket.on('sync', function() {
+            chrome.tabs.executeScript(
+                tabs[0].id,
+                {code: "document.getElementsById('" + videoId + "')[0].load()"});
+        });
+
+        var videoId = null;
 
         var showError = function(err) {
             $('.error').removeClass('hidden');
@@ -43,26 +55,7 @@ $(function(){
             $('#error-msg').html(err);
         };
 
-        $('#close-error').click(function() {
-            $('.no-error').removeClass('hidden');
-            $('.error').addClass('hidden');
-        });
-
-        var startSpinning = function() {
-            // $('#control-lock').prop('disabled', true);
-            $('#create-session').prop('disabled', true);
-            $('#leave-session').prop('disabled', true);
-        };
-
-        var stopSpinning = function() {
-            // $('#control-lock').prop('disabled', false);
-            $('#create-session').prop('disabled', false);
-            $('#leave-session').prop('disabled', false);
-        };
-
-
         var showConnected = function(sessionId) {
-            // var urlWithSessionId = tabs[0].url.split('?')[0] + '&ywfId=' + encodeURIComponent(sessionId);
             $('.disconnected').hide();
             $('.connected').show();
             $('#share-url').val(sessionId).focus().select();
@@ -71,17 +64,16 @@ $(function(){
         var showDisconnected = function() {
             $('.disconnected').show();
             $('.connected').hide();
-            // $('#control-lock').prop('checked', false);
         };
 
         $('.error').hide();
         showDisconnected();
 
         $('#create-session').click(function() {
-            socket.emit('createSession', null, function(sessionId) {
+            socket.emit('createSession', videoId, function(sessionId) {
                 localSessionId = sessionId;
+                showConnected(sessionId);
             });
-            showConnected(localSessionId);
         });
 
         $('#join-session').click(function() {
@@ -90,9 +82,8 @@ $(function(){
             } else {
                 var joinroomid = $('#join-id').val();
                 socket.emit('joinSession', joinroomid, function() {
-
+                    showConnected(joinroomid);
                 });
-                showConnected(joinroomid);
             }
         });
 
@@ -100,15 +91,22 @@ $(function(){
             socket.emit('leaveSession', null, function(){
                 localSessionId = null;
                 localUserId = null;
-            });
-            showDisconnected();
-        });
-
-        $('#play-pause-btn').click(function() {
-            socket.emit('playpausebtn', null, function() {
-
+                showDisconnected();
             });
         });
+
+        $('#play-btn').click(function() {
+            socket.emit('playbtn', null, function() {
+
+            });
+        });
+
+        $('#pause-btn').click(function() {
+            socket.emit('pausebtn', null, function() {
+
+            });
+        });
+
 
         $('#sync-btn').click(function() {
             socket.emit('syncbutton', null, function() {
@@ -127,6 +125,11 @@ $(function(){
             e.preventDefault();
             $('#share-url').select();
             document.execCommand('copy');
+        });
+
+        $('#close-error').click(function() {
+            $('.no-error').removeClass('hidden');
+            $('.error').addClass('hidden');
         });
     
     });
