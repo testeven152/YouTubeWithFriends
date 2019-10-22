@@ -2,8 +2,10 @@
 
 $(function(){
 
+
     var localSessionId = null;
     var localUserId = null;
+    var videoId = null;
 
     var connectionOptions =  {
         "force new connection" : true,
@@ -28,8 +30,11 @@ $(function(){
         currentWindow: true
     }, function(tabs) {
 
+        videoId = tabs[0].url.split('=')[1];
+        console.log('videoId is ', videoId);
 
-        socket.on('playpause', function() {
+
+        socket.on('play', function() {
             chrome.tabs.executeScript(
                 tabs[0].id,
                 {code: "document.getElementsById('" + videoId + "')[0].play()"});
@@ -41,14 +46,6 @@ $(function(){
                 {code: "document.getElementsById('" + videoId + "')[0].pause()"});
         });
 
-        socket.on('sync', function() {
-            chrome.tabs.executeScript(
-                tabs[0].id,
-                {code: "document.getElementsById('" + videoId + "')[0].load()"});
-        });
-
-        var videoId = null;
-
         var showError = function(err) {
             $('.error').removeClass('hidden');
             $('.no-error').addClass('hidden');
@@ -56,12 +53,14 @@ $(function(){
         };
 
         var showConnected = function(sessionId) {
+            localSessionId = sessionId;
             $('.disconnected').hide();
             $('.connected').show();
             $('#share-url').val(sessionId).focus().select();
         };
 
         var showDisconnected = function() {
+            localSessionId = null;
             $('.disconnected').show();
             $('.connected').hide();
         };
@@ -71,7 +70,6 @@ $(function(){
 
         $('#create-session').click(function() {
             socket.emit('createSession', videoId, function(sessionId) {
-                localSessionId = sessionId;
                 showConnected(sessionId);
             });
         });
@@ -96,22 +94,11 @@ $(function(){
         });
 
         $('#play-btn').click(function() {
-            socket.emit('playbtn', null, function() {
-
-            });
+            socket.emit('playbtn', localSessionId, function(){});
         });
 
         $('#pause-btn').click(function() {
-            socket.emit('pausebtn', null, function() {
-
-            });
-        });
-
-
-        $('#sync-btn').click(function() {
-            socket.emit('syncbutton', null, function() {
-
-            });
+            socket.emit('pausebtn', localSessionId, function(){});
         });
 
         $('#share-url').click(function(e) {

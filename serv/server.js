@@ -1,10 +1,8 @@
 
-
 var app = require('express')();
 var http = require('http').createServer(app);
 var cors = require('cors');
 var io = require('socket.io')(http);
-// io.set('transports', ['websockets']); this was cauasing websocket handshake errors, seems setting transports in client works
 
 var lodash = require('lodash');
 
@@ -43,22 +41,53 @@ io.on('connection', function(socket){
         socket: socket
     };
 
+    // testing ---------------------------------------------------
+    var testuser = "0dd0";
+    var testsessionid = 0000;
+    var testsession = {
+        id: testsessionid,
+        userIds: [],
+        video: null
+    };
+    users[testuser] = {
+        id: testuser,
+        sessionId: testsessionid,
+        socket: null
+    }
+    sessions[testsessionid] = testsession;
+    sessions[testsessionid].userIds.push(testuser);
+    sessions[testsessionid].userIds.push("00002223d4444");
+
+    for (var i = 0; i < sessions[testsessionid].userIds.length; i++) {
+        console.log(sessions[testsessionid].userIds[i]);
+    }
+
+    sessions[testsessionid].userIds.splice(sessions[testsessionid].userIds.indexOf(testuser), 1);
+
+
+    console.log(sessions[testsessionid].userIds.length);
+    // testing ---------------------------------------------------
+
+
     socket.emit('userId', userId);
     console.log('User ' + userId + ' connected');
 
+    // create new sessionid, set user's sessionid to new sessionid
     socket.on('createSession', function(data, callback) {
         sessionId = makeId();
         var session = {
             id: sessionId,
-            userIds: [userId],
+            userIds: [],
             video: data
         }
         users[userId].sessionId = sessionId;
-        sessions[session.id] = session;
-        console.log('User ' + userId + ' has created session: ' + sessionId + '.');
+        sessions[sessionId] = session;
+        sessions[sessionId].userIds.push(userId);
+        console.log('User ' + users[userId].id + ' has created session: ' + sessions[sessionId].id + '.');
         callback(sessionId);
     });
 
+    //set sessionid to sessionid provided by user in client. 
     socket.on('joinSession', function(data, callback) {
         sessionId = data;
         users[userId].sessionId = sessionId;
@@ -66,6 +95,7 @@ io.on('connection', function(socket){
         console.log('User ' + userId +  ' has joined session: ' + sessionId + '.');
     });
 
+    //set user's sessionid to null; if there are no users left in session, delete the session
     socket.on('leaveSession', function() {
         sessionId = users[userId].sessionId;
         lodash.pull(sessions[sessionId].userIds, userId);
@@ -73,22 +103,31 @@ io.on('connection', function(socket){
             delete sessions[sessionId];
             console.log('session ' + sessionId + ' deleted since no users are in session');
         }
-        users[userId].sessionId = null;
+        delete users[userId];
         console.log('User ' + userId + ' has left the session.');
     });
 
-    socket.on('playbtn', function() {
+    // play video for all users with the same sessionid
+    socket.on('playbtn', function(data) {
         console.log('User ' + userId + ' clicked on the play/pause button.');
+        for (var i = 0; i < sessions[sessionId].userIds.length; i++) {
+            if (users[sessions[sessionId].userIds[i]].sessionId == data) {
+                users[sessions[sessionId].userIds[i]].socket.emit('play', null);
+            }
+        }
     });
 
-    socket.on('pausebtn', function() {
+    // pause video for all users with the same sessionid
+    socket.on('pausebtn', function(data) {
         console.log('User ' + userId + ' clicked on the pause button.');
+        for (var i = 0; i < sessions[sessionId].userIds.length; i++) {
+            if (users[sessions[sessionId].userIds[i]].sessionId == data) {
+                users[sessions[sessionId].userIds[i]].socket.emit('pause', null);
+            }
+        }
     });
 
-    socket.on('syncbutton', function() {
-        console.log('User ' + userId + ' clicked on the sync button.');
-    });
-
+    // delete user of user list; if there are no users left in session, delete the session
     socket.on('disconnect', function() { 
         sessionId = users[userId].sessionId;
         lodash.pull(sessions[sessionId].userIds, userId);
@@ -97,7 +136,7 @@ io.on('connection', function(socket){
             console.log('session ' + sessionId + ' deleted since no users are in session');
         }
         delete users[userId];
-        console.log('User' + userId + ' disconnected.');
+        console.log('User ' + userId + ' disconnected.');
     });
 });
 
