@@ -37,13 +37,13 @@ $(function(){
         socket.on('play', function() {
             chrome.tabs.executeScript(
                 tabs[0].id,
-                {code: "document.getElementsById('" + videoId + "')[0].play()"});
+                {code: 'document.getElementsByTagName("video")[0].play()'});
         });
 
         socket.on('pause', function() {
             chrome.tabs.executeScript(
                 tabs[0].id,
-                {code: "document.getElementsById('" + videoId + "')[0].pause()"});
+                {code: 'document.getElementsByTagName("video")[0].pause()'});
         });
 
         var showError = function(err) {
@@ -83,14 +83,6 @@ $(function(){
                     showConnected(joinroomid);
                 });
             }
-        });
-
-        $('#leave-session').click(function() {
-            socket.emit('leaveSession', null, function(){
-                localSessionId = null;
-                localUserId = null;
-                showDisconnected();
-            });
         });
 
         $('#play-btn').click(function() {

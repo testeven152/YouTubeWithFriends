@@ -1,4 +1,5 @@
 
+
 var app = require('express')();
 var http = require('http').createServer(app);
 var cors = require('cors');
@@ -68,6 +69,20 @@ io.on('connection', function(socket){
     console.log(sessions[testsessionid].userIds.length);
     // testing ---------------------------------------------------
 
+    var removeUserFromSession = function(userId) {
+        lodash.pull(sessions[sessionId].userIds, userId);
+        if (lodash.get(sessions[sessionId].userIds.length) === 0) {
+            delete sessions[sessionId];
+            console.log('session ' + sessionId + ' deleted since no users are in session');
+        }
+        delete users[userId];
+    }
+
+    var addUserToSession = function(userId, sessionIdFromClient) {
+        users[userId].sessionId = sessionIdFromClient;
+        sessions[sessionIdFromClient].userIds.push(userId);
+    }
+
 
     socket.emit('userId', userId);
     console.log('User ' + userId + ' connected');
@@ -77,34 +92,19 @@ io.on('connection', function(socket){
         sessionId = makeId();
         var session = {
             id: sessionId,
-            userIds: [],
+            userIds: [userId],
             video: data
         }
         users[userId].sessionId = sessionId;
         sessions[sessionId] = session;
-        sessions[sessionId].userIds.push(userId);
         console.log('User ' + users[userId].id + ' has created session: ' + sessions[sessionId].id + '.');
         callback(sessionId);
     });
 
     //set sessionid to sessionid provided by user in client. 
     socket.on('joinSession', function(data, callback) {
-        sessionId = data;
-        users[userId].sessionId = sessionId;
-        sessions[sessionId].userIds.push(userId);
+        addUserToSession(userId, data);
         console.log('User ' + userId +  ' has joined session: ' + sessionId + '.');
-    });
-
-    //set user's sessionid to null; if there are no users left in session, delete the session
-    socket.on('leaveSession', function() {
-        sessionId = users[userId].sessionId;
-        lodash.pull(sessions[sessionId].userIds, userId);
-        if (sessions[sessionId].userIds.length === 0) {
-            delete sessions[sessionId];
-            console.log('session ' + sessionId + ' deleted since no users are in session');
-        }
-        delete users[userId];
-        console.log('User ' + userId + ' has left the session.');
     });
 
     // play video for all users with the same sessionid
@@ -129,13 +129,7 @@ io.on('connection', function(socket){
 
     // delete user of user list; if there are no users left in session, delete the session
     socket.on('disconnect', function() { 
-        sessionId = users[userId].sessionId;
-        lodash.pull(sessions[sessionId].userIds, userId);
-        if (sessions[sessionId].userIds.length === 0) {
-            delete sessions[sessionId];
-            console.log('session ' + sessionId + ' deleted since no users are in session');
-        }
-        delete users[userId];
+        removeUserFromSession(userId);
         console.log('User ' + userId + ' disconnected.');
     });
 });
