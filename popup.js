@@ -24,7 +24,6 @@ $(function(){
         localUserId = data;
     });
 
-
     chrome.tabs.query({
         active: true,
         currentWindow: true
@@ -69,28 +68,26 @@ $(function(){
         showDisconnected();
 
         $('#create-session').click(function() {
-            socket.emit('createSession', videoId, function(sessionId) {
+            socket.emit('createSession', localUserId, function(sessionId) {
                 showConnected(sessionId);
             });
         });
 
         $('#join-session').click(function() {
-            if($('#join-id').val() == '') {
-                // do nothing
-            } else {
+            if($('#join-id').val() != '') {
                 var joinroomid = $('#join-id').val();
                 socket.emit('joinSession', joinroomid, function() {
                     showConnected(joinroomid);
                 });
-            }
+            } 
         });
 
         $('#play-btn').click(function() {
-            socket.emit('playbtn', localSessionId, function(){});
+            socket.emit('playbtn', localUserId, function(){});
         });
 
         $('#pause-btn').click(function() {
-            socket.emit('pausebtn', localSessionId, function(){});
+            socket.emit('pausebtn', localUserId, function(){});
         });
 
         $('#share-url').click(function(e) {
