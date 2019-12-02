@@ -36,14 +36,21 @@ $(function(){
         socket.on('play', function() {
             chrome.tabs.executeScript(
                 tabs[0].id,
-                {code: 'document.getElementsByTagName("video")[0].play()'});
+                {code: 'document.getElementsByTagName("video")[0].play();'});
         });
 
         socket.on('pause', function() {
             chrome.tabs.executeScript(
                 tabs[0].id,
-                {code: 'document.getElementsByTagName("video")[0].pause()'});
+                {code: 'document.getElementsByTagName("video")[0].pause();'});
         });
+
+        socket.on('sync', function(time) {
+            chrome.tabs.executeScript(
+                tabs[0].id,
+                {code: 'document.getElementsByTagName("video")[0].currentTime = ' + time + ';'},
+            )
+        })
 
         var showError = function(err) {
             $('.error').removeClass('hidden');
@@ -76,18 +83,34 @@ $(function(){
         $('#join-session').click(function() {
             if($('#join-id').val() != '') {
                 var joinroomid = $('#join-id').val();
-                socket.emit('joinSession', joinroomid, function() {
-                    showConnected(joinroomid);
+                socket.emit('joinSession', joinroomid, function(sessionId) {
+                    if(sessionId == joinroomid) {
+                        showConnected(sessionId);
+                    } else {
+                        showError("Invalid Session ID");
+                    }
                 });
             } 
         });
 
         $('#play-btn').click(function() {
-            socket.emit('playbtn', localUserId, function(){});
+            socket.emit('videocontrol', 'play', function(){});
         });
 
         $('#pause-btn').click(function() {
-            socket.emit('pausebtn', localUserId, function(){});
+            socket.emit('videocontrol', 'pause', function(){});
+        });
+
+        $('#sync-btn').click(function() {
+            let time = 0;
+            chrome.tabs.executeScript(
+                tabs[0].id,
+                {code: 'document.getElementsByTagName("video")[0].currentTime'},
+                function (result) {
+                    time = result;
+                }
+            )
+            socket.emit('sync', time, function(){});
         });
 
         $('#share-url').click(function(e) {
