@@ -103,13 +103,18 @@ $(function(){
 
         $('#sync-btn').click(function() {
             let time = 0;
+            let getText = Array();
             chrome.tabs.executeScript(
                 tabs[0].id,
                 {code: 'document.getElementsByTagName("video")[0].currentTime'},
                 function (result) {
-                    time = result;
+                    for (var i = 0; i < result[0].length; i++) {
+                        getText[i] = result[0][i];
+                    }
+                    console.log(getText);
                 }
             )
+            time = Number(getText);
             socket.emit('sync', time, function(){});
         });
 
