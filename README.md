@@ -1,7 +1,14 @@
 # Youtube With Friends
 
-Youtube With Friends allows multiple friends to sync up their YouTube videos together. Both chrome extension and server
-uses Socket.io to communicate and send messages to each other.
+Youtube With Friends is a Chrome Extension that allows friends to watch YouTube videos together online by synchronizing YouTube video playback.
+
+## Technologies Used
+
+- JavaScript
+- Node.js
+- Socket.IO
+- Lodash
+- Heroku
 
 ## Installation
 
