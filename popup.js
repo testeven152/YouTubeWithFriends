@@ -45,10 +45,10 @@ $(function(){
                 {code: 'document.getElementsByTagName("video")[0].pause();'});
         });
 
-        socket.on('sync', function(time) {
+        socket.on('sync', function(data) {
             chrome.tabs.executeScript(
                 tabs[0].id,
-                {code: 'document.getElementsByTagName("video")[0].currentTime = ' + time + ';'},
+                {code: 'document.getElementsByTagName("video")[0].currentTime = ' + data + ';'},
             )
         })
 
@@ -61,6 +61,7 @@ $(function(){
         var showConnected = function(sessionId) {
             localSessionId = sessionId;
             $('.disconnected').hide();
+            $('.loader').hide();
             $('.connected').show();
             $('#share-url').val(sessionId).focus().select();
         };
@@ -68,19 +69,28 @@ $(function(){
         var showDisconnected = function() {
             localSessionId = null;
             $('.disconnected').show();
+            $('.loader').hide();
             $('.connected').hide();
         };
+
+        var loading = function() {
+            $('.disconnected').hide();
+            $('.loader').show();
+            $('.connected').hide();
+        }
 
         $('.error').hide();
         showDisconnected();
 
         $('#create-session').click(function() {
+            loading();
             socket.emit('createSession', localUserId, function(sessionId) {
                 showConnected(sessionId);
             });
         });
 
         $('#join-session').click(function() {
+            loading();
             if($('#join-id').val() != '') {
                 var joinroomid = $('#join-id').val();
                 socket.emit('joinSession', joinroomid, function(sessionId) {
@@ -92,6 +102,12 @@ $(function(){
                 });
             } 
         });
+
+        $('#leave-session').click(function() {
+            loading();
+            socket.emit('leaveSession', null, function(){});
+            showDisconnected();
+        })
 
         $('#play-btn').click(function() {
             socket.emit('videocontrol', 'play', function(){});
@@ -106,15 +122,11 @@ $(function(){
             let getText = Array();
             chrome.tabs.executeScript(
                 tabs[0].id,
-                {code: 'document.getElementsByTagName("video")[0].currentTime'},
+                {code: 'document.getElementsByTagName("video")[0].currentTime;'},
                 function (result) {
-                    for (var i = 0; i < result[0].length; i++) {
-                        getText[i] = result[0][i];
-                    }
-                    console.log(getText);
+                    time = Number(result);
                 }
             )
-            time = Number(getText);
             socket.emit('sync', time, function(){});
         });
 
