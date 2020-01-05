@@ -110,7 +110,6 @@ $(function(){
             videoId = baseurl.split('=')[1];
         }
 
-                
         console.log('videoId is ', videoId);
 
         $('#create-session').click(function() {
@@ -138,6 +137,7 @@ $(function(){
         $('#sync-btn').click(function() {
             let time = 0;
             let getText = Array();
+            // need to get this working... currently only works as a 'stop'
             chrome.tabs.executeScript(
                 tabs[0].id,
                 {code: 'document.getElementsByTagName("video")[0].currentTime;'},
