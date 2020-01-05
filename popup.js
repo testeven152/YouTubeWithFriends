@@ -90,6 +90,7 @@ $(function(){
 
             ywf = ywf.split('=')[1];
 
+            loading();
             socket.emit('joinSession', ywf, function(sessionId) {
                 if(sessionId == ywf) {
                     showConnected(sessionId);
@@ -113,20 +114,6 @@ $(function(){
                 showConnected(sessionId);
             });
         });
-
-        // $('#join-session').click(function() {
-        //     loading();
-        //     if($('#join-id').val() != '') {
-        //         var joinroomid = $('#join-id').val();
-        //         socket.emit('joinSession', joinroomid, function(sessionId) {
-        //             if(sessionId == joinroomid) {
-        //                 showConnected(sessionId);
-        //             } else {
-        //                 showError("Invalid Session ID");
-        //             }
-        //         });
-        //     } 
-        // });
 
         $('#leave-session').click(function() {
             loading();
