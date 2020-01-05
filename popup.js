@@ -57,7 +57,11 @@ $(function(){
         var showConnected = function(sessionId) {
             localSessionId = sessionId;
             let urlwithywf = 'https://www.youtube.com/watch?v=' + videoId + '&ywf=' + sessionId;
-            chrome.tabs.update(tabs[0].id, {url: urlwithywf});
+
+            if (tabs[0].url != urlwithywf) {
+                chrome.tabs.update(tabs[0].id, {url: urlwithywf});
+            }
+
             $('.disconnected').hide();
             $('.loader').hide();
             $('.connected').show();
