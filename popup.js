@@ -29,10 +29,6 @@ $(function(){
         currentWindow: true
     }, function(tabs) {
 
-        videoId = tabs[0].url.split('=')[1];
-        console.log('videoId is ', videoId);
-
-
         socket.on('play', function() {
             chrome.tabs.executeScript(
                 tabs[0].id,
@@ -60,10 +56,11 @@ $(function(){
 
         var showConnected = function(sessionId) {
             localSessionId = sessionId;
+            let urlwithywf = 'https://www.youtube.com/watch?v=' + videoId + '&ywf=' + sessionId;
             $('.disconnected').hide();
             $('.loader').hide();
             $('.connected').show();
-            $('#share-url').val(sessionId).focus().select();
+            $('#share-url').val(urlwithywf).focus().select();
         };
 
         var showDisconnected = function() {
@@ -82,6 +79,34 @@ $(function(){
         $('.error').hide();
         showDisconnected();
 
+        var hasywfsession = tabs[0].url.includes('&ywf=');
+        var baseurl = null;
+
+        if(hasywfsession) {
+
+            var baseurl = tabs[0].url.split('&')[0];
+            var ywf = tabs[0].url.split('&')[1];
+            videoId = baseurl.split('=')[1];
+
+            ywf = ywf.split('=')[1];
+
+            socket.emit('joinSession', ywf, function(sessionId) {
+                if(sessionId == ywf) {
+                    showConnected(sessionId);
+                } else {
+                    showError("Invalid Session ID");
+                }
+            })
+
+
+        } else {
+            baseurl = tabs[0].url;
+            videoId = baseurl.split('=')[1];
+        }
+
+                
+        console.log('videoId is ', videoId);
+
         $('#create-session').click(function() {
             loading();
             socket.emit('createSession', localUserId, function(sessionId) {
@@ -89,19 +114,19 @@ $(function(){
             });
         });
 
-        $('#join-session').click(function() {
-            loading();
-            if($('#join-id').val() != '') {
-                var joinroomid = $('#join-id').val();
-                socket.emit('joinSession', joinroomid, function(sessionId) {
-                    if(sessionId == joinroomid) {
-                        showConnected(sessionId);
-                    } else {
-                        showError("Invalid Session ID");
-                    }
-                });
-            } 
-        });
+        // $('#join-session').click(function() {
+        //     loading();
+        //     if($('#join-id').val() != '') {
+        //         var joinroomid = $('#join-id').val();
+        //         socket.emit('joinSession', joinroomid, function(sessionId) {
+        //             if(sessionId == joinroomid) {
+        //                 showConnected(sessionId);
+        //             } else {
+        //                 showError("Invalid Session ID");
+        //             }
+        //         });
+        //     } 
+        // });
 
         $('#leave-session').click(function() {
             loading();
