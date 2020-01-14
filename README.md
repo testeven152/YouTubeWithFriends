@@ -19,6 +19,10 @@ Youtube With Friends is a Chrome Extension that allows friends to watch YouTube 
 
 ## Installation
 
+You can find the YouTube With Friends chrome extension in the Chrome Web Store or click the link [here](https://chrome.google.com/webstore/detail/youtube-with-friends/boifjkmdjemnjadceofnlcnnfmjfjcoj).
+
+You can also follow these steps below to install the extension locally.
+
 - Clone the repository
 - Enter chrome://extensions in your chrome browser
 - Click on Load unpacked and load the folder with the chrome extension
