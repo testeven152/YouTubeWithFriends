@@ -1,5 +1,5 @@
 html {
-    margin: 50;
+    margin: 0;
     padding: 0;
 }
 
@@ -7,67 +7,8 @@ body {
     margin: 0;
     padding: 0;
     width: 250px;
-    font-family: monospace;
+    height: 100px;
+    font-family: Helvetica;
     font-size: 0.7em;
     text-align: center;
-    margin-bottom: 50;
 }
-
-.disconnected {
-    height: 40px;
-}
-
-.connected {
-    height: 100px;
-}
-
-.connected .button {
-    display:inline-block;
-    padding:0.35em 1.2em;
-    border:0.1em solid black;
-    margin:0 0.3em 0.3em 0;
-    border-radius:0.12em;
-    box-sizing: border-box;
-    text-decoration:none;
-    font-family:'Roboto',sans-serif;
-    font-weight:300;
-    color:black;
-    text-align:center;
-}
-
-.disconnected .button {
-    display:inline-block;
-    padding:0.35em 1.2em;
-    border:0.1em solid black;
-    margin:0 0.3em 0.3em 0;
-    border-radius:0.12em;
-    box-sizing: border-box;
-    text-decoration:none;
-    font-family:'Roboto',sans-serif;
-    font-weight:300;
-    color:#FFFFFF;
-    text-align:center;
-    transition: all 0.2s;
-}
-  
-.disconnected .button:hover {
-    color:#000000;
-    background-color:#FFFFFF;
-}
-
-
-.loader {
-    border: 16px solid #f3f3f3; /* Light grey */
-    border-top: 16px solid #808080; /* Blue */
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    animation: spin 2s linear infinite;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }

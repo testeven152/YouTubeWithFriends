@@ -2,169 +2,74 @@
 
 $(function(){
 
+    var sendMessage = function(type, data, callback) {
+        console.log("Sending message " + type);
+        chrome.tabs.query({
+            active: true,
+            currentWindow: true
+        }, function(tabs) {
+            chrome.tabs.executeScript(tabs[0].id, {
+                file: 'content_script.js'
+            }, function() {
+                chrome.tabs.sendMessage(tabs[0].id, {
+                    type: type,
+                    data: data
+                }, callback);
+            })
+        })
+    }
 
-    var localSessionId = null;
-    var localUserId = null;
-    var videoId = null;
-
-    var connectionOptions =  {
-        "force new connection" : true,
-        "reconnectionAttempts": "Infinity", //avoid having user reconnect manually in order to prevent dead clients after a server restart
-        "timeout" : 10000, //before connect_error and connect_timeout are emitted.
-        "transports" : ["websocket"]
+    var showError = function(err) {
+        $('.error').removeClass('hidden');
+        $('.no-error').addClass('hidden');
+        $('#error-msg').html(err);
     };
 
-    var socket = io('http://youtubewfriends.herokuapp.com/', connectionOptions);
+    var showConnected = function(sessionId) {
+        $('.disconnected').hide();
+        $('.connected').show();
+        $('#share-url').val(sessionId).focus().select();
+    };
 
-    socket.on('connect', function() {
-        console.log('Client connected')
+    var showDisconnected = function() {
+        $('.disconnected').show();
+        $('.connected').hide();
+    };
+
+    $('.error').hide();
+    showDisconnected();
+
+    $('#create-session').click(function() {
+        console.log('create-session button clicked on.');
+        showConnected();
+        sendMessage('create-session', {}, function(){});
     });
 
-    socket.on('userId', function(data) {
-        localUserId = data;
-    });
-
-    chrome.tabs.query({
-        active: true,
-        currentWindow: true
-    }, function(tabs) {
-
-        socket.on('play', function() {
-            chrome.tabs.executeScript(
-                tabs[0].id,
-                {code: 'document.getElementsByTagName("video")[0].play();'});
-        });
-
-        socket.on('pause', function() {
-            chrome.tabs.executeScript(
-                tabs[0].id,
-                {code: 'document.getElementsByTagName("video")[0].pause();'});
-        });
-
-        socket.on('sync', function(data) {
-            chrome.tabs.executeScript(
-                tabs[0].id,
-                {code: 'document.getElementsByTagName("video")[0].currentTime = ' + data + ';'},
-            )
-        })
-
-        var showError = function(err) {
-            $('.error').removeClass('hidden');
-            $('.no-error').addClass('hidden');
-            $('#error-msg').html(err);
-        };
-
-        var showConnected = function(sessionId) {
-            localSessionId = sessionId;
-            let urlwithywf = 'https://www.youtube.com/watch?v=' + videoId + '&ywf=' + sessionId;
-
-            if (tabs[0].url != urlwithywf) {
-                chrome.tabs.update(tabs[0].id, {url: urlwithywf});
-            }
-
-            $('.disconnected').hide();
-            $('.loader').hide();
-            $('.connected').show();
-            $('#share-url').val(urlwithywf).focus().select();
-        };
-
-        var showDisconnected = function() {
-            localSessionId = null;
-            $('.disconnected').show();
-            $('.loader').hide();
-            $('.connected').hide();
-        };
-
-        var loading = function() {
-            $('.disconnected').hide();
-            $('.loader').show();
-            $('.connected').hide();
-        }
-
-        $('.error').hide();
+    $('#leave-session').click(function() {
+        console.log('leave-session button clicked on');
         showDisconnected();
-
-        var hasywfsession = tabs[0].url.includes('&ywf=');
-        var baseurl = null;
-
-        if(hasywfsession) {
-
-            var baseurl = tabs[0].url.split('&')[0];
-            var ywf = tabs[0].url.split('&')[1];
-            videoId = baseurl.split('=')[1];
-
-            ywf = ywf.split('=')[1];
-
-            loading();
-            socket.emit('joinSession', ywf, function(sessionId) {
-                if(sessionId == ywf) {
-                    showConnected(sessionId);
-                } else {
-                    showError("Invalid Session ID");
-                }
-            })
-
-
-        } else {
-            baseurl = tabs[0].url;
-            videoId = baseurl.split('=')[1];
-        }
-
-        console.log('videoId is ', videoId);
-
-        $('#create-session').click(function() {
-            loading();
-            socket.emit('createSession', localUserId, function(sessionId) {
-                showConnected(sessionId);
-            });
-        });
-
-        $('#leave-session').click(function() {
-            loading();
-            socket.emit('leaveSession', null, function(){});
-            chrome.tabs.update(tabs[0].id, {url: baseurl});
-            showDisconnected();
-        })
-
-        $('#play-btn').click(function() {
-            socket.emit('videocontrol', 'play', function(){});
-        });
-
-        $('#pause-btn').click(function() {
-            socket.emit('videocontrol', 'pause', function(){});
-        });
-
-        $('#sync-btn').click(function() {
-            let time = 0;
-            let getText = Array();
-            // need to get this working... currently only works as a 'stop'
-            chrome.tabs.executeScript(
-                tabs[0].id,
-                {code: 'document.getElementsByTagName("video")[0].currentTime;'},
-                function (result) {
-                    time = Number(result);
-                }
-            )
-            socket.emit('sync', time, function(){});
-        });
-
-        $('#share-url').click(function(e) {
-            e.stopPropagation();
-            e.preventDefault();
-            $('#share-url').select();
-        });
-
-        $('#copy-btn').click(function(e) {
-            e.stopPropagation();
-            e.preventDefault();
-            $('#share-url').select();
-            document.execCommand('copy');
-        });
-
-        $('#close-error').click(function() {
-            $('.no-error').removeClass('hidden');
-            $('.error').addClass('hidden');
-        });
-    
+        sendMessage('leave-session', {}, function(){});
     });
+
+    $('#share-url').click(function(e) {
+        e.stopPropagation();
+        e.preventDefault();
+        $('#share-url').select();
+    });
+
+    $('#copy-btn').click(function(e) {
+        e.stopPropagation();
+        e.preventDefault();
+        $('#share-url').select();
+        document.execCommand('copy');
+    });
+
+    $('#close-error').click(function() {
+        $('.no-error').removeClass('hidden');
+        $('.error').addClass('hidden');
+    });
+
+    sendMessage('sendInitData', {});
+
+
 });

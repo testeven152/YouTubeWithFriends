@@ -2,7 +2,7 @@
     "manifest_version": 2,
     "name": "YouTube With Friends",
     "version": "0.5",
-    "description": "Watch YouTube together remotely",
+    "description": "YouTube With Friends allows you and friends to watch synced YouTube videos together.",
     "permissions": [
         "declarativeContent",
         "activeTab"
