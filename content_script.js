@@ -58,11 +58,23 @@
         // var socket = io('http://youtubewfriends.herokuapp.com/');
     
         socket.on('connect', function() {
-            console.log('Client connected')
+            console.log('Client connected');
         });
         
         socket.on('userId', function(data) {
             localUserId = data;
+        });
+
+        socket.on('play', function() {
+            videoplay();
+        });
+
+        socket.on('pause', function() {
+            videopause();
+        });
+
+        socket.on('sync', function(data) {
+            videosync(data);
         });
     
     
@@ -71,16 +83,18 @@
     
         // ----------------------------------- Helper Functions -------------------------------------------------------------------------------
     
-        var play = function() {
-    
+        var videoplay = function() {
+            video.play();
         }
     
-        var pause = function() {
-    
+        var videopause = function() {
+            video.pause();
         }
     
-        var sync = function() {
-    
+        var videosync = function(time) {
+            videopause();
+            video.currentTime = time;
+            videoplay();
         }
     
         // ------------------------------------------------------------------------------------------------------------------------------------
