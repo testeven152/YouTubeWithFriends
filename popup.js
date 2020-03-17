@@ -2,22 +2,8 @@
 
 $(function(){
 
-    var sendMessage = function(type, data, callback) {
-        console.log("Sending message " + type);
-        chrome.tabs.query({
-            active: true,
-            currentWindow: true
-        }, function(tabs) {
-            chrome.tabs.executeScript(tabs[0].id, {
-                file: 'content_script.js'
-            }, function() {
-                chrome.tabs.sendMessage(tabs[0].id, {
-                    type: type,
-                    data: data
-                }, callback);
-            })
-        })
-    }
+
+    // ----------------------------------- Popup Views -----------------------------------
 
     var showError = function(err) {
         $('.error').removeClass('hidden');
@@ -38,6 +24,34 @@ $(function(){
 
     $('.error').hide();
     showDisconnected();
+
+    // ---------------------------------------------------------------------------------------------------------
+
+    // ----------------------------------- Functions -----------------------------------
+
+
+    var sendMessage = function(type, data, callback) {
+        console.log("Sending message " + type);
+        chrome.tabs.query({
+            active: true,
+            currentWindow: true
+        }, function(tabs) {
+            chrome.tabs.executeScript(tabs[0].id, {
+                file: 'content_script.js'
+            }, function() {
+                chrome.tabs.sendMessage(tabs[0].id, {
+                    type: type,
+                    data: data
+                }, callback);
+            })
+        })
+    }
+
+
+    // ---------------------------------------------------------------------------------------------------------
+
+
+    // ----------------------------------- Button Actions -----------------------------------
 
     $('#create-session').click(function() {
         console.log('create-session button clicked on.');
@@ -69,6 +83,10 @@ $(function(){
         $('.error').addClass('hidden');
     });
 
+    // ---------------------------------------------------------------------------------------------------------
+
+
+    // sends initial data
     sendMessage('sendInitData', {});
 
 

@@ -39,6 +39,28 @@
     
         // ------------------------------------------------------------------------------------------------------------------------------------
     
+            
+        // ----------------------------------- Helper Functions -------------------------------------------------------------------------------
+    
+        var videoplay = function() {
+            console.log("play video");
+            video.play();
+        }
+    
+        var videopause = function() {
+            console.log("pause video");
+            video.pause();
+        }
+    
+        var videosync = function(time) {
+            console.log("sync video at " + time);
+            videopause();
+            video.currentTime = time;
+            videoplay();
+        }
+    
+        // ------------------------------------------------------------------------------------------------------------------------------------
+    
     
         // ----------------------------------- Socket.IO --------------------------------------------------------------------------------------
     
@@ -53,7 +75,7 @@
 
         var corsOptions = {transports: ['websocket']};
 
-        var socket = io('http://youtubewfriends.herokuapp.com/', connectionOptions);
+        var socket = io('https://youtubewfriends.herokuapp.com/', connectionOptions);
     
         // var socket = io('http://youtubewfriends.herokuapp.com/');
     
@@ -80,26 +102,7 @@
     
         // ------------------------------------------------------------------------------------------------------------------------------------
     
-    
-        // ----------------------------------- Helper Functions -------------------------------------------------------------------------------
-    
-        var videoplay = function() {
-            video.play();
-        }
-    
-        var videopause = function() {
-            video.pause();
-        }
-    
-        var videosync = function(time) {
-            videopause();
-            video.currentTime = time;
-            videoplay();
-        }
-    
-        // ------------------------------------------------------------------------------------------------------------------------------------
-    
-    
+
         // ----------------------------------- Popup Interactions -----------------------------------------------------------------------------
     
     
@@ -107,18 +110,17 @@
             switch(request.type) {
                 case 'sendInitData':
                     console.log('Request type: ' + request.type);
-                    break;
+                    return;
                 case 'create-session':
                     console.log('Request type: ' + request.type);
-                    socket.emit('createSession', localUserId, function(sessionId) {
-                        sendResponse(sessionId);
-                    });
-                    break;
+                    return true;
                 case 'leave-session':
+                    pausevideo();
                     console.log('Request type: ' + request.type);
-                    break;
+                    return true;
                 default:
-                    console.log('Unknown request type ' + request.type);
+                    console.log('Unknown request type: ' + request.type);
+                    return false;
             }
         }
     
