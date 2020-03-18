@@ -32,10 +32,22 @@
         var localVideoId = null;
     
         var playing = true;
-    
-    
+
         var video = document.getElementsByTagName('video')[0];
     
+        // var hasywfsession = tabs[0].url.includes('&ywf=');
+        // if(hasywfsession) {
+        //     localbaseurl = tabs[0].url.split('&')[0];
+        //     localSessionId = tabs[0].url.split('&')[1];
+        //     localSessionId = localSessionId.split('=')[1];
+        //     localVideoId = localbaseurl.split('=')[1];
+
+        //     console.log("Joining Session " + localSessionId + " with videoId " + localVideoId);
+        // } else {
+        //     localbaseurl = tabs[0].url;
+        //     localVideoId = localbaseurl.split('=')[1];
+        //     console.log("Video ID: " + localVideoId);
+        // }
     
         // ------------------------------------------------------------------------------------------------------------------------------------
     
@@ -58,6 +70,19 @@
             video.currentTime = time;
             videoplay();
         }
+
+        var preparevideoplayer = function() {
+
+            video.addEventListener("playing", function() {
+
+            });
+
+            video.addEventListener("seeking", function() {
+
+            });
+
+
+        }
     
         // ------------------------------------------------------------------------------------------------------------------------------------
     
@@ -72,8 +97,6 @@
             "timeout" : 10000, //before connect_error and connect_timeout are emitted.
             "transports" : ["websocket"]
         };
-
-        var corsOptions = {transports: ['websocket']};
 
         var socket = io('https://youtubewfriends.herokuapp.com/', connectionOptions);
     
@@ -110,13 +133,21 @@
             switch(request.type) {
                 case 'sendInitData':
                     console.log('Request type: ' + request.type);
+                    sendResponse({
+                        sessionId: localSessionId
+                    });
                     return;
                 case 'create-session':
-                    console.log('Request type: ' + request.type);
+                    console.log('Request type: ' + request.type)
+                    socket.emit('createSession', localUserId, function(sessionId) {
+                        sendResponse({ sessionId: sessionId });
+                    })
                     return true;
                 case 'leave-session':
-                    pausevideo();
                     console.log('Request type: ' + request.type);
+                    socket.emit('leaveSession', null, function() {
+                        localSessionId = null;
+                    })
                     return true;
                 default:
                     console.log('Unknown request type: ' + request.type);

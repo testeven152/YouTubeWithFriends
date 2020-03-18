@@ -42,7 +42,11 @@ $(function(){
                 chrome.tabs.sendMessage(tabs[0].id, {
                     type: type,
                     data: data
-                }, callback);
+                }, function(response) {
+                    if(callback) {
+                        callback(response);
+                    }
+                });
             })
         })
     }
@@ -55,14 +59,16 @@ $(function(){
 
     $('#create-session').click(function() {
         console.log('create-session button clicked on.');
-        showConnected();
-        sendMessage('create-session', {}, function(){});
+        sendMessage('create-session', {}, function(response){
+            showConnected(response.sessionId);
+        });
     });
 
     $('#leave-session').click(function() {
         console.log('leave-session button clicked on');
-        showDisconnected();
-        sendMessage('leave-session', {}, function(){});
+        sendMessage('leave-session', {}, function(){
+            showDisconnected();
+        });
     });
 
     $('#share-url').click(function(e) {
@@ -87,7 +93,11 @@ $(function(){
 
 
     // sends initial data
-    sendMessage('sendInitData', {});
+    sendMessage('sendInitData', {}, function(response) {
+        if(response.sessionId) {
+            showConnected(response.sessionId);
+        }
+    });
 
 
 });
