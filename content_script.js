@@ -140,13 +140,22 @@
                 case 'create-session':
                     console.log('Request type: ' + request.type)
                     socket.emit('createSession', localUserId, function(sessionId) {
+                        localSessionId = sessionId;
                         sendResponse({ sessionId: sessionId });
                     })
                     return true;
                 case 'leave-session':
                     console.log('Request type: ' + request.type);
                     socket.emit('leaveSession', null, function() {
-                        localSessionId = null;
+                        localSessionId = null; // this is not going through for some reason..
+                        // sendResponse({});
+                    })
+                    return true;
+                case 'join-session':
+                    console.log('Request type: ' + request.type);
+                    socket.emit('joinSession', request.data.sessionId, function(sessionId) {
+                        localSessionId = sessionId;
+                        sendResponse({ sessionId: sessionId });
                     })
                     return true;
                 default:
