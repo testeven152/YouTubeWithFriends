@@ -18,16 +18,20 @@ $(function(){
 
         if(hasywfsession) {
     
-            var baseurl = tabs[0].url.split('&')[0];
-            var ywfid = tabs[0].url.split('&')[1];
+            baseurl = tabs[0].url.split('&')[0];
+            ywfid = tabs[0].url.split('&')[1];
             videoId = baseurl.split('=')[1];
-            ywfid = ywfid.split('=')[1];
+            var ywfarray = ywfid.split('=');
+            ywfid = ywfarray[ywfarray.length - 1]
     
             
         } else {
             baseurl = tabs[0].url;
             videoId = baseurl.split('=')[1];
         }
+
+        console.log("YWF ID: " + ywfid);
+        console.log("Video ID: " + videoId);
 
     })
 
