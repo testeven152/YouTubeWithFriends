@@ -5,7 +5,7 @@ $(function(){
     // ----------------------------------- Local Variables -----------------------------------
 
     var videoId = null;
-    var baseurl = null;
+    var shareurl = null;
     var ywfid = null;
     var hasywfsession = null;
 
@@ -17,21 +17,28 @@ $(function(){
         hasywfsession = tabs[0].url.includes('&ywf=');
 
         if(hasywfsession) {
+
+            // https://www.youtube.com/watch?v=NJ7djRRZr_4&ywf=b32fcb277112b555
     
-            baseurl = tabs[0].url.split('&')[0];
+            var baseurl = tabs[0].url.split('&')[0];
             ywfid = tabs[0].url.split('&')[1];
             videoId = baseurl.split('=')[1];
             var ywfarray = ywfid.split('=');
             ywfid = ywfarray[ywfarray.length - 1]
+
+            shareurl = "https://www.youtube.com/watch?v=" + videoId + "&ywf=" + ywfid;
     
             
         } else {
-            baseurl = tabs[0].url;
+
+            var baseurl = tabs[0].url
             videoId = baseurl.split('=')[1];
         }
 
         console.log("YWF ID: " + ywfid);
         console.log("Video ID: " + videoId);
+        console.log("Share URL: " + shareurl);
+
 
     })
 
@@ -95,7 +102,9 @@ $(function(){
     $('#create-session').click(function() {
         console.log('create-session button clicked on.');
         sendMessage('create-session', {}, function(response){
-            showConnected(response.sessionId);
+            ywfid = response.sessionId;
+            shareurl = "https://www.youtube.com/watch?v=" + videoId + "&ywf=" + ywfid;
+            showConnected(shareurl);
         });
     });
 
