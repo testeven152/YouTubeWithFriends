@@ -14,7 +14,7 @@ $(function(){
         currentWindow: true
     }, function(tabs) {
 
-        var hasywfsession = tabs[0].url.includes('&ywf=');
+        hasywfsession = tabs[0].url.includes('&ywf=');
 
         if(hasywfsession) {
     
@@ -49,16 +49,16 @@ $(function(){
     var showConnected = function(sessionId) {
         $('.disconnected').hide();
         $('.connected').show();
+        $('.error').hide();
         $('#share-url').val(sessionId).focus().select();
     };
 
     var showDisconnected = function() {
         $('.disconnected').show();
         $('.connected').hide();
+        $('.error').hide();
     };
 
-    $('.error').hide();
-    // showDisconnected();
 
     // ---------------------------------------------------------------------------------------------------------
 
@@ -122,6 +122,7 @@ $(function(){
     $('#close-error').click(function() {
         $('.no-error').removeClass('hidden');
         $('.error').addClass('hidden');
+        showDisconnected();
     });
 
     // ---------------------------------------------------------------------------------------------------------
@@ -132,7 +133,7 @@ $(function(){
         if(response.sessionId) {
             showConnected(response.sessionId);
         }
-        else if (hasywfsession) {
+        else if (hasywfsession && !response.sessionId) {
             sendMessage('join-session', { sessionId: ywfid }, function(response) {
                 if (response.sessionId == ywfid) {
                     showConnected(response.sessionId);
