@@ -8,7 +8,7 @@
     if(!window.youtubeWithFriendsLoaded) {
         window.youtubeWithFriendsLoaded = true;
 
-        console.log("YouTube With Friends Loaded = " + window.youtubeWithFriendsLoaded);
+        // console.log("YouTube With Friends Loaded = " + window.youtubeWithFriendsLoaded);
 
         // ----------------------------------- Libraries --------------------------------------------------------------------------------------
 
@@ -30,24 +30,11 @@
         var localUserId = null;
         var localSessionId = null;
         var localVideoId = null;
-    
-        var playing = true;
 
         var video = document.getElementsByTagName('video')[0];
-    
-        // var hasywfsession = tabs[0].url.includes('&ywf=');
-        // if(hasywfsession) {
-        //     localbaseurl = tabs[0].url.split('&')[0];
-        //     localSessionId = tabs[0].url.split('&')[1];
-        //     localSessionId = localSessionId.split('=')[1];
-        //     localVideoId = localbaseurl.split('=')[1];
 
-        //     console.log("Joining Session " + localSessionId + " with videoId " + localVideoId);
-        // } else {
-        //     localbaseurl = tabs[0].url;
-        //     localVideoId = localbaseurl.split('=')[1];
-        //     console.log("Video ID: " + localVideoId);
-        // }
+        var playing = true;
+        var currentTime = 0;
     
         // ------------------------------------------------------------------------------------------------------------------------------------
     
@@ -71,16 +58,43 @@
             videoplay();
         }
 
-        var preparevideoplayer = function() {
+        var prepareVideoPlayer = function() {
+
+            currentTime = video.currentTime; // initial time
+
+            video.addEventListener("pause", function() {
+                currentTime = video.currentTime;
+                playing = false;
+                console.log("Video event triggered: Paused | video current time: " + currentTime);
+            });
 
             video.addEventListener("playing", function() {
+                currentTime = video.currentTime;
+                playing = true;
+                console.log("Video event triggered: Playing | video current time: " + currentTime);
+            });
+
+            video.addEventListener("waiting", function() {
+                currentTime = video.currentTime;
+                playing = false;
+                console.log("Video event triggered: Waiting | video current time: " + currentTime);
+            });
+
+        }
+
+        var unprepareVideoPlayer = function() {
+
+            video.removeEventListener("pause", function() {
 
             });
 
-            video.addEventListener("seeking", function() {
+            video.removeEventListener("playing", function() {
 
             });
 
+            video.removeEventListener("waiting", function(){
+
+            });
 
         }
     
@@ -139,8 +153,10 @@
                     return;
                 case 'create-session':
                     console.log('Request type: ' + request.type)
-                    socket.emit('createSession', localUserId, function(sessionId) {
+                    socket.emit('createSession', { userId: localUserId, videoId: request.data.videoId }, function(sessionId) {
                         localSessionId = sessionId;
+                        localVideoId = request.data.videoId;
+                        prepareVideoPlayer();
                         sendResponse({ sessionId: sessionId });
                     })
                     return true;
@@ -148,13 +164,15 @@
                     console.log('Request type: ' + request.type);
                     socket.emit('leaveSession', null, function() {
                         localSessionId = null; // this is not going through for some reason..
-                        // sendResponse({});
+                        unprepareVideoPlayer();
+                        sendResponse({});
                     })
                     return true;
                 case 'join-session':
                     console.log('Request type: ' + request.type);
                     socket.emit('joinSession', request.data.sessionId, function(sessionId) {
                         localSessionId = sessionId;
+                        prepareVideoPlayer();
                         sendResponse({ sessionId: sessionId });
                     })
                     return true;
@@ -171,10 +189,5 @@
 
 
     }
-    else {
-
-        console.log("Already loaded.");
-
-    };
 
 })();

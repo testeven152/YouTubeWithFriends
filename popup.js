@@ -101,7 +101,7 @@ $(function(){
 
     $('#create-session').click(function() {
         console.log('create-session button clicked on.');
-        sendMessage('create-session', {}, function(response){
+        sendMessage('create-session', { videoId: videoId }, function(response){
             ywfid = response.sessionId;
             shareurl = "https://www.youtube.com/watch?v=" + videoId + "&ywf=" + ywfid;
             showConnected(shareurl);
@@ -143,7 +143,7 @@ $(function(){
             showConnected(response.sessionId);
         }
         else if (hasywfsession && !response.sessionId) {
-            sendMessage('join-session', { sessionId: ywfid }, function(response) {
+            sendMessage('join-session', { sessionId: ywfid, videoId: videoId }, function(response) {
                 if (response.sessionId == ywfid) {
                     showConnected(response.sessionId);
                 } else {
