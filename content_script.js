@@ -31,7 +31,7 @@
         var localSessionId = null;
         var localVideoId = null;
 
-        var video = document.getElementsByTagName('video')[0];
+        var video = document.getElementsByTagName('video');
 
         var playing = true;
         var currentTime = 0;
@@ -41,63 +41,26 @@
             
         // ----------------------------------- Helper Functions -------------------------------------------------------------------------------
     
-        var videoplay = function() {
-            console.log("play video");
-            video.play();
+        var videoplay = function(video, time) {
+            console.log("play video at time: " + time);
+            var player = video[0];
+            player.currentTime = time;
+            player.play();
         }
     
-        var videopause = function() {
-            console.log("pause video");
-            video.pause();
+        var videopause = function(video, time) {
+            console.log("pause video at time: " + time);
+            var player = video[0];
+            player.pause();
+            player.currentTime = time;
         }
     
-        var videosync = function(time) {
-            console.log("sync video at " + time);
-            videopause();
-            video.currentTime = time;
-            videoplay();
+        var videosync = function(video, time) {
+            console.log("sync video at time: " + time);
+            var player = video[0];
+            player.currentTime = time;
         }
 
-        var prepareVideoPlayer = function() {
-
-            currentTime = video.currentTime; // initial time
-
-            video.addEventListener("pause", function() {
-                currentTime = video.currentTime;
-                playing = false;
-                console.log("Video event triggered: Paused | video current time: " + currentTime);
-            });
-
-            video.addEventListener("playing", function() {
-                currentTime = video.currentTime;
-                playing = true;
-                console.log("Video event triggered: Playing | video current time: " + currentTime);
-            });
-
-            video.addEventListener("waiting", function() {
-                currentTime = video.currentTime;
-                playing = false;
-                console.log("Video event triggered: Waiting | video current time: " + currentTime);
-            });
-
-        }
-
-        var unprepareVideoPlayer = function() {
-
-            video.removeEventListener("pause", function() {
-
-            });
-
-            video.removeEventListener("playing", function() {
-
-            });
-
-            video.removeEventListener("waiting", function(){
-
-            });
-
-        }
-    
         // ------------------------------------------------------------------------------------------------------------------------------------
     
     
@@ -114,8 +77,6 @@
 
         var socket = io('https://youtubewfriends.herokuapp.com/', connectionOptions);
     
-        // var socket = io('http://youtubewfriends.herokuapp.com/');
-    
         socket.on('connect', function() {
             console.log('Client connected');
         });
@@ -124,21 +85,67 @@
             localUserId = data;
         });
 
-        socket.on('play', function() {
-            videoplay();
+        socket.on('play', function(data) {
+            videoplay(video, data);
         });
 
-        socket.on('pause', function() {
-            videopause();
+        socket.on('pause', function(data) {
+            videopause(video, data);
         });
 
         socket.on('sync', function(data) {
-            videosync(data);
+            videosync(video, data);
         });
     
     
         // ------------------------------------------------------------------------------------------------------------------------------------
+
+
+        // ----------------------------------- Video Player ---------------------------------------------------------------------- 
+
+        // initializes video player to have event listeners
+        var prepareVideoPlayer = function(video) {
+
+            player = video[0];
+            currentTime = player.currentTime; // initial time
+
+            player.addEventListener("pause", function() {
+                currentTime = player.currentTime;
+                socket.emit("pause", { time: currentTime }, function() {
+                    playing = false;
+                    console.log("Video event triggered: Paused | video current time: " + currentTime);
+                });
+            });
+
+            player.addEventListener("playing", function() {
+                currentTime = player.currentTime;
+                socket.emit("play", { time: currentTime }, function() {
+                    playing = true;
+                    console.log("Video event triggered: Playing | video current time: " + currentTime);
+                });
+            });
+
+            player.addEventListener("waiting", function() {
+                currentTime = player.currentTime;
+                socket.emit("seek", { time: currentTime }, function() {
+                    playing = false;
+                    console.log("Video event triggered: Waiting | video current time: " + currentTime);
+                });
+            });
+
+        }
+
+        // deletes event listeners just in case it fires up socket emits
+        var unprepareVideoPlayer = function(video) {
+
+            player = video[0];
+            player.removeEventListener("pause", function(){});
+            player.removeEventListener("playing", function(){});
+            player.removeEventListener("waiting", function(){});
+
+        }
     
+        // ------------------------------------------------------------------------------------------------------------------------------------
 
         // ----------------------------------- Popup Interactions -----------------------------------------------------------------------------
     
@@ -156,23 +163,23 @@
                     socket.emit('createSession', { userId: localUserId, videoId: request.data.videoId }, function(sessionId) {
                         localSessionId = sessionId;
                         localVideoId = request.data.videoId;
-                        prepareVideoPlayer();
+                        prepareVideoPlayer(video);
                         sendResponse({ sessionId: sessionId });
                     })
                     return true;
                 case 'leave-session':
                     console.log('Request type: ' + request.type);
                     socket.emit('leaveSession', null, function() {
-                        localSessionId = null; // this is not going through for some reason..
-                        unprepareVideoPlayer();
+                        localSessionId = null; 
+                        unprepareVideoPlayer(video);
                         sendResponse({});
                     })
                     return true;
                 case 'join-session':
                     console.log('Request type: ' + request.type);
-                    socket.emit('joinSession', request.data.sessionId, function(sessionId) {
+                    socket.emit('joinSession', { sessionId: request.data.sessionId }, function(sessionId) {
                         localSessionId = sessionId;
-                        prepareVideoPlayer();
+                        prepareVideoPlayer(video);
                         sendResponse({ sessionId: sessionId });
                     })
                     return true;
