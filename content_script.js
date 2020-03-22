@@ -106,29 +106,32 @@
         // initializes video player to have event listeners
         var prepareVideoPlayer = function(video) {
 
-            player = video[0];
+            var player = video[0];
             currentTime = player.currentTime; // initial time
 
             player.addEventListener("pause", function() {
                 currentTime = player.currentTime;
-                socket.emit("pause", { time: currentTime }, function() {
-                    playing = false;
-                    console.log("Video event triggered: Paused | video current time: " + currentTime);
-                });
+                if(playing == true) {
+                    socket.emit("pause", { userId: localUserId, time: currentTime }, function() {
+                        playing = false;
+                        console.log("Video event triggered: Paused | video current time: " + currentTime);
+                    });
+                }
             });
 
-            player.addEventListener("playing", function() {
+            player.addEventListener("playing", function() { // user clicks instead of play events..
                 currentTime = player.currentTime;
-                socket.emit("play", { time: currentTime }, function() {
-                    playing = true;
-                    console.log("Video event triggered: Playing | video current time: " + currentTime);
-                });
+                if(playing == false) {
+                    socket.emit("play", { userId: localUserId, time: currentTime }, function() {
+                        playing = true;
+                        console.log("Video event triggered: Playing | video current time: " + currentTime);
+                    });
+                }
             });
 
             player.addEventListener("waiting", function() {
                 currentTime = player.currentTime;
-                socket.emit("seek", { time: currentTime }, function() {
-                    playing = false;
+                socket.emit("seek", { userId: localUserId, time: currentTime }, function() {
                     console.log("Video event triggered: Waiting | video current time: " + currentTime);
                 });
             });

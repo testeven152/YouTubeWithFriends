@@ -111,8 +111,8 @@ $(function(){
     $('#leave-session').click(function() {
         console.log('leave-session button clicked on');
         sendMessage('leave-session', {}, function() {
+            showDisconnected();
         });
-        showDisconnected(); // for some reason doesnt work inside..
     });
 
     $('#share-url').click(function(e) {
@@ -140,12 +140,14 @@ $(function(){
     // sends initial data
     sendMessage('sendInitData', {}, function(response) {
         if(response.sessionId) {
-            showConnected(response.sessionId);
+            var shareurl = "https://www.youtube.com/watch?v=" + videoId + "&ywf=" + response.sessionId;
+            showConnected(shareurl);
         }
         else if (hasywfsession && !response.sessionId) {
             sendMessage('join-session', { sessionId: ywfid, videoId: videoId }, function(response) {
                 if (response.sessionId == ywfid) {
-                    showConnected(response.sessionId);
+                    var shareurl = "https://www.youtube.com/watch?v=" + videoId + "&ywf=" + response.sessionId;
+                    showConnected(shareurl);
                 } else {
                     showError("Invalid Session");
                 }
