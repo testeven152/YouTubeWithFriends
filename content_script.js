@@ -75,10 +75,10 @@
         var getState = function(video) {
             let player = video[0];
 
-            if (player.seeking) {
-                return "seeking";
-            } 
-            else if (player.pause) {
+            // if (player.seeking) {
+            //     return "seeking";
+            // } 
+            if (player.pause) {
                 return "paused";
             }
             else if (!player.pause) {
@@ -186,19 +186,19 @@
         var actionListener = function() {
             console.log("mouseupListener Triggered");
             if (localSessionId != null) {
-                if (getState(video) == 'paused') {
+                if (getState(video) == "paused") {
                     currentTime = video[0].currentTime;
                     console.log("Attempt: Pause video at " + currentTime + " seconds.");
                     socket.emit("pause", { userId: localUserId, time: currentTime }, function() {
                         console.log("Success: Pause video at " + currentTime + " seconds.");
                     });
-                } else if (getState(video) == 'playing') {
+                } else if (getState(video) == "playing") {
                     currentTime = video[0].currentTime;
                     console.log("Attempt: Play video at " + currentTime + " seconds.");
                     socket.emit("play", { userId: localUserId, time: currentTime }, function() {
                         console.log("Success: Play video at " + currentTime + " seconds.");
                     });
-                } else if (getState(video) == 'seeking') {
+                } else if (getState(video) == "seeking") {
                     currentTime = video[0].currentTime;
                     console.log("Attempt: Seeking video at " + currentTime + " seconds.");
                     socket.emit("seek", { userId: localUserId, time: currentTime }, function() {
