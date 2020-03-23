@@ -125,7 +125,6 @@
             player.addEventListener("pause", function() {
                 currentTime = player.currentTime;
                 socket.emit("pause", { userId: localUserId, time: currentTime }, function() {
-                    playing = false;
                     console.log("Video event triggered: Paused | video current time: " + currentTime);
                 });
             });
@@ -133,7 +132,6 @@
             player.addEventListener("playing", function() { // user clicks instead of play events..
                 currentTime = player.currentTime;
                 socket.emit("play", { userId: localUserId, time: currentTime }, function() {
-                    playing = true;
                     console.log("Video event triggered: Playing | video current time: " + currentTime);
                 });
             });
@@ -199,8 +197,12 @@
                 case 'join-session':
                     console.log('Request type: ' + request.type);
                     socket.emit('joinSession', { sessionId: request.data.sessionId }, function(sessionId) {
-                        localSessionId = sessionId;
-                        prepareVideoPlayer(video);
+                        if (sessionId == "00000") {
+                            localSessionId = null;
+                        } else {
+                            localSessionId = sessionId;
+                            prepareVideoPlayer(video);
+                        }
                         sendResponse({ sessionId: sessionId });
                     })
                     return true;
