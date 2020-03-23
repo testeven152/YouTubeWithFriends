@@ -50,6 +50,8 @@ $(function(){
     var showError = function(err) {
         $('.error').removeClass('hidden');
         $('.no-error').addClass('hidden');
+        $('.disconnected').hide();
+        $('.connected').hide();
         $('#error-msg').html(err);
     };
 
