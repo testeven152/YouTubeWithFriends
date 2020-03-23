@@ -232,8 +232,7 @@
             deState(video);
             jQuery("#player").off('mouseup', actionListener);
             //jQuery(window).off('keyup', actionListener);
-;
-        }
+        };
 
 
 
