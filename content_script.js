@@ -117,122 +117,129 @@
 
         // ----------------------------------- Video Player ---------------------------------------------------------------------- 
 
-        // // initializes video player to have event listeners
-        // var prepareVideoPlayer = function(video) {
+        // initializes video player to have event listeners
+        var prepareVideoPlayer = function(video) {
 
-        //     // - this function has this problem of repeatedly playing/pausing bc the script playing the video would trigger
-        //     // the event, causing the action to be repeated multiple times -
-
-
-        //     var player = video[0];
-        //     currentTime = player.currentTime; // initial time
-        //     playbackRate = player.playbackRate; // initial playback rate
-
-        //     player.addEventListener("pause", function() {
-        //         currentTime = player.currentTime;
-        //         socket.emit("pause", { userId: localUserId, time: currentTime }, function() {
-        //             console.log("Video event triggered: Paused | video current time: " + currentTime);
-        //         });
-        //     });
-
-        //     player.addEventListener("playing", function() { // user clicks instead of play events..
-        //         currentTime = player.currentTime;
-        //         socket.emit("play", { userId: localUserId, time: currentTime }, function() {
-        //             console.log("Video event triggered: Playing | video current time: " + currentTime);
-        //         });
-        //     });
-
-        //     player.addEventListener("waiting", function() {
-        //         currentTime = player.currentTime;
-        //         socket.emit("seek", { userId: localUserId, time: currentTime }, function() {
-        //             console.log("Video event triggered: Waiting | video current time: " + currentTime);
-        //         });
-        //     });
-
-        //     this to be added when server socket.on("playbackratechange", ...) is implemented
-        //     player.addEventListener("ratechange", function() {
-        //         playbackRate = player.playbackRate;
-        //         socket.emit("playbackratechange", { userId: localUserId, playbackRate: playbackRate }, function () {
-        //             console.log("Video event triggered: Ratechange | video playback rate: " + playbackRate);
-        //         })
-        //     });
-
-        // }
-
-        // // deletes event listeners just in case it fires up socket emits
-        // var unprepareVideoPlayer = function(video) {
-
-        //     player = video[0];
-        //     player.removeEventListener("pause", function(){});
-        //     player.removeEventListener("playing", function(){});
-        //     player.removeEventListener("waiting", function(){});
-
-        // }
-
-        var videoPlayerState = function(video) {
-            let player = video[0]
+            // - this function has this problem of repeatedly playing/pausing bc the script playing the video would trigger
+            // the event, causing the action to be repeated multiple times -
 
 
-            player.addEventListener("pause", function() {
-                state = "paused"
+            var player = video[0];
+            currentTime = player.currentTime; // initial time
+            playbackRate = player.playbackRate; // initial playback rate
+
+            player.addEventListener("pause", function(e) {
+                if (e.isTrusted) {
+                    currentTime = player.currentTime;
+                    socket.emit("pause", { userId: localUserId, time: currentTime }, function() {
+                        console.log("Video event triggered: Paused | video current time: " + currentTime);
+                    });
+                }
+
             });
 
-            player.addEventListener("playing", function() {
-                state = "playing"
+            player.addEventListener("playing", function(e) { // user clicks instead of play events..
+                if (e.isTrusted) {
+                    currentTime = player.currentTime;
+                    socket.emit("play", { userId: localUserId, time: currentTime }, function() {
+                        console.log("Video event triggered: Playing | video current time: " + currentTime);
+                    });
+                }
             });
 
-            player.addEventListener("waiting", function() {
-                state = "seeking"
+            player.addEventListener("waiting", function(e) {
+                if (e.isTrusted) {
+                    currentTime = player.currentTime;
+                    socket.emit("seek", { userId: localUserId, time: currentTime }, function() {
+                        console.log("Video event triggered: Waiting | video current time: " + currentTime);
+                    });
+                }
             });
+
+            // // this to be added when server socket.on("playbackratechange", ...) is implemented
+            // player.addEventListener("ratechange", function() {
+            //     playbackRate = player.playbackRate;
+            //     socket.emit("playbackratechange", { userId: localUserId, playbackRate: playbackRate }, function () {
+            //         console.log("Video event triggered: Ratechange | video playback rate: " + playbackRate);
+            //     })
+            // });
+
         }
 
-        var deState = function(video) {
-            let player = video[0]
+        // deletes event listeners just in case it fires up socket emits
+        var unprepareVideoPlayer = function(video) {
+
+            player = video[0];
             player.removeEventListener("pause", function(){});
             player.removeEventListener("playing", function(){});
             player.removeEventListener("waiting", function(){});
+
+        }
+
+        // var videoPlayerState = function(video) {
+        //     let player = video[0]
+
+
+        //     player.addEventListener("pause", function() {
+        //         state = "paused"
+        //     });
+
+        //     player.addEventListener("playing", function() {
+        //         state = "playing"
+        //     });
+
+        //     player.addEventListener("waiting", function() {
+        //         state = "seeking"
+        //     });
+        // }
+
+        // var deState = function(video) {
+        //     let player = video[0]
+        //     player.removeEventListener("pause", function(){});
+        //     player.removeEventListener("playing", function(){});
+        //     player.removeEventListener("waiting", function(){});
             
-        }
+        // }
 
-        var actionListener = function() {
-            console.log("actionListener Triggered");
-            if (localSessionId != null) {
-                if (state == "playing") {
-                    currentTime = video[0].currentTime;
-                    console.log("Attempt: Pause video at " + currentTime + " seconds.");
-                    socket.emit("pause", { userId: localUserId, time: currentTime }, function() {
-                        console.log("Success: Pause video at " + currentTime + " seconds.");
-                    });
-                } else if (state == "paused") {
-                    currentTime = video[0].currentTime;
-                    console.log("Attempt: Play video at " + currentTime + " seconds.");
-                    socket.emit("play", { userId: localUserId, time: currentTime }, function() {
-                        console.log("Success: Play video at " + currentTime + " seconds.");
-                    });
-                } else if (state == "seeking") {
-                    currentTime = video[0].currentTime;
-                    console.log("Attempt: Seeking video at " + currentTime + " seconds.");
-                    socket.emit("seek", { userId: localUserId, time: currentTime }, function() {
-                        console.log("Success: Synced video at " + currentTime + " seconds.");
-                    });
-                };
-            }
-        }
+        // var actionListener = function() {
+        //     console.log("actionListener Triggered");
+        //     if (localSessionId != null) {
+        //         if (state == "playing") {
+        //             currentTime = video[0].currentTime;
+        //             console.log("Attempt: Pause video at " + currentTime + " seconds.");
+        //             socket.emit("pause", { userId: localUserId, time: currentTime }, function() {
+        //                 console.log("Success: Pause video at " + currentTime + " seconds.");
+        //             });
+        //         } else if (state == "paused") {
+        //             currentTime = video[0].currentTime;
+        //             console.log("Attempt: Play video at " + currentTime + " seconds.");
+        //             socket.emit("play", { userId: localUserId, time: currentTime }, function() {
+        //                 console.log("Success: Play video at " + currentTime + " seconds.");
+        //             });
+        //         } else if (state == "seeking") {
+        //             currentTime = video[0].currentTime;
+        //             console.log("Attempt: Seeking video at " + currentTime + " seconds.");
+        //             socket.emit("seek", { userId: localUserId, time: currentTime }, function() {
+        //                 console.log("Success: Synced video at " + currentTime + " seconds.");
+        //             });
+        //         };
+        //     }
+        // }
 
 
-        var prepareVideoPlayer = function(video) {
+        // var prepareVideoPlayer = function(video) {
 
-            videoPlayerState(video);
-            jQuery("#player").mouseup(actionListener); // perhaps need to change this to clicks on the player
-            //jQuery(window).keyup(actionListener); // only clicks for now...
-        };
+        //     videoPlayerState(video);
+        //     jQuery("#player").mouseup(actionListener); // perhaps need to change this to clicks on the player
+        //     //jQuery(window).keyup(actionListener); // only clicks for now...
+        // };
 
-        var unprepareVideoPlayer = function(video) {
+        // var unprepareVideoPlayer = function(video) {
 
-            deState(video);
-            jQuery("#player").off('mouseup', actionListener);
-            //jQuery(window).off('keyup', actionListener);
-        };
+        //     deState(video);
+        //     jQuery("#player").off('mouseup', actionListener);
+        //     //jQuery(window).off('keyup', actionListener);
+        // };
 
 
 
