@@ -51,10 +51,8 @@
     
         var videoSync = function(video, time) {
             var player = video[0];
-            if (player.currentTime != time) {
-                console.log("sync video at time: " + time);
-                player.currentTime = time;
-            }
+            console.log("sync video at time: " + time);
+            player.currentTime = time;
         }
 
         var playpausevideo = function(video) {
@@ -191,13 +189,16 @@
                     return true;
                 case 'play-pause':
                     console.log('Request type: ' + request.type);
-                    socket.emit('playpause', { sessionId: localSessionId, videoId: localVideoId }, function () {
+                    socket.emit('playpause', { sessionId: localSessionId, videoId: localVideoId }, function() {
                         playpausevideo(video);
                     })
                     return true;
                 case 'sync':
                     console.log('Request type: ' + request.type);
-                    // currentTime = getPlayerTime(video);
+                    currentTime = getPlayerTime(video);
+                    socket.emit('sync', { sessionId: localSessionId, time: currentTime, userId: localUserId }, function() {
+
+                    })
                     return true;
                 default:
                     console.log('Unknown request type: ' + request.type);
