@@ -129,7 +129,7 @@
 
         var prepareVideoPlayer = function() {
             jQuery('#player').mouseup(mouseupListener); // perhaps need to change this to clicks on the player
-            jQuery(window).keyup(keyupListener); // only clicks for now...
+            jQuery(window).keyup(keyupListener); 
         };
 
         var unprepareVideoPlayer = function() {

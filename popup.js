@@ -145,7 +145,7 @@ $(function(){
         });
     })
 
-    $('sync-button').click(function() {
+    $('#sync-button').click(function() {
         console.log('sync-button clicked on');
         sendMessage('sync', {}, function(){
 
