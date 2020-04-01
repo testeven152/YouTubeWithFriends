@@ -46,24 +46,8 @@
     
             
         // ----------------------------------- Helper Functions -------------------------------------------------------------------------------
-    
-        var videoPlay = function(video, time) {
-            var player = video[0];
-            if (player.paused == true && player.currentTime != time) { // these if statements HOPEFULLY prevent repeated event triggers
-                console.log("play video at time: " + time);
-                player.currentTime = time;
-                player.play();
-            }
-        }
-    
-        var videoPause = function(video, time) {
-            var player = video[0];
-            if (player.paused == false && player.currentTime != time) {
-                console.log("pause video at time: " + time);
-                player.pause();
-                player.currentTime = time;
-            }
-        }
+
+
     
         var videoSync = function(video, time) {
             var player = video[0];
@@ -73,7 +57,19 @@
             }
         }
 
+        var playpausevideo = function(video) {
+            let player = video[0];
+            if (player.paused == true) {
+                player.play()
+            } else {
+                player.pause()
+            }
+        }
 
+        var getPlayerTime = function(video) {
+            let player = video[0];
+            return player.currentTime;
+        }
 
         // ------------------------------------------------------------------------------------------------------------------------------------
     
@@ -99,13 +95,13 @@
             localUserId = data;
         });
 
-        socket.on('play', function(data) {
-            videoPlay(video, data);
-        });
+        socket.on('update', function(data) {
 
-        socket.on('pause', function(data) {
-            videoPause(video, data);
-        });
+        })
+
+        socket.on('playpause', function(data) {
+            playpausevideo(video);
+        })
 
         socket.on('sync', function(data) {
             videoSync(video, data);
@@ -117,134 +113,42 @@
 
         // ----------------------------------- Video Player ---------------------------------------------------------------------- 
 
-        // initializes video player to have event listeners
-        var prepareVideoPlayer = function(video) {
+        
+        var mouseupListener = function() {
+            console.log("mouseupListener Triggered");
+            if (sessionId != null) {
 
-            // - this function has this problem of repeatedly playing/pausing bc the script playing the video would trigger
-            // the event, causing the action to be repeated multiple times -
-
-
-            var player = video[0];
-            currentTime = player.currentTime; // initial time
-            playbackRate = player.playbackRate; // initial playback rate
-
-            player.addEventListener("pause", function(e) {
-                if (e.isTrusted) {
-                    currentTime = player.currentTime;
-                    socket.emit("pause", { userId: localUserId, time: currentTime }, function() {
-                        console.log("Video event triggered: Paused | video current time: " + currentTime);
-                    });
-                }
-
-            });
-
-            player.addEventListener("playing", function(e) { // user clicks instead of play events..
-                if (e.isTrusted) {
-                    currentTime = player.currentTime;
-                    socket.emit("play", { userId: localUserId, time: currentTime }, function() {
-                        console.log("Video event triggered: Playing | video current time: " + currentTime);
-                    });
-                }
-            });
-
-            player.addEventListener("waiting", function(e) {
-                if (e.isTrusted) {
-                    currentTime = player.currentTime;
-                    socket.emit("seek", { userId: localUserId, time: currentTime }, function() {
-                        console.log("Video event triggered: Waiting | video current time: " + currentTime);
-                    });
-                }
-            });
-
-            // // this to be added when server socket.on("playbackratechange", ...) is implemented
-            // player.addEventListener("ratechange", function() {
-            //     playbackRate = player.playbackRate;
-            //     socket.emit("playbackratechange", { userId: localUserId, playbackRate: playbackRate }, function () {
-            //         console.log("Video event triggered: Ratechange | video playback rate: " + playbackRate);
-            //     })
-            // });
-
+            }
         }
 
-        // deletes event listeners just in case it fires up socket emits
-        var unprepareVideoPlayer = function(video) {
+        var keyupListener = function() {
+            console.log("keyupListener Triggered");
+            if (sessionId != null) {
 
-            player = video[0];
-            player.removeEventListener("pause", function(){});
-            player.removeEventListener("playing", function(){});
-            player.removeEventListener("waiting", function(){});
-
+            }
         }
 
-        // var videoPlayerState = function(video) {
-        //     let player = video[0]
 
+        var prepareVideoPlayer = function() {
+            jQuery('#player').mouseup(mouseupListener); // perhaps need to change this to clicks on the player
+            jQuery(window).keyup(keyupListener); // only clicks for now...
+        };
 
-        //     player.addEventListener("pause", function() {
-        //         state = "paused"
-        //     });
-
-        //     player.addEventListener("playing", function() {
-        //         state = "playing"
-        //     });
-
-        //     player.addEventListener("waiting", function() {
-        //         state = "seeking"
-        //     });
-        // }
-
-        // var deState = function(video) {
-        //     let player = video[0]
-        //     player.removeEventListener("pause", function(){});
-        //     player.removeEventListener("playing", function(){});
-        //     player.removeEventListener("waiting", function(){});
-            
-        // }
-
-        // var actionListener = function() {
-        //     console.log("actionListener Triggered");
-        //     if (localSessionId != null) {
-        //         if (state == "playing") {
-        //             currentTime = video[0].currentTime;
-        //             console.log("Attempt: Pause video at " + currentTime + " seconds.");
-        //             socket.emit("pause", { userId: localUserId, time: currentTime }, function() {
-        //                 console.log("Success: Pause video at " + currentTime + " seconds.");
-        //             });
-        //         } else if (state == "paused") {
-        //             currentTime = video[0].currentTime;
-        //             console.log("Attempt: Play video at " + currentTime + " seconds.");
-        //             socket.emit("play", { userId: localUserId, time: currentTime }, function() {
-        //                 console.log("Success: Play video at " + currentTime + " seconds.");
-        //             });
-        //         } else if (state == "seeking") {
-        //             currentTime = video[0].currentTime;
-        //             console.log("Attempt: Seeking video at " + currentTime + " seconds.");
-        //             socket.emit("seek", { userId: localUserId, time: currentTime }, function() {
-        //                 console.log("Success: Synced video at " + currentTime + " seconds.");
-        //             });
-        //         };
-        //     }
-        // }
-
-
-        // var prepareVideoPlayer = function(video) {
-
-        //     videoPlayerState(video);
-        //     jQuery("#player").mouseup(actionListener); // perhaps need to change this to clicks on the player
-        //     //jQuery(window).keyup(actionListener); // only clicks for now...
-        // };
-
-        // var unprepareVideoPlayer = function(video) {
-
-        //     deState(video);
-        //     jQuery("#player").off('mouseup', actionListener);
-        //     //jQuery(window).off('keyup', actionListener);
-        // };
+        var unprepareVideoPlayer = function() {
+            jQuery('#player').off('mouseup', mouseupListener);
+            jQuery(window).off('keyup', keyupListener);
+        };
 
 
 
 
     
+        // ------------------------------------------------------------------------------------------------------------------------------------
+
+        // ----------------------------------- Main Logic ----------------------------------------------------------------------
+
+        // prepareVideoPlayer();
+
         // ------------------------------------------------------------------------------------------------------------------------------------
 
         // ----------------------------------- Popup Interactions -----------------------------------------------------------------------------
@@ -255,7 +159,8 @@
                 case 'sendInitData':
                     console.log('Request type: ' + request.type);
                     sendResponse({
-                        sessionId: localSessionId
+                        sessionId: localSessionId,
+                        videoId: localVideoId
                     });
                     return;
                 case 'create-session':
@@ -263,7 +168,6 @@
                     socket.emit('createSession', { userId: localUserId, videoId: request.data.videoId }, function(sessionId) {
                         localSessionId = sessionId;
                         localVideoId = request.data.videoId;
-                        prepareVideoPlayer(video);
                         sendResponse({ sessionId: sessionId });
                     })
                     return true;
@@ -271,21 +175,29 @@
                     console.log('Request type: ' + request.type);
                     socket.emit('leaveSession', { userId: localUserId }, function() {
                         localSessionId = null; 
-                        unprepareVideoPlayer(video);
                         sendResponse({});
                     })
                     return true;
                 case 'join-session': 
                     console.log('Request type: ' + request.type);
-                    socket.emit('joinSession', { sessionId: request.data.sessionId }, function(sessionId) {
+                    socket.emit('joinSession', { userId: localUserId, sessionId: request.data.sessionId }, function(sessionId) {
                         if (sessionId == "00000") {
                             localSessionId = null;
                         } else {
                             localSessionId = sessionId;
-                            prepareVideoPlayer(video);
                         }
                         sendResponse({ sessionId: sessionId });
                     })
+                    return true;
+                case 'play-pause':
+                    console.log('Request type: ' + request.type);
+                    socket.emit('playpause', { sessionId: localSessionId, videoId: localVideoId }, function () {
+                        playpausevideo(video);
+                    })
+                    return true;
+                case 'sync':
+                    console.log('Request type: ' + request.type);
+                    // currentTime = getPlayerTime(video);
                     return true;
                 default:
                     console.log('Unknown request type: ' + request.type);

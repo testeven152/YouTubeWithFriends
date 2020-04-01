@@ -137,11 +137,27 @@ $(function(){
         showDisconnected();
     });
 
+
+    $('#play-pause-button').click(function() {
+        console.log('play-pause-button clicked on');
+        sendMessage('play-pause', {}, function(){
+
+        });
+    })
+
+    $('sync-button').click(function() {
+        console.log('sync-button clicked on');
+        sendMessage('sync', {}, function(){
+
+        });
+    })
+
     // ---------------------------------------------------------------------------------------------------------
 
 
     // sends initial data
-    sendMessage('sendInitData', {}, function(response) {
+    sendMessage('sendInitData', { videoId: videoId }, function(response) {
+        
         if(response.sessionId) {
             var shareurl = "https://www.youtube.com/watch?v=" + videoId + "&ywf=" + response.sessionId;
             showConnected(shareurl);

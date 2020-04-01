@@ -7,8 +7,33 @@ body {
     margin: 0;
     padding: 0;
     width: 250px;
-    height: 100px;
-    font-family: Helvetica;
-    font-size: 0.7em;
     text-align: center;
 }
+
+h2 {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 16px;
+    text-align: center;
+    color: #000000;
+}
+
+.disconnected {
+    height: 100px;
+
+    background: #FFFFFF;
+    border-radius: 5px;
+}
+
+/* .connected {
+    position: absolute;
+    width: 250px;
+    height: 137px;
+    left: 0px;
+    top: -1px;
+
+    background: #FFFFFF;
+    border-radius: 5px;
+} */
