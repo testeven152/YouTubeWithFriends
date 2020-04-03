@@ -156,10 +156,17 @@
             switch(request.type) {
                 case 'sendInitData':
                     console.log('Request type: ' + request.type);
-                    sendResponse({
-                        sessionId: localSessionId,
-                        videoId: localVideoId
-                    });
+
+                    // if videoIds dont match, user leaves session
+                    if (request.data.videoId != localVideoId) { 
+                        socket.emit('leaveSession', { userId: localUserId }, function() {
+                            localSessionId = null;
+                            sendResponse({});
+                        })
+                    } else {
+                        sendResponse({ sessionId: localSessionId });
+                    }
+
                     return;
                 case 'create-session':
                     console.log('Request type: ' + request.type)
@@ -190,7 +197,7 @@
                                 localSessionId = null;
                             })
                         }
-                        
+
                         sendResponse({ sessionId: sessionId });
                     })
                     return true;
