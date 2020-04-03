@@ -163,8 +163,8 @@
                     return;
                 case 'create-session':
                     console.log('Request type: ' + request.type)
-                    socket.emit('createSession', { userId: localUserId, videoId: request.data.videoId }, function(sessionId) {
-                        localSessionId = sessionId;
+                    socket.emit('createSession', { userId: localUserId, videoId: request.data.videoId }, function(data) {
+                        localSessionId = data.sessionId;
                         localVideoId = request.data.videoId;
                         sendResponse({ sessionId: sessionId });
                     })
@@ -178,11 +178,11 @@
                     return true;
                 case 'join-session': 
                     console.log('Request type: ' + request.type);
-                    socket.emit('joinSession', { userId: localUserId, sessionId: request.data.sessionId }, function(sessionId) {
-                        if (sessionId == "00000") {
+                    socket.emit('joinSession', { userId: localUserId, sessionId: request.data.sessionId }, function(data) {
+                        if (data.sessionId == "00000") {
                             localSessionId = null;
                         } else {
-                            localSessionId = sessionId;
+                            localSessionId = data.sessionId;
                         }
                         sendResponse({ sessionId: sessionId });
                     })
