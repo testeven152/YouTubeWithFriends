@@ -184,6 +184,13 @@
                         } else {
                             localSessionId = data.sessionId;
                         }
+
+                        if (data.videoId != request.data.videoId) {
+                            socket.emit('leaveSession', { userId: localUserId }, function() {
+                                localSessionId = null;
+                            })
+                        }
+                        
                         sendResponse({ sessionId: sessionId });
                     })
                     return true;
