@@ -188,14 +188,14 @@
                     socket.emit('joinSession', { userId: localUserId, sessionId: request.data.sessionId }, function(data) {
                         if (data.sessionId == "00000") {
                             localSessionId = null;
-                        } else {
-                            localSessionId = data.sessionId;
-                        }
-
-                        if (data.videoId != request.data.videoId) {
+                        } 
+                        else if (data.videoId != request.data.videoId) {
                             socket.emit('leaveSession', { userId: localUserId }, function() {
                                 localSessionId = null;
                             })
+                        }
+                        else {
+                            localSessionId = data.sessionId;
                         }
 
                         sendResponse({ sessionId: sessionId });
