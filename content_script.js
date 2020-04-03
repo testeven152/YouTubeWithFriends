@@ -173,7 +173,7 @@
                     socket.emit('createSession', { userId: localUserId, videoId: request.data.videoId }, function(data) {
                         localSessionId = data.sessionId;
                         localVideoId = request.data.videoId;
-                        sendResponse({ sessionId: sessionId });
+                        sendResponse({ sessionId: localSessionId });
                     })
                     return true;
                 case 'leave-session':
