@@ -148,7 +148,7 @@
                 console.log(player.currentTime)
                 currentTime = player.currentTime
                 playing = !player.paused 
-                socket.emit('update', { currentTime: currentTime, playing: playing, videoId: localVideoId }, function() {
+                socket.emit('update', { userId: localUserId, currentTime: currentTime, playing: playing, videoId: localVideoId }, function() {
 
                 })
             }
@@ -163,7 +163,7 @@
                     console.log(player.currentTime)
                     currentTime = player.currentTime
                     playing = !player.paused 
-                    socket.emit('update', { currentTime: currentTime, playing: playing, videoId: localVideoId }, function() {
+                    socket.emit('update', { userId: localUserId, currentTime: currentTime, playing: playing, videoId: localVideoId }, function() {
 
                     })
                 }, 0)
