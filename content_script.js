@@ -157,16 +157,14 @@
         var keyupListener = function() {
             console.log("keyupListener Triggered");
             if (localSessionId != null) {
-                setTimeout(() => {
-                    let player = video[0];
-                    console.log("Player paused = " + player.paused)
-                    console.log(player.currentTime)
-                    currentTime = player.currentTime
-                    playing = !player.paused 
-                    socket.emit('update', { userId: localUserId, currentTime: currentTime, playing: playing, videoId: localVideoId }, function() {
+                let player = video[0];
+                console.log("Player paused = " + player.paused)
+                console.log(player.currentTime)
+                currentTime = player.currentTime
+                playing = !player.paused 
+                socket.emit('update', { userId: localUserId, currentTime: currentTime, playing: playing, videoId: localVideoId }, function() {
 
-                    })
-                }, 0)
+                })
             }
         }
 
@@ -251,19 +249,19 @@
                         sendResponse({ sessionId: sessionId });
                     })
                     return true;
-                case 'play-pause':
-                    console.log('Request type: ' + request.type);
-                    socket.emit('playpause', { sessionId: localSessionId, videoId: localVideoId }, function() {
-                        playpausevideo(video);
-                    })
-                    return true;
-                case 'sync':
-                    console.log('Request type: ' + request.type);
-                    currentTime = getPlayerTime(video);
-                    socket.emit('sync', { sessionId: localSessionId, time: currentTime, userId: localUserId }, function() {
+                // case 'play-pause':
+                //     console.log('Request type: ' + request.type);
+                //     socket.emit('playpause', { sessionId: localSessionId, videoId: localVideoId }, function() {
+                //         playpausevideo(video);
+                //     })
+                //     return true;
+                // case 'sync':
+                //     console.log('Request type: ' + request.type);
+                //     currentTime = getPlayerTime(video);
+                //     socket.emit('sync', { sessionId: localSessionId, time: currentTime, userId: localUserId }, function() {
 
-                    })
-                    return true;
+                //     })
+                //     return true;
                 default:
                     console.log('Unknown request type: ' + request.type);
                     return false;
