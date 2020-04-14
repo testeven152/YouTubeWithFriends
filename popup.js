@@ -106,8 +106,13 @@ $(function(){
         console.log('create-session button clicked on.');
         sendMessage('create-session', { videoId: videoId }, function(response){
             ywfid = response.sessionId;
-            shareurl = "https://www.youtube.com/watch?v=" + videoId + "&ywf=" + ywfid;
-            showConnected(shareurl);
+            if (ywfid != null) {
+                shareurl = "https://www.youtube.com/watch?v=" + videoId + "&ywf=" + ywfid;
+                showConnected(shareurl);
+            } else {
+                showError("Undefined Session");
+            }
+
         });
     });
 
