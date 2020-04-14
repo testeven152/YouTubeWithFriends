@@ -158,6 +158,10 @@ $(function(){
     // sends initial data
     sendMessage('sendInitData', { videoId: videoId }, function(response) {
         
+        // console.log("videoId = " + videoId);
+        // console.log("response.sessionId = " + response.sessionId);
+        // console.log("hasywfsession = " + hasywfsession);
+
         if(response.sessionId) {
             var shareurl = "https://www.youtube.com/watch?v=" + videoId + "&ywf=" + response.sessionId;
             showConnected(shareurl);

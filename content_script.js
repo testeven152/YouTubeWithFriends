@@ -8,8 +8,6 @@
     if(!window.youtubeWithFriendsLoaded) {
         window.youtubeWithFriendsLoaded = true;
 
-        // console.log("YouTube With Friends Loaded = " + window.youtubeWithFriendsLoaded);
-
         // ----------------------------------- Libraries --------------------------------------------------------------------------------------
 
         /*!
@@ -47,8 +45,8 @@
             
         // ----------------------------------- Helper Functions -------------------------------------------------------------------------------
 
-
     
+
         var videoSync = function(video, time) {
             var player = video[0];
             console.log("sync video at time: " + time);
@@ -69,6 +67,34 @@
             return player.currentTime;
         }
 
+        var sync = function(data, video) {
+
+            // data: currentTime, playing, videoId
+
+            if (!data.currentTime || !data.playing || data.videoId != localVideoId) {
+                return false;
+            }
+            
+            let player = video[0];
+            currentTime = data.currentTime;
+            playing = data.playing;
+
+            player.currentTime = data.currentTime;
+            
+            if (player.paused == true && data.playing == true) {
+                player.play();
+                console.log("Play video at " + currentTime);
+            } else if (player.paused == false && data.playing == false) {
+                player.pause();
+                console.log("Pause video at " + currentTime);
+            } else {
+                console.log("Sync video at " + currentTime);
+            }
+
+            return true;
+
+        }
+
         // ------------------------------------------------------------------------------------------------------------------------------------
     
     
@@ -87,14 +113,16 @@
     
         socket.on('connect', function() {
             console.log('Client connected');
-        });
+        })
         
         socket.on('userId', function(data) {
             localUserId = data;
         });
 
         socket.on('update', function(data) {
-
+            if (!sync(data, video)) {
+                console.log("Sync failed");
+            } 
         })
 
         socket.on('playpause', function(data) {
@@ -114,30 +142,44 @@
         
         var mouseupListener = function() {
             console.log("mouseupListener Triggered");
-            if (sessionId != null) {
+            if (localSessionId != null) {
+                let player = video[0];
+                console.log("Player paused = " + player.paused)
+                console.log(player.currentTime)
+                currentTime = player.currentTime
+                playing = !player.paused 
+                socket.emit('update', { currentTime: currentTime, playing: playing, videoId: localVideoId }, function() {
 
+                })
             }
         }
 
         var keyupListener = function() {
             console.log("keyupListener Triggered");
-            if (sessionId != null) {
+            if (localSessionId != null) {
+                setTimeout(() => {
+                    let player = video[0];
+                    console.log("Player paused = " + player.paused)
+                    console.log(player.currentTime)
+                    currentTime = player.currentTime
+                    playing = !player.paused 
+                    socket.emit('update', { currentTime: currentTime, playing: playing, videoId: localVideoId }, function() {
 
+                    })
+                }, 0)
             }
         }
 
 
         var prepareVideoPlayer = function() {
-            jQuery('#player').mouseup(mouseupListener); // perhaps need to change this to clicks on the player
+            jQuery(window).mouseup(mouseupListener); // perhaps need to change this to clicks on the player
             jQuery(window).keyup(keyupListener); 
         };
 
         var unprepareVideoPlayer = function() {
-            jQuery('#player').off('mouseup', mouseupListener);
+            jQuery(window).off('mouseup', mouseupListener);
             jQuery(window).off('keyup', keyupListener);
         };
-
-
 
 
     
@@ -145,7 +187,7 @@
 
         // ----------------------------------- Main Logic ----------------------------------------------------------------------
 
-        // prepareVideoPlayer();
+        prepareVideoPlayer();
 
         // ------------------------------------------------------------------------------------------------------------------------------------
 
@@ -157,19 +199,27 @@
                 case 'sendInitData':
                     console.log('Request type: ' + request.type);
 
+                    // console.log("localVideoId = " + localVideoId)
+                    // console.log("request.data.videoId = " + request.data.videoId)
+
                     // if videoIds dont match, user leaves session
-                    if (request.data.videoId != localVideoId) { 
-                        socket.emit('leaveSession', { userId: localUserId }, function() {
-                            localSessionId = null;
-                            sendResponse({});
-                        })
-                    } else {
-                        sendResponse({ sessionId: localSessionId });
-                    }
+                    // problem where request.data.videoId is null while it should always be the videoId 
+                    // if (localVideoId != null && request.data.videoId != localVideoId) { 
+
+                    //     socket.emit('leaveSession', { userId: localUserId }, function() {
+                    //         localSessionId = null;
+                    //         sendResponse({});
+                    //     })
+                    // } else {
+                    //     sendResponse({ sessionId: localSessionId }); 
+                    // }
+
+                    sendResponse({ sessionId: localSessionId });
 
                     return;
                 case 'create-session':
                     console.log('Request type: ' + request.type)
+                    console.log('request.data.videoId = ' + request.data.videoId)
                     socket.emit('createSession', { userId: localUserId, videoId: request.data.videoId }, function(data) {
                         localSessionId = data.sessionId;
                         localVideoId = request.data.videoId;
