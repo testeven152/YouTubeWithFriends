@@ -73,11 +73,14 @@
 
             // TODO: error involving localVideoId not being int
 
-            if (!data.currentTime) {
+            if (data.currentTime == null) {
                 console.log("Sync Error: no current time.")
                 return false
-            } else if (!data.playing) {
+            } else if (data.playing == null) {
                 console.log("Sync Error: No playing state.")
+                return false
+            } else if (data.videoId == null) {
+                console.log("Sync Error: No videoId.")
                 return false
             } else if (data.videoId != localVideoId) {
                 console.log("Sync Error: data video id does not match localvideoid. %s != %s", data.videoId, localVideoId)
