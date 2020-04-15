@@ -71,8 +71,15 @@
 
             // data: currentTime, playing, videoId
 
-            if (!data.currentTime || !data.playing || data.videoId != localVideoId) {
-                return false;
+            if (!data.currentTime) {
+                console.log("Sync Error: no current time.")
+                return false
+            } else if (!data.playing) {
+                console.log("Sync Error: No playing state.")
+                return false
+            } else if (data.videoId != localVideoId) {
+                console.log("Sync Error: data video id does not match localvideoid. %s != %s", data.videoId, localVideoId)
+                return false
             }
             
             let player = video[0];
@@ -116,6 +123,7 @@
         })
         
         socket.on('userId', function(data) {
+            console.log("userId retrieved: %s", data);
             localUserId = data;
         });
 
