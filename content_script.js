@@ -71,6 +71,8 @@
 
             // data: currentTime, playing, videoId
 
+            // TODO: error involving localVideoId not being int
+
             if (!data.currentTime) {
                 console.log("Sync Error: no current time.")
                 return false
@@ -241,7 +243,7 @@
                     return true;
                 case 'join-session': 
                     console.log('Request type: ' + request.type);
-                    console.log("Local User %s attempting to join session %s...", localUserId, request.data.sessionId);
+                    console.log("Local User %s attempting to join session %s...", localUserId, request.data.sessionId); // userId isn't being recieved immediately upon opening the chrome extension
                     socket.emit('joinSession', { userId: localUserId, sessionId: request.data.sessionId }, function(data) {
                         if (data.errorMessage) {
                             localSessionId = null;
@@ -256,6 +258,7 @@
                             })
                         }
                         else {
+                            localVideoId = request.data.videoId;
                             localSessionId = data.sessionId;
                             sendResponse({ sessionId: sessionId });
                         }
