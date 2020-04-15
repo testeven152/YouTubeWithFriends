@@ -233,6 +233,7 @@
                     return true;
                 case 'join-session': 
                     console.log('Request type: ' + request.type);
+                    console.log("Local User %s attempting to join session %s...", localUserId, request.data.sessionId);
                     socket.emit('joinSession', { userId: localUserId, sessionId: request.data.sessionId }, function(data) {
                         if (data.sessionId == "00000") {
                             localSessionId = null;
