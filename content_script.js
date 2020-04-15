@@ -157,12 +157,11 @@
             console.log("mouseupListener Triggered");
             if (localSessionId != null) {
                 let player = video[0];
-                console.log("Player paused = " + player.paused)
-                console.log(player.currentTime)
                 currentTime = player.currentTime
                 playing = !player.paused 
                 socket.emit('update', { userId: localUserId, currentTime: currentTime, playing: playing, videoId: localVideoId }, function() {
-
+                    console.log("playing = %s", playing)
+                    console.log("currentTime = %s", currentTime)
                 })
             }
         }
@@ -171,12 +170,11 @@
             console.log("keyupListener Triggered");
             if (localSessionId != null) {
                 let player = video[0];
-                console.log("Player paused = " + player.paused)
-                console.log(player.currentTime)
                 currentTime = player.currentTime
                 playing = !player.paused 
                 socket.emit('update', { userId: localUserId, currentTime: currentTime, playing: playing, videoId: localVideoId }, function() {
-
+                    console.log("playing = %s", playing)
+                    console.log("currentTime = %s", currentTime)
                 })
             }
         }
