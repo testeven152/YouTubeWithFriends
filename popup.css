@@ -5,13 +5,13 @@ html {
 
 body {
     margin: 0;
-    padding: 0;
+    padding: 10;
     width: 250px;
     text-align: center;
 }
 
 h2 {
-    font-family: Roboto;
+    font-family: 'Roboto Mono';
     font-style: normal;
     font-weight: bold;
     font-size: 16px;
@@ -21,19 +21,66 @@ h2 {
 }
 
 .disconnected {
-    height: 100px;
+    height: 70px;
 
     background: #FFFFFF;
     border-radius: 5px;
 }
 
-/* .connected {
-    position: absolute;
-    width: 250px;
-    height: 137px;
-    left: 0px;
-    top: -1px;
+.connected {
+    margin: 10px;
+    height: 100px;
+}
 
-    background: #FFFFFF;
-    border-radius: 5px;
-} */
+#create-session {
+    background: #CC0000;
+    position: absolute;
+    width: 147px;
+    height: 28px;
+    left: 52px;
+    top: 50px;
+    border-radius: 12px;
+    outline: none;
+
+    font-family: 'Roboto Mono';
+    font-size: 14px;
+    font-weight: bold;
+    color: white;
+}
+
+#leave-session {
+    background: #CC0000;
+    position: absolute;
+    width: 147px;
+    height: 28px;
+    left: 52px;
+    top: 90px;
+    border-radius: 12px;
+    outline: none;
+
+    font-family: 'Roboto Mono';
+    font-size: 14px;
+    font-weight: bold;
+    color: white;
+}
+
+#share-url {
+    position: absolute;
+    width: 105px;
+    height: 25px;
+    left: 52px;
+    top: 45px;
+    border-color: #C7C7C7;
+    border-radius: 12px;
+    outline: none;
+
+    font-family: 'Roboto Mono';
+} 
+
+#copy-btn {
+    position: absolute;
+    width: 28px;
+    height: 28px;
+    left: 171px;
+    top: 46px;
+}

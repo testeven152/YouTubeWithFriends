@@ -5,6 +5,7 @@
         <script type="text/javascript" src="jquery-3.4.1.js"></script>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/socket.io-client@2/dist/socket.io.js"></script>
         <script type="text/javascript" src="popup.js"></script>
+        <link href='https://fonts.googleapis.com/css?family=Roboto Mono' rel='stylesheet'>
         <link rel="stylesheet" href="popup.css">
     </head>
     <body>
@@ -12,20 +13,19 @@
          <div class="no-error">
             <div class="disconnected">
                 <p>
-                    <button id="create-session" type="button">Create Room</button>
+                    <button id="create-session" type="button">START WATCHING</button>
                 </p>
             </div>
             <div class="connected">
                 <input id="share-url" type="text" readonly="true" autocomplete="off" autofocus />
-                <p class="copy-val">
-                    <small><a href="#" id="copy-btn">Copy ID</a></small>
-                </p>
+                <a href="#" id="copy-btn"><img src="/images/CopyButton_Unclicked.svg"></a>
+
                 <!-- <p class="controls">
                     <button id="play-pause-button" type="button">Play/Pause</button>
                     <button id="sync-button" type="button">Sync</button>
                 </p> -->
                 <p>
-                    <button id="leave-session" type="button">Leave Room</button>
+                    <button id="leave-session" type="button">STOP WATCHING</button>
                 </p>
             </div>
         </div>

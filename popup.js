@@ -59,7 +59,7 @@ $(function(){
         $('.disconnected').hide();
         $('.connected').show();
         $('.error').hide();
-        $('#share-url').val(sessionId).focus().select();
+        $('#share-url').val(sessionId);
     };
 
     var showDisconnected = function() {
