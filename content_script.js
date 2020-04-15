@@ -243,19 +243,24 @@
                     console.log('Request type: ' + request.type);
                     console.log("Local User %s attempting to join session %s...", localUserId, request.data.sessionId);
                     socket.emit('joinSession', { userId: localUserId, sessionId: request.data.sessionId }, function(data) {
-                        if (data.sessionId == "00000") {
+                        if (data.errorMessage) {
                             localSessionId = null;
+                            sendResponse({ errorMessage: data.errorMessage })
+                            console.log("Error Message Received: %s", data.errorMessage)
                         } 
                         else if (data.videoId != request.data.videoId) {
                             socket.emit('leaveSession', { userId: localUserId }, function() {
                                 localSessionId = null;
+                                sendResponse({ errorMessage: "Invalid Video IDs" })
+                                console.log("Error: Invalid Video IDs")
                             })
                         }
                         else {
                             localSessionId = data.sessionId;
+                            sendResponse({ sessionId: sessionId });
                         }
 
-                        sendResponse({ sessionId: sessionId });
+
                     })
                     return true;
                 // case 'play-pause':

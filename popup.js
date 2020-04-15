@@ -167,11 +167,15 @@ $(function(){
         // console.log("response.sessionId = " + response.sessionId);
         // console.log("hasywfsession = " + hasywfsession);
 
-        if(response.sessionId) {
+        if(response.errorMessage) {
+            showError(response.errorMessage)
+        }
+        else if(response.sessionId) {
             var shareurl = "https://www.youtube.com/watch?v=" + videoId + "&ywf=" + response.sessionId;
             showConnected(shareurl);
         }
-        else if (hasywfsession && !response.sessionId) {
+        // if content_script doesnt have an existing session and link has ywfid, try to join session
+        else if (hasywfsession && !response.sessionId) { 
             sendMessage('join-session', { sessionId: ywfid, videoId: videoId }, function(response) {
                 if (response.sessionId == ywfid) {
                     var shareurl = "https://www.youtube.com/watch?v=" + videoId + "&ywf=" + response.sessionId;
