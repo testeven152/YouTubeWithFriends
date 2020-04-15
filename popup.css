@@ -14,7 +14,7 @@ h2 {
     font-family: 'Roboto Mono';
     font-style: normal;
     font-weight: bold;
-    font-size: 16px;
+    font-size: 15px;
     line-height: 16px;
     text-align: center;
     color: #000000;
@@ -29,7 +29,7 @@ h2 {
 
 .connected {
     margin: 10px;
-    height: 100px;
+    height: 78px;
 }
 
 #create-session {
@@ -54,7 +54,7 @@ h2 {
     width: 147px;
     height: 28px;
     left: 52px;
-    top: 90px;
+    top: 82px;
     border-radius: 12px;
     outline: none;
 
@@ -67,9 +67,10 @@ h2 {
 #share-url {
     position: absolute;
     width: 105px;
-    height: 25px;
+    height: 22px;
     left: 52px;
-    top: 45px;
+    top: 42px;
+    border: 2px solid #C7C7C7;
     border-color: #C7C7C7;
     border-radius: 12px;
     outline: none;
@@ -77,10 +78,24 @@ h2 {
     font-family: 'Roboto Mono';
 } 
 
+
+#copy-btn-clicked {
+    position: absolute;
+    left: 171px;
+    top: 42px;
+}
+
 #copy-btn {
     position: absolute;
     width: 28px;
     height: 28px;
     left: 171px;
-    top: 46px;
+    top: 42px;
+    background-color: white;
+
+    cursor: pointer;
+}
+
+#copy-btn:active {
+    opacity: 0;
 }
