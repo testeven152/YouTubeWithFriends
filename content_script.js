@@ -154,21 +154,23 @@
 
         
         var mouseupListener = function() {
-            console.log("mouseupListener Triggered");
             if (localSessionId != null) {
+                console.log("mouseupListener Triggered");
                 let player = video[0];
-                currentTime = player.currentTime
-                playing = !player.paused 
-                socket.emit('update', { userId: localUserId, currentTime: currentTime, playing: playing, videoId: localVideoId }, function() {
-                    console.log("playing = %s", playing)
-                    console.log("currentTime = %s", currentTime)
-                })
+                setTimeout(() => {
+                    currentTime = player.currentTime
+                    playing = !player.paused 
+                    socket.emit('update', { userId: localUserId, currentTime: currentTime, playing: playing, videoId: localVideoId }, function() {
+                        console.log("playing = %s", playing)
+                        console.log("currentTime = %s", currentTime)
+                    })
+                }, 225) // timeout set for mouseup bc video doesnt play/pause immediately
             }
         }
 
         var keyupListener = function() {
-            console.log("keyupListener Triggered");
             if (localSessionId != null) {
+                console.log("keyupListener Triggered");
                 let player = video[0];
                 currentTime = player.currentTime
                 playing = !player.paused 
