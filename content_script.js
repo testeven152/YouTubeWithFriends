@@ -262,7 +262,7 @@
                     return true;
                 case 'join-session': 
                     console.log('Request type: ' + request.type);
-                    console.log("Local User %s attempting to join session %s...", localUserId, request.data.sessionId); // userId isn't being recieved immediately upon opening the chrome extension
+                    // console.log("Local User %s attempting to join session %s...", localUserId, request.data.sessionId); // userId isn't being recieved immediately upon opening the chrome extension
                     socket.emit('joinSession', { sessionId: request.data.sessionId }, function(data) {
                         if (data.errorMessage) {
                             localSessionId = null;
@@ -282,7 +282,7 @@
                             localVideoId = request.data.videoId;
                             localSessionId = data.sessionId;
                             windowURL = window.location.href;
-                            sendResponse({ sessionId: sessionId });
+                            sendResponse({ sessionId: data.sessionId });
                             console.log("Joined Session %s successful.", localSessionId);
                         }
 

@@ -117,7 +117,7 @@ $(function(){
     });
 
     $('#leave-session').click(function() {
-        console.log('leave-session button clicked on');
+        console.log('leave-session button clicked on'); 
         sendMessage('leave-session', {}, function() {
             showDisconnected();
         });
@@ -159,6 +159,7 @@ $(function(){
 
     // ---------------------------------------------------------------------------------------------------------
 
+    showDisconnected()
 
     // sends initial data
     sendMessage('sendInitData', { videoId: videoId }, function(response) {
@@ -174,14 +175,12 @@ $(function(){
         else if (hasywfsession && !response.sessionId) { 
             sendMessage('join-session', { sessionId: ywfid, videoId: videoId }, function(response) {
                 if (response.errorMessage) {
-                    showError("Invalid Session")
+                    showError(response.errorMessage)
                 }
-                else if (response.sessionId == ywfid) {
+                else {
                     var shareurl = "https://www.youtube.com/watch?v=" + videoId + "&ywf=" + response.sessionId;
                     showConnected(shareurl);
-                } else {
-                    showError("Invalid Session");
-                }
+                } 
             })
         } else {
             showDisconnected();
