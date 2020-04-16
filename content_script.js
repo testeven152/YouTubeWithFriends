@@ -152,7 +152,6 @@
         var mouseupListener = function() {
             if (localSessionId != null) {
                 console.log("mouseupListener Triggered");
-                console.log('Same URL? = %s', checkForUrlChange());
 
                 if (checkForUrlChange() == false) {
                     socket.emit('leaveSession', { userId: localUserId }, function() {
@@ -179,6 +178,17 @@
         var keyupListener = function() {
             if (localSessionId != null) {
                 console.log("keyupListener Triggered");
+
+                if (checkForUrlChange() == false) {
+                    socket.emit('leaveSession', { userId: localUserId }, function() {
+                        localSessionId = null;
+                        windowURL = null;
+                        console.log("URL changed. Leaving session...");
+                    })
+
+                    return;
+                }
+
                 let player = video[0];
                 currentTime = player.currentTime
                 playing = !player.paused 
