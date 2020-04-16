@@ -27,12 +27,14 @@
     
     
         // ----------------------------------- Variables --------------------------------------------------------------------------------------
+
+
     
         // ---------- session properties ---------------
         var localUserId = null;
         var localSessionId = null;
         var localVideoId = null;
-
+        var windowURL = window.location.href;
 
         // ------------- video properties -----------------
         var video = document.getElementsByTagName('video');
@@ -84,6 +86,32 @@
 
         }
 
+        var getVideoIdFromURL = function(url) {
+            let spliturl = url.split('=');
+
+            if (spliturl.length <= 1) {
+                return 'No Video ID';
+            } 
+
+            if (spliturl.length == 2) {
+                return spliturl[1] // this means url is in the format of https://www.youtube.com/watch?v=Ewf24Cz ...
+            }
+
+            let videoIdRaw = spliturl[1];
+
+            return videoIdRaw.split('&')[0]
+        }
+
+        var checkForUrlChange = function() {
+
+            if (getVideoIdFromURL(windowURL) != getVideoIdFromURL(window.location.href)) {
+                return false
+            }
+
+            return true;
+
+        }
+
         // ------------------------------------------------------------------------------------------------------------------------------------
     
     
@@ -124,6 +152,18 @@
         var mouseupListener = function() {
             if (localSessionId != null) {
                 console.log("mouseupListener Triggered");
+                console.log('Same URL? = %s', checkForUrlChange());
+
+                if (checkForUrlChange() == false) {
+                    socket.emit('leaveSession', { userId: localUserId }, function() {
+                        localSessionId = null;
+                        windowURL = null;
+                        console.log("URL changed. Leaving session...");
+                    })
+
+                    return;
+                }
+
                 let player = video[0];
                 setTimeout(() => {
                     currentTime = player.currentTime
@@ -153,6 +193,7 @@
         var prepareVideoPlayer = function() {
             jQuery(window).mouseup(mouseupListener); // perhaps need to change this to clicks on the player
             jQuery(window).keyup(keyupListener); 
+            console.log("Video Player prepared.")
         };
 
         var unprepareVideoPlayer = function() {
@@ -164,11 +205,6 @@
     
         // ------------------------------------------------------------------------------------------------------------------------------------
 
-        // ----------------------------------- Main Logic ----------------------------------------------------------------------
-
-        prepareVideoPlayer();
-
-        // ------------------------------------------------------------------------------------------------------------------------------------
 
         // ----------------------------------- Popup Interactions -----------------------------------------------------------------------------
     
@@ -202,20 +238,22 @@
                     socket.emit('createSession', { userId: localUserId, videoId: request.data.videoId }, function(data) {
                         localSessionId = data.sessionId;
                         localVideoId = request.data.videoId;
+                        windowURL = window.location.href;
                         sendResponse({ sessionId: localSessionId });
                     })
                     return true;
                 case 'leave-session':
                     console.log('Request type: ' + request.type);
                     socket.emit('leaveSession', { userId: localUserId }, function() {
-                        localSessionId = null; 
+                        localSessionId = null;
+                        windowURL = null;
                         sendResponse({});
                     })
                     return true;
                 case 'join-session': 
                     console.log('Request type: ' + request.type);
                     console.log("Local User %s attempting to join session %s...", localUserId, request.data.sessionId); // userId isn't being recieved immediately upon opening the chrome extension
-                    socket.emit('joinSession', { userId: localUserId, sessionId: request.data.sessionId }, function(data) {
+                    socket.emit('joinSession', { sessionId: request.data.sessionId }, function(data) {
                         if (data.errorMessage) {
                             localSessionId = null;
                             sendResponse({ errorMessage: data.errorMessage })
@@ -231,6 +269,7 @@
                         else {
                             localVideoId = request.data.videoId;
                             localSessionId = data.sessionId;
+                            windowURL = window.location.href;
                             sendResponse({ sessionId: sessionId });
                         }
 
@@ -255,11 +294,20 @@
                     return false;
             }
         }
-    
-        chrome.runtime.onMessage.addListener(popupInteractions);
+
     
     
         // ------------------------------------------------------------------------------------------------------------------------------------
+
+        // ----------------------------------- Main Logic ----------------------------------------------------------------------
+
+        prepareVideoPlayer();
+            
+        chrome.runtime.onMessage.addListener(popupInteractions);
+
+
+        // ------------------------------------------------------------------------------------------------------------------------------------
+        
 
 
     }
