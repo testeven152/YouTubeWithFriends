@@ -256,12 +256,14 @@
                     socket.emit('joinSession', { sessionId: request.data.sessionId }, function(data) {
                         if (data.errorMessage) {
                             localSessionId = null;
+                            windowURL = null;
                             sendResponse({ errorMessage: data.errorMessage })
                             console.log("Error Message Received: %s", data.errorMessage)
                         } 
                         else if (data.videoId != request.data.videoId) {
                             socket.emit('leaveSession', { userId: localUserId }, function() {
                                 localSessionId = null;
+                                windowURL = null;
                                 sendResponse({ errorMessage: "Invalid Video IDs" })
                                 console.log("Error: Invalid Video IDs")
                             })
@@ -271,6 +273,7 @@
                             localSessionId = data.sessionId;
                             windowURL = window.location.href;
                             sendResponse({ sessionId: sessionId });
+                            console.log("Joined Session %s successful.", localSessionId);
                         }
 
 
