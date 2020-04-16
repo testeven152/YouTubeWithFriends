@@ -46,32 +46,9 @@
         // ----------------------------------- Helper Functions -------------------------------------------------------------------------------
 
     
-
-        var videoSync = function(video, time) {
-            var player = video[0];
-            console.log("sync video at time: " + time);
-            player.currentTime = time;
-        }
-
-        var playpausevideo = function(video) {
-            let player = video[0];
-            if (player.paused == true) {
-                player.play()
-            } else {
-                player.pause()
-            }
-        }
-
-        var getPlayerTime = function(video) {
-            let player = video[0];
-            return player.currentTime;
-        }
-
         var sync = function(data, video) {
 
             // data: currentTime, playing, videoId
-
-            // TODO: error involving localVideoId not being int
 
             if (data.currentTime == null) {
                 console.log("Sync Error: no current time.")
@@ -83,7 +60,7 @@
                 console.log("Sync Error: No videoId.")
                 return false
             } else if (data.videoId != localVideoId) {
-                console.log("Sync Error: data video id does not match localvideoid. %s != %s", data.videoId, localVideoId)
+                console.log("Sync Error: data video id does not match localvideoid. %s != %s.", data.videoId, localVideoId)
                 return false
             }
             
@@ -137,15 +114,6 @@
                 console.log("Sync failed");
             } 
         })
-
-        socket.on('playpause', function(data) {
-            playpausevideo(video);
-        })
-
-        socket.on('sync', function(data) {
-            videoSync(video, data);
-        });
-    
     
         // ------------------------------------------------------------------------------------------------------------------------------------
 
