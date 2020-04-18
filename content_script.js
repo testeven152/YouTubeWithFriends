@@ -267,6 +267,8 @@
                         if (data.errorMessage) {
                             localSessionId = null;
                             windowURL = null;
+                            let tempVideoId = getVideoIdFromURL(window.location.url)
+                            window.location.url = "https://www.youtube.com/watch?v=" + tempVideoId;
                             sendResponse({ errorMessage: data.errorMessage })
                             console.log("Error Message Received: %s", data.errorMessage)
                         } 
@@ -274,6 +276,8 @@
                             socket.emit('leaveSession', { userId: localUserId }, function() {
                                 localSessionId = null;
                                 windowURL = null;
+                                let tempVideoId = getVideoIdFromURL(window.location.url)
+                                window.location.url = "https://www.youtube.com/watch?v=" + tempVideoId;
                                 sendResponse({ errorMessage: "Invalid Video IDs" })
                                 console.log("Error: Invalid Video IDs")
                             })
