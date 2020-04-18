@@ -109,18 +109,21 @@
             playing = data.playing;
 
             player.currentTime = data.currentTime;
+
+            let message = "" 
             
             if (player.paused == true && data.playing == true) {
                 player.play();
-                console.log("%s played video at %s.", data.avatar, currentTime);
+                message = data.avatar + " played video at " + currentTime + "."
             } else if (player.paused == false && data.playing == false) {
                 player.pause();
-                console.log("%s paused video at %s.", data.avatar, currentTime);
+                message = data.avatar + " paused video at " + currentTime + "."
             } else {
-                console.log("%s seeked video at %s.", data.avatar, currentTime);
+                message = data.avatar + " seeked video at " + currentTime + "."
             }
 
-            messages.enqueue(data);
+            console.log(message);
+            messages.enqueue(message);
 
             return true;
 

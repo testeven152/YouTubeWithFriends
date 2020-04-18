@@ -29,7 +29,7 @@ h2 {
 
 .connected {
     margin: 10px;
-    height: 78px;
+    height: 98px;
 }
 
 #create-session {
@@ -98,4 +98,15 @@ h2 {
 
 #copy-btn:active {
     opacity: 0;
+}
+
+#show-log-btn {
+    position: absolute;
+    width: 40px;
+    height: 9.52px;
+    left: 105px;
+    top: 120.52px;
+
+    outline: none;
+    background: white;
 }
