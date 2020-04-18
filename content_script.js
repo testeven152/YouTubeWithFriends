@@ -189,7 +189,9 @@
         })
 
         socket.on('message', function(data) {
-            console.log('Message received')
+            let message = data.avatar + " has " + data.type + " the party."
+            console.log(message)
+            messages.enqueue(message)
         })
     
         // ------------------------------------------------------------------------------------------------------------------------------------
