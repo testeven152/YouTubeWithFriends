@@ -28,10 +28,41 @@
     
         // ----------------------------------- Variables --------------------------------------------------------------------------------------
 
+        class MessageQueue {
+
+            constructor() {
+                this.items = [];
+            }
+
+            enqueue(element) {
+                this.items.push(element);
+            }
+
+            dequeue() {
+                if(this.isEmpty()) {
+                    return "Empty"
+                }
+
+                return this.items.shift();
+            }
+
+            getList() {
+                return this.items;
+            }
+
+            clear() {
+                for (var i = 0; i < this.items.length; i++) {
+                    this.dequeue();
+                }
+            }
+
+        }
+
 
     
         // ---------- session properties ---------------
         var localUserId = null;
+        var localAvatar = null;
         var localSessionId = null;
         var localVideoId = null;
         var windowURL = window.location.href;
@@ -42,6 +73,13 @@
         var playbackRate = 0.0;
         var state = null;
     
+        // ------------ message log ------------
+
+        var messages = MessageQueue();
+
+
+
+
         // ------------------------------------------------------------------------------------------------------------------------------------
     
             
@@ -137,10 +175,19 @@
             localUserId = data;
         });
 
+        socket.on('avatar', function(data) {
+            console.log("User avatar retrieved: %s", data);
+            localAvatar = data;
+        })
+
         socket.on('update', function(data) {
             if (!sync(data, video)) {
                 console.log("Sync failed");
             } 
+        })
+
+        socket.on('message', function(data) {
+            console.log('Message received')
         })
     
         // ------------------------------------------------------------------------------------------------------------------------------------
