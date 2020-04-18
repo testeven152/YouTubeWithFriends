@@ -75,7 +75,7 @@
     
         // ------------ message log ------------
 
-        var messages = MessageQueue();
+        var messages = new MessageQueue();
 
 
 
@@ -112,13 +112,15 @@
             
             if (player.paused == true && data.playing == true) {
                 player.play();
-                console.log("Play video at " + currentTime);
+                console.log("%s played video at %s.", data.avatar, currentTime);
             } else if (player.paused == false && data.playing == false) {
                 player.pause();
-                console.log("Pause video at " + currentTime);
+                console.log("%s paused video at %s.", data.avatar, currentTime);
             } else {
-                console.log("Sync video at " + currentTime);
+                console.log("%s seeked video at %s.", data.avatar, currentTime);
             }
+
+            messages.enqueue(data);
 
             return true;
 
@@ -214,7 +216,7 @@
                 setTimeout(() => {
                     currentTime = player.currentTime
                     playing = !player.paused 
-                    socket.emit('update', { userId: localUserId, currentTime: currentTime, playing: playing, videoId: localVideoId }, function() {
+                    socket.emit('update', { userId: localUserId, currentTime: currentTime, playing: playing, videoId: localVideoId, avatar: localAvatar }, function() {
                         console.log("playing = %s", playing)
                         console.log("currentTime = %s", currentTime)
                     })
@@ -239,7 +241,7 @@
                 let player = video[0];
                 currentTime = player.currentTime
                 playing = !player.paused 
-                socket.emit('update', { userId: localUserId, currentTime: currentTime, playing: playing, videoId: localVideoId }, function() {
+                socket.emit('update', { userId: localUserId, currentTime: currentTime, playing: playing, videoId: localVideoId, avatar: localAvatar }, function() {
                     console.log("playing = %s", playing)
                     console.log("currentTime = %s", currentTime)
                 })

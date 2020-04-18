@@ -48,8 +48,8 @@ $(function(){
     // ----------------------------------- Popup Views -----------------------------------
 
     var showError = function(err) {
-        $('.error').removeClass('hidden');
-        $('.no-error').addClass('hidden');
+        $('.error').show();
+        $('.no-error').hide();
         $('.disconnected').hide();
         $('.connected').hide();
         $('#error-msg').html(err);
