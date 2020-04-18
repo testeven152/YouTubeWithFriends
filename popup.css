@@ -39,6 +39,8 @@ h2 {
     height: 28px;
     left: 52px;
     top: 50px;
+    border: 1px solid #C7C7C7;
+    border-color: #C7C7C7;
     border-radius: 12px;
     outline: none;
 
@@ -55,6 +57,8 @@ h2 {
     height: 28px;
     left: 52px;
     top: 82px;
+    border: 1px solid #C7C7C7;
+    border-color: #C7C7C7;
     border-radius: 12px;
     outline: none;
 
