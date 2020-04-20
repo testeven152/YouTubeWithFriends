@@ -29,7 +29,7 @@ h2 {
 
 .connected {
     margin: 10px;
-    height: 98px;
+    height: 305px;
 }
 
 #create-session {
@@ -114,3 +114,32 @@ h2 {
     outline: none;
     background: white;
 }
+
+.container {
+    position: absolute;
+    /* box-sizing: border-box; */
+    top: 150px;
+    width: 220px;
+    left: 15px;
+    /* margin: 0 auto; */
+    border: solid 1px #ccc;
+    border-radius: 5px;
+    overflow: hidden;
+
+    font-family: 'Roboto Mono';
+    font-size: 11px;
+  }
+  .chat-container {
+    height: 190px;
+    overflow: auto;
+    -webkit-transform: rotate(180deg);
+            transform: rotate(180deg);
+  /*   direction: rtl; */
+  }
+  .chat-container .message {
+    border-bottom: solid 1px #ccc;
+    padding: 1px;
+    -webkit-transform: rotate(180deg);
+            transform: rotate(180deg);
+  /*   direction: ltr; */
+  }
