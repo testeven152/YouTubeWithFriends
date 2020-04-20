@@ -59,6 +59,7 @@ $(function(){
         $('.disconnected').hide();
         $('.connected').show();
         $('.error').hide();
+        $('.log-console').hide();
         $('#share-url').val(sessionId);
     };
 
@@ -137,10 +138,21 @@ $(function(){
     });
 
     $('#close-error').click(function() {
-        $('.no-error').removeClass('hidden');
-        $('.error').addClass('hidden');
+        $('.no-error').show();
         showDisconnected();
     });
+
+    $('#show-log-btn').click(function() {
+        $('#show-log-btn').hide()
+        $('.log-console').show();
+        $('.connected').height(302);
+    })
+
+    $('#hide-log-btn').click(function() {
+        $('#show-log-btn').show();
+        $('.log-console').hide();
+        $('.connected').height(100);
+    })
 
 
     // $('#play-pause-button').click(function() {
@@ -158,6 +170,18 @@ $(function(){
     // })
 
     // ---------------------------------------------------------------------------------------------------------
+
+
+
+    chrome.runtime.onMessage.addListener(function(request, sender, response) {
+        if (request.type == "test") {
+            console.log(request.data);
+        }
+        else if (request.type == "message") {
+            console.log(request.data)
+        }
+    })
+
 
     showDisconnected()
 

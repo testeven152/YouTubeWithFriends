@@ -28,37 +28,6 @@
     
         // ----------------------------------- Variables --------------------------------------------------------------------------------------
 
-        class MessageQueue {
-
-            constructor() {
-                this.items = [];
-            }
-
-            enqueue(element) {
-                this.items.push(element);
-            }
-
-            dequeue() {
-                if(this.isEmpty()) {
-                    return "Empty"
-                }
-
-                return this.items.shift();
-            }
-
-            getList() {
-                return this.items;
-            }
-
-            clear() {
-                for (var i = 0; i < this.items.length; i++) {
-                    this.dequeue();
-                }
-            }
-
-        }
-
-
     
         // ---------- session properties ---------------
         var localUserId = null;
@@ -75,7 +44,7 @@
     
         // ------------ message log ------------
 
-        var messages = new MessageQueue();
+        var messages = [];
 
 
 
@@ -84,6 +53,28 @@
     
             
         // ----------------------------------- Helper Functions -------------------------------------------------------------------------------
+
+        var sendMessageToPopup = function(type, message) {
+            chrome.runtime.sendMessage({
+                type: type,
+                data: message
+            })
+        }
+
+        var convertSecondsToMinutes = function(time) {
+            let minutes = Math.floor(time / 60);
+            let seconds = Math.floor(time % 60);
+
+            if (minutes < 10) {
+                minutes = "0" + String(minutes)
+            }
+
+            if (seconds < 10) {
+                seconds = "0" + String(seconds)
+            }
+
+            return minutes + ":" + seconds
+        }
 
     
         var sync = function(data, video) {
@@ -114,17 +105,17 @@
             
             if (player.paused == true && data.playing == true) {
                 player.play();
-                message = data.avatar + " played video at " + currentTime + "."
+                message = data.avatar + " played video at " + convertSecondsToMinutes(currentTime) + "."
             } else if (player.paused == false && data.playing == false) {
                 player.pause();
-                message = data.avatar + " paused video at " + currentTime + "."
+                message = data.avatar + " paused video at " + convertSecondsToMinutes(currentTime) + "."
             } else {
-                message = data.avatar + " seeked video at " + currentTime + "."
+                message = data.avatar + " seeked video at " + convertSecondsToMinutes(currentTime) + "."
             }
 
             console.log(message);
-            messages.enqueue(message);
-
+            messages.push(message);
+            sendMessageToPopup("message", message);
             return true;
 
         }
@@ -192,9 +183,9 @@
         })
 
         socket.on('message', function(data) {
-            let message = data.avatar + " has " + data.type + " the party."
+            let message = data.avatar + " " + data.type + " the party."
             console.log(message)
-            messages.enqueue(message)
+            messages.push(message)
         })
     
         // ------------------------------------------------------------------------------------------------------------------------------------
@@ -371,6 +362,8 @@
         // ------------------------------------------------------------------------------------------------------------------------------------
 
         // ----------------------------------- Main Logic ----------------------------------------------------------------------
+
+        sendMessageToPopup("test", "Testing: popup.js messageListener working...");
 
         prepareVideoPlayer();
             
