@@ -203,6 +203,7 @@
                     socket.emit('leaveSession', { userId: localUserId }, function() {
                         localSessionId = null;
                         windowURL = null;
+                        messages = [];
                         console.log("URL changed. Leaving session...");
                     })
 
@@ -240,6 +241,7 @@
                     socket.emit('leaveSession', { userId: localUserId }, function() {
                         localSessionId = null;
                         windowURL = null;
+                        messages = [];
                         console.log("URL changed. Leaving session...");
                     })
 
@@ -325,6 +327,7 @@
                     socket.emit('leaveSession', { userId: localUserId }, function() {
                         localSessionId = null;
                         windowURL = null;
+                        messages = [];
                         sendResponse({});
                     })
                     return true;

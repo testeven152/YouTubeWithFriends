@@ -97,6 +97,17 @@ $(function(){
         })
     }
 
+    var appendMessagesToConsole = function(messages) {
+        if(messages.length == 0 || messages == null) {
+            return false;
+        }
+
+        for(var i = 0; i < messages.length; i++) {
+            var message = $('.message').first().clone()
+            message.find('p').text(messages[i])
+            message.prependTo('.chat-container')
+        }
+    }
 
     // ---------------------------------------------------------------------------------------------------------
 
@@ -196,6 +207,7 @@ $(function(){
         // console.log("hasywfsession = " + hasywfsession);
         if(response.sessionId) {
             var shareurl = "https://www.youtube.com/watch?v=" + videoId + "&ywf=" + response.sessionId;
+            appendMessagesToConsole(response.messages);
             showConnected(shareurl);
         }
         // if content_script doesnt have an existing session and link has ywfid, try to join session
