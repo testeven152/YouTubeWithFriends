@@ -28,3 +28,5 @@ Follow these steps to install the extension locally.
 - Clone the repository
 - Enter chrome://extensions in your chrome browser
 - Click on Load unpacked and load the folder with the chrome extension
+
+You can also find the YouTube With Friends Chrome Extension in the Chrome Web Store or click the link [here](https://chrome.google.com/webstore/detail/youtube-with-friends/boifjkmdjemnjadceofnlcnnfmjfjcoj).
