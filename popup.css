@@ -134,14 +134,14 @@ h2 {
     overflow: auto;
     -webkit-transform: rotate(180deg);
             transform: rotate(180deg);
-  /*   direction: rtl; */
+   direction: rtl; 
   }
   .chat-container .message {
     border-bottom: solid 1px #ccc;
     padding: 1px;
     -webkit-transform: rotate(180deg);
             transform: rotate(180deg);
-  /*   direction: ltr; */
+    direction: ltr; 
   }
 
   #hide-log-btn {
