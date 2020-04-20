@@ -179,6 +179,9 @@ $(function(){
         }
         else if (request.type == "message") {
             console.log(request.data)
+            var message = $('.message').first().clone()
+            message.find('p').text(request.data)
+            message.prependTo('.chat-container')
         }
     })
 

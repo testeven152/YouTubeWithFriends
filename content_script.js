@@ -185,6 +185,7 @@
         socket.on('message', function(data) {
             let message = data.avatar + " " + data.type + " the party."
             console.log(message)
+            sendMessageToPopup("message", message);
             messages.push(message)
         })
     
@@ -213,8 +214,19 @@
                     currentTime = player.currentTime
                     playing = !player.paused 
                     socket.emit('update', { userId: localUserId, currentTime: currentTime, playing: playing, videoId: localVideoId, avatar: localAvatar }, function() {
-                        console.log("playing = %s", playing)
-                        console.log("currentTime = %s", currentTime)
+                        let isPlaying = "";
+
+                        if (playing == true) {
+                            isPlaying = "playing"
+                        } else {
+                            isPlaying = "pausing"
+                        }
+    
+                        let message = localAvatar + " is " + isPlaying + " video at " + convertSecondsToMinutes(currentTime) + "."
+    
+                        sendMessageToPopup(message)
+                        console.log(message)
+                        messages.push(message)
                     })
                 }, 225) // timeout set for mouseup bc video doesnt play/pause immediately
             }
@@ -238,8 +250,19 @@
                 currentTime = player.currentTime
                 playing = !player.paused 
                 socket.emit('update', { userId: localUserId, currentTime: currentTime, playing: playing, videoId: localVideoId, avatar: localAvatar }, function() {
-                    console.log("playing = %s", playing)
-                    console.log("currentTime = %s", currentTime)
+                    let isPlaying = "";
+
+                    if (playing == true) {
+                        isPlaying = "playing"
+                    } else {
+                        isPlaying = "pausing"
+                    }
+
+                    let message = localAvatar + " is " + isPlaying + " video at " + convertSecondsToMinutes(currentTime) + "."
+
+                    sendMessageToPopup(message)
+                    console.log(message)
+                    messages.push(message)
                 })
             }
         }
@@ -284,7 +307,7 @@
                     //     sendResponse({ sessionId: localSessionId }); 
                     // }
 
-                    sendResponse({ sessionId: localSessionId });
+                    sendResponse({ sessionId: localSessionId, messages: messages });
 
                     return;
                 case 'create-session':
