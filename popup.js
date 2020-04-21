@@ -60,19 +60,19 @@ $(function(){
     var showChat = function() {
         $('#show-log-btn').hide()
         $('.log-console').show();
-        $('.connected').height(380);
+        $('.connected').height(405);
     }
 
     var hideChat = function() {
         $('#show-log-btn').show();
         $('.log-console').hide();
-        $('.connected').height(95);
+        $('.connected').height(100);
     }
 
     var showConnected = function(sessionId, chatenabled = false) {
         $('.disconnected').hide();
         $('.connected').show();
-        $('.connected').height(95);
+        $('.connected').height(100);
         $('.error').hide();
         $('#show-log-btn').show();
         $('#share-url').val(sessionId);
@@ -211,7 +211,6 @@ $(function(){
     // })
 
     // ---------------------------------------------------------------------------------------------------------
-
 
 
     chrome.runtime.onMessage.addListener(function(request, sender, response) {

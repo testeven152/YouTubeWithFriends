@@ -5,9 +5,7 @@ html {
 
 body {
     margin: 0;
-    padding: 10;
-    width: 250px;
-    text-align: center;
+    padding: 0;
 }
 
 h2 {
@@ -21,24 +19,23 @@ h2 {
 }
 
 .disconnected {
-    height: 70px;
-
+    height: 100px;
+    width: 300px;
     background: #FFFFFF;
-    border-radius: 5px;
 }
 
 .connected {
-    margin: 10px;
-    height: 95px;
+    height: 100px;
+    width: 300px;
 }
 
 #create-session {
     background: #CC0000;
     position: absolute;
-    width: 147px;
-    height: 28px;
-    left: 52px;
-    top: 50px;
+    width: 167px;
+    height: 30px;
+    left: 66.5px;
+    top: 60px;
     border: 1px solid #C7C7C7;
     border-color: #C7C7C7;
     border-radius: 12px;
@@ -53,10 +50,10 @@ h2 {
 #leave-session {
     background: #CC0000;
     position: absolute;
-    width: 147px;
-    height: 28px;
-    left: 52px;
-    top: 82px;
+    width: 167px;
+    height: 30px;
+    left: 66.5px;
+    top: 80px;
     border: 1px solid #C7C7C7;
     border-color: #C7C7C7;
     border-radius: 12px;
@@ -70,9 +67,9 @@ h2 {
 
 #share-url {
     position: absolute;
-    width: 105px;
+    width: 125px;
     height: 22px;
-    left: 52px;
+    left: 66.5px;
     top: 42px;
     border: 2px solid #C7C7C7;
     border-color: #C7C7C7;
@@ -85,7 +82,7 @@ h2 {
 
 #copy-btn-clicked {
     position: absolute;
-    left: 171px;
+    left: 205.5px;
     top: 42px;
 }
 
@@ -93,7 +90,7 @@ h2 {
     position: absolute;
     width: 28px;
     height: 28px;
-    left: 171px;
+    left: 205.5px;
     top: 42px;
     background-color: white;
 
@@ -106,9 +103,9 @@ h2 {
 
 #show-log-btn {
     position: absolute;
-    width: 40px;
+    width: 20px;
     height: 12.52px;
-    left: 105px;
+    left: 140px;
     top: 120.52px;
 
     outline: none;
@@ -119,7 +116,7 @@ h2 {
     position: absolute;
     /* box-sizing: border-box; */
     top: 125px;
-    width: 220px;
+    width: 265px;
     left: 15px;
     /* margin: 0 auto; */
     border: solid 1px #ccc;
@@ -128,13 +125,24 @@ h2 {
 
     font-family: 'Roboto Mono';
     font-size: 11px;
-  }
+    
+}
   .chat-container {
-    height: 240px;
+    height: 260px;
+    width: 265px;
     overflow: auto;
     -webkit-transform: rotate(180deg);
             transform: rotate(180deg);
    direction: rtl; 
+  }
+  .chat-container .intro-message {
+    padding: 1px;
+    -webkit-transform: rotate(180deg);
+            transform: rotate(180deg);
+    direction: ltr;
+    text-align: center;
+    font-size: 13px;
+    font-weight: bold;
   }
   .chat-container .message {
     border-top: solid 1px #ccc;
@@ -159,7 +167,7 @@ h2 {
 
     outline: none;
 
-    font-family: 'Roboto Mono '
+    font-family: 'Roboto Mono';
   }
   .send-message button {
     display: none;
@@ -167,10 +175,10 @@ h2 {
 
   #hide-log-btn {
     position: absolute;
-    width: 40px;
+    width: 20px;
     height: 12.52px;
-    left: 105px;
-    top: 405px;
+    left: 140px;
+    top: 425px;
     transform: rotate(180deg);
 
     outline: none;
