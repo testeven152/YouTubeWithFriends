@@ -35,6 +35,7 @@
         var localSessionId = null;
         var localVideoId = null;
         var windowURL = window.location.href;
+        var chatEnabled = false;
 
         // ------------- video properties -----------------
         var video = document.getElementsByTagName('video');
@@ -190,7 +191,10 @@
         })
 
         socket.on('chat-message', function(data) {
-            
+            let message = data.avatar + ": " + data.message;
+            console.log(message)
+            sendMessageToPopup("message", message);
+            messages.push(message)
         })
     
         // ------------------------------------------------------------------------------------------------------------------------------------
@@ -222,12 +226,12 @@
                         let isPlaying = "";
 
                         if (playing == true) {
-                            isPlaying = "playing"
+                            isPlaying = "played"
                         } else {
-                            isPlaying = "pausing"
+                            isPlaying = "paused"
                         }
     
-                        let message = localAvatar + " is " + isPlaying + " video at " + convertSecondsToMinutes(currentTime) + "."
+                        let message = localAvatar + " " + isPlaying + " video at " + convertSecondsToMinutes(currentTime) + "."
     
                         sendMessageToPopup(message)
                         console.log(message)
@@ -259,12 +263,12 @@
                     let isPlaying = "";
 
                     if (playing == true) {
-                        isPlaying = "playing"
+                        isPlaying = "played"
                     } else {
-                        isPlaying = "pausing"
+                        isPlaying = "paused"
                     }
 
-                    let message = localAvatar + " is " + isPlaying + " video at " + convertSecondsToMinutes(currentTime) + "."
+                    let message = localAvatar + " " + isPlaying + " video at " + convertSecondsToMinutes(currentTime) + "."
 
                     sendMessageToPopup(message)
                     console.log(message)
@@ -313,7 +317,7 @@
                     //     sendResponse({ sessionId: localSessionId }); 
                     // }
 
-                    sendResponse({ sessionId: localSessionId, messages: messages });
+                    sendResponse({ sessionId: localSessionId, messages: messages, avatar: localAvatar, chatEnabled: chatEnabled });
 
                     return;
                 case 'create-session':
@@ -323,6 +327,7 @@
                         localSessionId = data.sessionId;
                         localVideoId = request.data.videoId;
                         windowURL = window.location.href;
+                        chatEnabled = false;
                         sendResponse({ sessionId: localSessionId });
                     })
                     return true;
@@ -332,6 +337,7 @@
                         localSessionId = null;
                         windowURL = null;
                         messages = [];
+                        chatEnabled = false;
                         sendResponse({});
                     })
                     return true;
@@ -381,6 +387,17 @@
 
                 //     })
                 //     return true;
+                case 'chat-message':
+                    console.log('Request type: ' + request.type);
+                    socket.emit('chatMessage', { message: request.data.message, avatar: localAvatar }, function() {
+                        console.log("Chat message sent.")
+                        sendResponse({});
+                    })
+                    return true;
+                case 'open-chat':
+                    console.log('Request type: ' + request.type);
+                    chatEnabled = request.data.setChatEnabled;
+                    return true;
                 default:
                     console.log('Unknown request type: ' + request.type);
                     return false;

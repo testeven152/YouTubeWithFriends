@@ -8,6 +8,7 @@ $(function(){
     var shareurl = null;
     var ywfid = null;
     var hasywfsession = null;
+    var userAvatar = null;
 
     chrome.tabs.query({
         active: true,
@@ -55,12 +56,32 @@ $(function(){
         $('#error-msg').html(err);
     };
 
-    var showConnected = function(sessionId) {
+
+    var showChat = function() {
+        $('#show-log-btn').hide()
+        $('.log-console').show();
+        $('.connected').height(380);
+    }
+
+    var hideChat = function() {
+        $('#show-log-btn').show();
+        $('.log-console').hide();
+        $('.connected').height(95);
+    }
+
+    var showConnected = function(sessionId, chatenabled = false) {
         $('.disconnected').hide();
         $('.connected').show();
+        $('.connected').height(95);
         $('.error').hide();
-        $('.log-console').hide();
+        $('#show-log-btn').show();
         $('#share-url').val(sessionId);
+
+        if (chatenabled == true) {
+            showChat();
+        } else {
+            hideChat();
+        }
     };
 
     var showDisconnected = function() {
@@ -68,7 +89,6 @@ $(function(){
         $('.connected').hide();
         $('.error').hide();
     };
-
 
 
     // ---------------------------------------------------------------------------------------------------------
@@ -154,16 +174,26 @@ $(function(){
     });
 
     $('#show-log-btn').click(function() {
-        $('#show-log-btn').hide()
-        $('.log-console').show();
-        $('.connected').height(302);
+        showChat();
+        sendMessage('open-chat', { setChatEnabled: true }, function() {})
     })
 
     $('#hide-log-btn').click(function() {
-        $('#show-log-btn').show();
-        $('.log-console').hide();
-        $('.connected').height(100);
+        hideChat();
+        sendMessage('open-chat', { setChatEnabled: false }, function() {})
     })
+
+    $('form').on('submit', function(event) {
+        event.preventDefault();
+        let message = $('.message').first().clone();
+        let chatMessage = $('#message-input').val();
+        if (chatMessage != '') {
+            sendMessage('chat-message', { message: chatMessage }, function(response) {
+                $('#message-input').val('');
+            })
+        }
+
+      });
 
 
     // $('#play-pause-button').click(function() {
@@ -207,8 +237,9 @@ $(function(){
         // console.log("hasywfsession = " + hasywfsession);
         if(response.sessionId) {
             var shareurl = "https://www.youtube.com/watch?v=" + videoId + "&ywf=" + response.sessionId;
+            userAvatar = response.avatar;
             appendMessagesToConsole(response.messages);
-            showConnected(shareurl);
+            showConnected(shareurl, response.chatEnabled);
         }
         // if content_script doesnt have an existing session and link has ywfid, try to join session
         else if (hasywfsession && !response.sessionId) { 
@@ -218,6 +249,8 @@ $(function(){
                 }
                 else {
                     var shareurl = "https://www.youtube.com/watch?v=" + videoId + "&ywf=" + response.sessionId;
+                    userAvatar = response.avatar;
+                    appendMessagesToConsole(response.messages)
                     showConnected(shareurl);
                 } 
             })

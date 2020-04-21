@@ -130,18 +130,39 @@ h2 {
     font-size: 11px;
   }
   .chat-container {
-    height: 190px;
+    height: 240px;
     overflow: auto;
     -webkit-transform: rotate(180deg);
             transform: rotate(180deg);
    direction: rtl; 
   }
   .chat-container .message {
-    border-bottom: solid 1px #ccc;
+    border-top: solid 1px #ccc;
     padding: 1px;
     -webkit-transform: rotate(180deg);
             transform: rotate(180deg);
-    direction: ltr; 
+    direction: ltr;
+    text-align: left;
+  }
+
+  .chat-container .message p {
+      margin-left: 0.5em;
+  }
+
+  .send-message input {
+    width: 100%;
+
+    border: none;
+    border-top: solid 1px #ccc;
+    font-size: 12px;
+    padding: 7px;
+
+    outline: none;
+
+    font-family: 'Roboto Mono '
+  }
+  .send-message button {
+    display: none;
   }
 
   #hide-log-btn {
@@ -149,7 +170,7 @@ h2 {
     width: 40px;
     height: 12.52px;
     left: 105px;
-    top: 327.52px;
+    top: 405px;
     transform: rotate(180deg);
 
     outline: none;
