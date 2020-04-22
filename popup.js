@@ -73,13 +73,13 @@ $(function(){
         $('.connected').height(100);
     }
 
-    var showConnected = function(sessionId, chatenabled = false) {
+    var showConnected = function(url, chatenabled = false) {
+        $('.no-error').show();
         $('.disconnected').hide();
         $('.connected').show();
-        $('.connected').height(100);
         $('.error').hide();
         $('#show-log-btn').show();
-        $('#share-url').val(sessionId);
+        $('#share-url').val(url);
 
         if (chatenabled == true) {
             showChat();
@@ -229,7 +229,7 @@ $(function(){
         }
     })
 
-
+    showDisconnected();
 
     // sends initial data
     sendMessage('sendInitData', { videoId: videoId }, function(response) {
@@ -247,16 +247,18 @@ $(function(){
         else if (hasywfsession && !response.sessionId) { 
             sendMessage('join-session', { sessionId: ywfid, videoId: videoId }, function(response) {
                 if (response.errorMessage) {
+                    console.log(response.errorMessage)
                     showError(response.errorMessage)
                 }
                 else {
                     var shareurl = "https://www.youtube.com/watch?v=" + videoId + "&ywf=" + response.sessionId;
                     userAvatar = response.avatar;
+                    showConnected(shareurl, false);
                     appendMessagesToConsole(response.messages)
-                    showConnected(shareurl);
                 } 
             })
-        } else {
+        } 
+        else {
             showDisconnected();
         }
 
