@@ -20,12 +20,15 @@ $(function(){
         if(hasywfsession) {
 
             // https://www.youtube.com/watch?v=NJ7djRRZr_4&ywf=b32fcb277112b555
+
+            let spliturl = tabs[0].url.split('&')
     
-            var baseurl = tabs[0].url.split('&')[0];
-            ywfid = tabs[0].url.split('&')[1];
+            var baseurl = spliturl[0];
+            ywfid = spliturl[spliturl.length - 1];
             videoId = baseurl.split('=')[1];
             var ywfarray = ywfid.split('=');
             ywfid = ywfarray[ywfarray.length - 1]
+
 
             shareurl = "https://www.youtube.com/watch?v=" + videoId + "&ywf=" + ywfid;
     
@@ -34,6 +37,7 @@ $(function(){
 
             var baseurl = tabs[0].url
             videoId = baseurl.split('=')[1];
+            videoId = videoId.split('&')[0];
         }
 
         console.log("YWF ID: " + ywfid);
@@ -226,7 +230,6 @@ $(function(){
     })
 
 
-    showDisconnected()
 
     // sends initial data
     sendMessage('sendInitData', { videoId: videoId }, function(response) {

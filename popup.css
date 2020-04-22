@@ -18,9 +18,15 @@ h2 {
     color: #000000;
 }
 
+.error {
+    height: 100px;
+    width: 250px;
+    text-align: center;
+}
+
 .disconnected {
     height: 100px;
-    width: 300px;
+    width: 250px;
     background: #FFFFFF;
 }
 
@@ -34,7 +40,7 @@ h2 {
     position: absolute;
     width: 167px;
     height: 30px;
-    left: 66.5px;
+    left: 41.5px;
     top: 60px;
     border: 1px solid #C7C7C7;
     border-color: #C7C7C7;

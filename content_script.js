@@ -208,7 +208,7 @@
                 console.log("mouseupListener Triggered");
 
                 if (checkForUrlChange() == false) {
-                    socket.emit('leaveSession', { userId: localUserId }, function() {
+                    socket.emit('leaveSession', {}, function() {
                         localSessionId = null;
                         windowURL = null;
                         messages = [];
@@ -246,7 +246,7 @@
                 console.log("keyupListener Triggered");
 
                 if (checkForUrlChange() == false) {
-                    socket.emit('leaveSession', { userId: localUserId }, function() {
+                    socket.emit('leaveSession', {}, function() {
                         localSessionId = null;
                         windowURL = null;
                         messages = [];
@@ -323,7 +323,7 @@
                 case 'create-session':
                     console.log('Request type: ' + request.type)
                     console.log('request.data.videoId = ' + request.data.videoId)
-                    socket.emit('createSession', { userId: localUserId, videoId: request.data.videoId }, function(data) {
+                    socket.emit('createSession', { videoId: request.data.videoId }, function(data) {
                         localSessionId = data.sessionId;
                         localVideoId = request.data.videoId;
                         windowURL = window.location.href;
@@ -333,7 +333,7 @@
                     return true;
                 case 'leave-session':
                     console.log('Request type: ' + request.type);
-                    socket.emit('leaveSession', { userId: localUserId }, function() {
+                    socket.emit('leaveSession', {}, function() {
                         localSessionId = null;
                         windowURL = null;
                         messages = [];
@@ -348,17 +348,17 @@
                         if (data.errorMessage) {
                             localSessionId = null;
                             windowURL = null;
-                            let tempVideoId = getVideoIdFromURL(window.location.url)
-                            window.location.url = "https://www.youtube.com/watch?v=" + tempVideoId;
+                            // let tempVideoId = getVideoIdFromURL(window.location.url)
+                            // window.location.url = "https://www.youtube.com/watch?v=" + tempVideoId;
                             sendResponse({ errorMessage: data.errorMessage })
                             console.log("Error Message Received: %s", data.errorMessage)
                         } 
                         else if (data.videoId != request.data.videoId) {
-                            socket.emit('leaveSession', { userId: localUserId }, function() {
+                            socket.emit('leaveSession', {}, function() {
                                 localSessionId = null;
                                 windowURL = null;
-                                let tempVideoId = getVideoIdFromURL(window.location.url)
-                                window.location.url = "https://www.youtube.com/watch?v=" + tempVideoId;
+                                // let tempVideoId = getVideoIdFromURL(window.location.url)
+                                // window.location.url = "https://www.youtube.com/watch?v=" + tempVideoId;
                                 sendResponse({ errorMessage: "Invalid Video IDs" })
                                 console.log("Error: Invalid Video IDs")
                             })
