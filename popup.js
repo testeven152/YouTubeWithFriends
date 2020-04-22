@@ -64,13 +64,13 @@ $(function(){
     var showChat = function() {
         $('#show-log-btn').hide()
         $('.log-console').show();
-        $('.connected').height(405);
+        $('.connected').height(456);
     }
 
     var hideChat = function() {
         $('#show-log-btn').show();
         $('.log-console').hide();
-        $('.connected').height(100);
+        $('.connected').height(156);
     }
 
     var showConnected = function(url, chatenabled = false) {

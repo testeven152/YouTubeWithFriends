@@ -25,14 +25,30 @@ h2 {
 }
 
 .disconnected {
-    height: 100px;
-    width: 250px;
+    height: 107px;
+    width: 300px;
     background: #FFFFFF;
 }
 
+#create-help {
+    text-align: center;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-family: 'Roboto Mono';
+    font-size: 11px;
+}
+
 .connected {
-    height: 100px;
+    height: 156px;
     width: 300px;
+}
+
+#link-help {
+    text-align: left;
+    margin-left: 5px;
+    padding-left: 5px;
+    font-family: 'Roboto Mono';
+    font-size: 11px;
 }
 
 #create-session {
@@ -40,8 +56,8 @@ h2 {
     position: absolute;
     width: 167px;
     height: 30px;
-    left: 41.5px;
-    top: 60px;
+    left: 66.5px;
+    top: 90px;
     border: 1px solid #C7C7C7;
     border-color: #C7C7C7;
     border-radius: 12px;
@@ -59,7 +75,7 @@ h2 {
     width: 167px;
     height: 30px;
     left: 66.5px;
-    top: 80px;
+    top: 134px;
     border: 1px solid #C7C7C7;
     border-color: #C7C7C7;
     border-radius: 12px;
@@ -76,7 +92,7 @@ h2 {
     width: 125px;
     height: 22px;
     left: 66.5px;
-    top: 42px;
+    top: 100px;
     border: 2px solid #C7C7C7;
     border-color: #C7C7C7;
     border-radius: 12px;
@@ -89,7 +105,7 @@ h2 {
 #copy-btn-clicked {
     position: absolute;
     left: 205.5px;
-    top: 42px;
+    top: 100px;
 }
 
 #copy-btn {
@@ -97,7 +113,7 @@ h2 {
     width: 28px;
     height: 28px;
     left: 205.5px;
-    top: 42px;
+    top: 100px;
     background-color: white;
 
     cursor: pointer;
@@ -112,7 +128,7 @@ h2 {
     width: 20px;
     height: 12.52px;
     left: 140px;
-    top: 120.52px;
+    top: 171.52px;
 
     outline: none;
     background: white;
@@ -121,7 +137,7 @@ h2 {
 .container {
     position: absolute;
     /* box-sizing: border-box; */
-    top: 125px;
+    top: 176px;
     width: 265px;
     left: 15px;
     /* margin: 0 auto; */
@@ -148,7 +164,7 @@ h2 {
     direction: ltr;
     text-align: center;
     font-size: 13px;
-    font-weight: bold;
+    font-weight: normal;
   }
   .chat-container .message {
     border-top: solid 1px #ccc;
@@ -184,7 +200,7 @@ h2 {
     width: 20px;
     height: 12.52px;
     left: 140px;
-    top: 425px;
+    top: 476px;
     transform: rotate(180deg);
 
     outline: none;
