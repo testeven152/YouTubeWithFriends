@@ -185,7 +185,6 @@
 
         socket.on('update-message', function(data) {
             let message = data.avatar + " " + data.type + " the party."
-            console.log(message)
             sendMessageToPopup("message", message);
             messages.push(message)
         })
