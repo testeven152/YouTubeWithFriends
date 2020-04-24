@@ -78,6 +78,7 @@ $(function(){
         $('.disconnected').hide();
         $('.connected').show();
         $('.error').hide();
+        $('.loading').hide();
         $('#show-log-btn').show();
         $('#share-url').val(url);
 
@@ -92,7 +93,14 @@ $(function(){
         $('.disconnected').show();
         $('.connected').hide();
         $('.error').hide();
+        $('.loading').hide();
     };
+
+    var showLoading = function() {
+        $('.disconnected').hide();
+        $('.connected').hide();
+        $('.loading').show();
+    }
 
 
     // ---------------------------------------------------------------------------------------------------------
@@ -140,6 +148,7 @@ $(function(){
 
     $('#create-session').click(function() {
         console.log('create-session button clicked on.');
+        showLoading();
         sendMessage('create-session', { videoId: videoId }, function(response){
             ywfid = response.sessionId;
             if (ywfid != null) {
@@ -154,6 +163,7 @@ $(function(){
 
     $('#leave-session').click(function() {
         console.log('leave-session button clicked on'); 
+        showLoading();
         sendMessage('leave-session', {}, function() {
             showDisconnected();
         });
