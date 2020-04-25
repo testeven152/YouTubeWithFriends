@@ -10,6 +10,8 @@ $(function(){
     var hasywfsession = null;
     var userAvatar = null;
 
+    const chatcontainer = document.getElementById('chat')
+
     chrome.tabs.query({
         active: true,
         currentWindow: true
@@ -137,8 +139,11 @@ $(function(){
         for(var i = 0; i < messages.length; i++) {
             var message = $('.message').first().clone()
             message.find('p').text(messages[i])
-            message.prependTo('.chat-container')
+            message.appendTo('.chat-container')
         }
+
+        return true;
+
     }
 
     // ---------------------------------------------------------------------------------------------------------
@@ -235,7 +240,8 @@ $(function(){
             console.log(request.data)
             var message = $('.message').first().clone()
             message.find('p').text(request.data)
-            message.prependTo('.chat-container')
+            message.appendTo('.chat-container')
+            chatcontainer.scrollTop = chatcontainer.scrollHeight
         }
     })
 

@@ -211,6 +211,7 @@
                         localSessionId = null;
                         windowURL = null;
                         messages = [];
+                        chatEnabled = false;
                         console.log("URL changed. Leaving session...");
                     })
 
@@ -221,7 +222,20 @@
                 setTimeout(() => {
                     currentTime = player.currentTime
                     playing = !player.paused 
-                    socket.emit('update', { userId: localUserId, currentTime: currentTime, playing: playing, videoId: localVideoId, avatar: localAvatar }, function() {
+                    socket.emit('update', { userId: localUserId, currentTime: currentTime, playing: playing, videoId: localVideoId, avatar: localAvatar }, function(data) {
+
+                        if (data.errorMessage) {
+                            socket.emit('leaveSession', {}, function(data) {
+                                localSessionId = null;
+                                windowURL = null;
+                                messages = [];
+                                chatEnabled = false;
+                                console.log("Error: %s", data.errorMessage);
+                            })
+    
+                            return;
+                        }
+    
                         let isPlaying = "";
 
                         if (playing == true) {
@@ -249,6 +263,7 @@
                         localSessionId = null;
                         windowURL = null;
                         messages = [];
+                        chatEnabled = false;
                         console.log("URL changed. Leaving session...");
                     })
 
@@ -258,7 +273,20 @@
                 let player = video[0];
                 currentTime = player.currentTime
                 playing = !player.paused 
-                socket.emit('update', { userId: localUserId, currentTime: currentTime, playing: playing, videoId: localVideoId, avatar: localAvatar }, function() {
+                socket.emit('update', { userId: localUserId, currentTime: currentTime, playing: playing, videoId: localVideoId, avatar: localAvatar }, function(data) {
+
+                    if (data.errorMessage) {
+                        socket.emit('leaveSession', {}, function() {
+                            localSessionId = null;
+                            windowURL = null;
+                            messages = [];
+                            chatEnabled = false;
+                            console.log("Error: %s", data.errorMessage);
+                        })
+
+                        return;
+                    }
+
                     let isPlaying = "";
 
                     if (playing == true) {
