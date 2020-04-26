@@ -351,11 +351,16 @@
                     console.log('Request type: ' + request.type)
                     console.log('request.data.videoId = ' + request.data.videoId)
                     socket.emit('createSession', { videoId: request.data.videoId }, function(data) {
-                        localSessionId = data.sessionId;
-                        localVideoId = request.data.videoId;
-                        windowURL = window.location.href;
-                        chatEnabled = false;
-                        sendResponse({ sessionId: localSessionId });
+                        if (data.errorMessage) {
+                            console.log("Error: " + data.errorMessage)
+                            sendResponse({ errorMessage: data.errorMessage })
+                        } else {
+                            localSessionId = data.sessionId;
+                            localVideoId = request.data.videoId;
+                            windowURL = window.location.href;
+                            chatEnabled = false;
+                            sendResponse({ sessionId: localSessionId });
+                        }
                     })
                     return true;
                 case 'leave-session':
@@ -416,9 +421,20 @@
                 //     return true;
                 case 'chat-message':
                     console.log('Request type: ' + request.type);
-                    socket.emit('chatMessage', { message: request.data.message, avatar: localAvatar }, function() {
-                        console.log("Chat message sent.")
-                        sendResponse({});
+                    socket.emit('chatMessage', { message: request.data.message, avatar: localAvatar }, function(data) {
+                        if (data.errorMessage) {
+                            socket.emit('leaveSession', {}, function() {
+                                localSessionId = null;
+                                windowURL = null;
+                                messages = [];
+                                chatEnabled = false;
+                                console.log("Error: " + data.errorMessage)
+                                sendResponse({ errorMessage: data.errorMessage })
+                            })
+                        } else {
+                            console.log("Chat message sent.")
+                            sendResponse({});
+                        }
                     })
                     return true;
                 case 'open-chat':

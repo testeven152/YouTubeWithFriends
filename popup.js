@@ -155,14 +155,12 @@ $(function(){
         console.log('create-session button clicked on.');
         showLoading();
         sendMessage('create-session', { videoId: videoId }, function(response){
-            ywfid = response.sessionId;
-            if (ywfid != null) {
-                shareurl = "https://www.youtube.com/watch?v=" + videoId + "&ywf=" + ywfid;
-                showConnected(shareurl);
+            if (response.errorMessage) {
+                showError("Error: " + response.errorMessage)
             } else {
-                showError("Undefined Session");
+                shareurl = "https://www.youtube.com/watch?v=" + videoId + "&ywf=" + response.sessionId
+                showConnected(shareurl)
             }
-
         });
     });
 
@@ -204,7 +202,6 @@ $(function(){
 
     $('form').on('submit', function(event) {
         event.preventDefault();
-        let message = $('.message').first().clone();
         let chatMessage = $('#message-input').val();
         if (chatMessage != '') {
             sendMessage('chat-message', { message: chatMessage }, function(response) {
