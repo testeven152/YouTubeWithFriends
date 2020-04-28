@@ -304,10 +304,15 @@
             }
         }
 
+        var playerListener = function() {
+            console.log("player clicked on")
+        }
+        
 
         var prepareVideoPlayer = function() {
+            jQuery("#player").mouseup(playerListener); 
             jQuery(window).mouseup(mouseupListener); // perhaps need to change this to clicks on the player
-            jQuery(window).keyup(keyupListener); 
+            jQuery(window).keyup(keyupListener);
             console.log("Video Player prepared.")
         };
 
