@@ -100,7 +100,10 @@
             currentTime = data.currentTime;
             playing = data.playing;
 
-            player.currentTime = data.currentTime;
+            if (Math.floor(player.currentTime) != Math.floor(data.currentTime)) {
+                player.currentTime = data.currentTime;
+            }
+
 
             let message = "" 
             
