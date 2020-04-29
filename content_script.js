@@ -223,7 +223,7 @@
 
                 let player = video[0];
                 setTimeout(() => {
-                    currentTime = player.currentTime
+                    currentTime = player.currentTime + 0.0225
                     playing = !player.paused 
                     socket.emit('update', { userId: localUserId, currentTime: currentTime, playing: playing, videoId: localVideoId, avatar: localAvatar }, function(data) {
 
