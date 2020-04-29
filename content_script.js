@@ -78,7 +78,51 @@
         }
 
     
-        var sync = function(data, video) {
+        var sync = function(data, video) { // mouse sync
+
+            // data: currentTime, playing, videoId
+
+            if (data.currentTime == null) {
+                console.log("Sync Error: no current time.")
+                return false
+            } else if (data.playing == null) {
+                console.log("Sync Error: No playing state.")
+                return false
+            } else if (data.videoId == null) {
+                console.log("Sync Error: No videoId.")
+                return false
+            } else if (data.videoId != localVideoId) {
+                console.log("Sync Error: data video id does not match localvideoid. %s != %s.", data.videoId, localVideoId)
+                return false
+            }
+            
+            let player = video[0];
+            currentTime = data.currentTime;
+            playing = data.playing;
+
+            player.currentTime = data.currentTime
+
+
+            let message = "" 
+            
+            if (player.paused == true && data.playing == true) {
+                player.play();
+                message = data.avatar + " played video at " + convertSecondsToMinutes(currentTime) + "."
+            } else if (player.paused == false && data.playing == false) {
+                player.pause();
+                message = data.avatar + " paused video at " + convertSecondsToMinutes(currentTime) + "."
+            } else {
+                message = data.avatar + " seeked video at " + convertSecondsToMinutes(currentTime) + "."
+            }
+
+            console.log(message);
+            messages.push(message);
+            sendMessageToPopup("message", message);
+            return true;
+
+        }
+
+        var mousesync = function(data, video) {
 
             // data: currentTime, playing, videoId
 
@@ -182,8 +226,14 @@
 
         socket.on('update', function(data) {
             if (!sync(data, video)) {
-                console.log("Sync failed");
+                console.log("Mouse Sync failed");
             } 
+        })
+
+        socket.on('mouseupdate', function(data) {
+            if (!mousesync(data, video)) {
+                console.log("Key Sync failed")
+            }
         })
 
         socket.on('update-message', function(data) {
@@ -225,7 +275,7 @@
                 setTimeout(() => {
                     currentTime = player.currentTime + 0.0225
                     playing = !player.paused 
-                    socket.emit('update', { userId: localUserId, currentTime: currentTime, playing: playing, videoId: localVideoId, avatar: localAvatar }, function(data) {
+                    socket.emit('mouseupdate', { userId: localUserId, currentTime: currentTime, playing: playing, videoId: localVideoId, avatar: localAvatar }, function(data) {
 
                         if (data.errorMessage) {
                             socket.emit('leaveSession', {}, function(data) {
