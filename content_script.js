@@ -331,10 +331,10 @@
 
                         if (data.revert) {
                             let videoDetails = {
-                                currentTime: currentTime,
-                                playing: playing,
-                                playbackRate: playbackRate,
-                                lastTimeUpdated: lastTimeUpdated
+                                currentTime: data.currentTime,
+                                playing: data.playing,
+                                playbackRate: data.playbackRate,
+                                lastTimeUpdated: data.lastTimeUpdated
                             }
     
                             syncWithoutMessage(videoDetails, video)
@@ -399,10 +399,10 @@
 
                     if (data.revert) {
                         let videoDetails = {
-                            currentTime: currentTime,
-                            playing: playing,
-                            playbackRate: playbackRate,
-                            lastTimeUpdated: lastTimeUpdated
+                            currentTime: data.currentTime,
+                            playing: data.playing,
+                            playbackRate: data.playbackRate,
+                            lastTimeUpdated: data.lastTimeUpdated
                         }
 
                         syncWithoutMessage(videoDetails, video)
