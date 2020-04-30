@@ -37,11 +37,13 @@
         var windowURL = window.location.href;
         var chatEnabled = false;
 
+
         // ------------- video properties -----------------
         var video = document.getElementsByTagName('video');
         var currentTime = 0;
         var playbackRate = 0.0;
-        var state = null;
+        var playing = null;
+        var lastTimeUpdated = null;
     
         // ------------ message log ------------
 
@@ -54,6 +56,10 @@
     
             
         // ----------------------------------- Helper Functions -------------------------------------------------------------------------------
+
+        function convertMillisecondstoSeconds(milliseconds) {
+            return milliseconds / 1000;
+        }
 
         var sendMessageToPopup = function(type, message) {
             chrome.runtime.sendMessage({
@@ -97,8 +103,12 @@
             }
             
             let player = video[0];
+
+            // update local information
             currentTime = data.currentTime;
             playing = data.playing;
+            playbackRate = data.playbackRate;
+            lastTimeUpdated = convertSecondsToMinutes(Date.now())
 
             player.currentTime = data.currentTime;
             player.playbackRate = data.playbackRate;
@@ -144,6 +154,7 @@
             currentTime = data.currentTime;
             playing = data.playing;
             playbackRate = data.playbackRate;
+            lastTimeUpdated = convertSecondsToMinutes(Date.now());
 
             if (Math.floor(player.currentTime) != Math.floor(data.currentTime)) {
                 player.currentTime = data.currentTime;
@@ -168,6 +179,28 @@
             sendMessageToPopup("message", message);
             return true;
 
+        }
+
+        var syncWithoutMessage = function(data, video) {
+            let player = video[0];
+
+            // update local information
+            lastTimeUpdated = convertSecondsToMinutes(Date.now())
+            currentTime = data.currentTime + (lastTimeUpdated - data.lastTimeUpdated)
+            playing = data.playing
+            playbackRate = data.playbackRate
+
+
+            player.currentTime = currentTime
+            player.playbackRate = playbackRate
+
+            if (player.paused == true && data.playing == true) {
+                player.play();
+            } else if (player.paused == false && data.playing == false) {
+                player.pause();
+            }
+
+            return;
         }
 
         var getVideoIdFromURL = function(url) {
@@ -291,20 +324,36 @@
     
                             return;
                         }
-    
-                        let isPlaying = "";
 
-                        if (playing == true) {
-                            isPlaying = "played"
+                        if (data.revert) {
+                            let videoDetails = {
+                                currentTime: currentTime,
+                                playing: playing,
+                                playbackRate: playbackRate,
+                                lastTimeUpdated: lastTimeUpdated
+                            }
+    
+                            syncWithoutMessage(videoDetails, video)
+    
                         } else {
-                            isPlaying = "paused"
+
+                            let isPlaying = "";
+
+                            if (playing == true) {
+                                isPlaying = "played"
+                            } else {
+                                isPlaying = "paused"
+                            }
+        
+                            let message = localAvatar + " " + isPlaying + " video at " + convertSecondsToMinutes(currentTime) + "."
+        
+                            sendMessageToPopup(message)
+                            console.log(message)
+                            messages.push(message)
+
                         }
     
-                        let message = localAvatar + " " + isPlaying + " video at " + convertSecondsToMinutes(currentTime) + "."
-    
-                        sendMessageToPopup(message)
-                        console.log(message)
-                        messages.push(message)
+
                     })
                 }, 225) // timeout set for mouseup bc video doesnt play/pause immediately
             }
@@ -344,30 +393,46 @@
                         return;
                     }
 
-                    let isPlaying = "";
+                    if (data.revert) {
+                        let videoDetails = {
+                            currentTime: currentTime,
+                            playing: playing,
+                            playbackRate: playbackRate,
+                            lastTimeUpdated: lastTimeUpdated
+                        }
 
-                    if (playing == true) {
-                        isPlaying = "played"
+                        syncWithoutMessage(videoDetails, video)
+
+                        
                     } else {
-                        isPlaying = "paused"
+
+                        let isPlaying = "";
+
+                        if (playing == true) {
+                            isPlaying = "played"
+                        } else {
+                            isPlaying = "paused"
+                        }
+    
+                        let message = localAvatar + " " + isPlaying + " video at " + convertSecondsToMinutes(currentTime) + "."
+    
+                        sendMessageToPopup(message)
+                        console.log(message)
+                        messages.push(message)
+
                     }
 
-                    let message = localAvatar + " " + isPlaying + " video at " + convertSecondsToMinutes(currentTime) + "."
-
-                    sendMessageToPopup(message)
-                    console.log(message)
-                    messages.push(message)
                 })
             }
         }
 
-        var playerListener = function() {
-            console.log("player clicked on")
-        }
+        // var playerListener = function() {
+        //     console.log("player clicked on")
+        // }
         
 
         var prepareVideoPlayer = function() {
-            jQuery("#player").mouseup(playerListener); 
+            // jQuery("#player").mouseup(playerListener); 
             jQuery(window).mouseup(mouseupListener); // perhaps need to change this to clicks on the player
             jQuery(window).keyup(keyupListener);
             console.log("Video Player prepared.")
@@ -412,7 +477,8 @@
                 case 'create-session':
                     console.log('Request type: ' + request.type)
                     console.log('request.data.videoId = ' + request.data.videoId)
-                    socket.emit('createSession', { videoId: request.data.videoId, controlLock: request.data.controlLock }, function(data) {
+                    let player = video[0];
+                    socket.emit('createSession', { videoId: request.data.videoId, controlLock: request.data.controlLock, currentTime: player.currentTime, playing: !player.paused, playbackRate: player.playbackRate }, function(data) {
                         if (data.errorMessage) {
                             console.log("Error: " + data.errorMessage)
                             sendResponse({ errorMessage: data.errorMessage })
@@ -458,6 +524,15 @@
                             })
                         }
                         else {
+                            let videoDetails = {
+                                currentTime: data.recentUpdatedTime,
+                                playing: data.recentPlayingState,
+                                playbackRate: data.recentPlaybackRate,
+                                lastTimeUpdated: data.lastTimeUpdated
+                            }
+
+                            syncWithoutMessage(videoDetails, video);
+
                             localVideoId = request.data.videoId;
                             localSessionId = data.sessionId;
                             windowURL = window.location.href;
