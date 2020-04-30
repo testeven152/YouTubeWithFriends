@@ -19,12 +19,20 @@ h2 {
 
 .error {
     height: 100px;
-    width: 250px;
+    width: 300px;
     text-align: center;
 }
 
+#close-error {
+  position: absolute;
+  height: 20px;
+  width: 70px;
+  top: 100px;
+  left: 115px;
+}
+
 .disconnected {
-    height: 107px;
+    height: 117px;
     width: 300px;
     background: #FFFFFF;
 }
@@ -35,6 +43,15 @@ h2 {
     padding-right: 10px;
     font-family: 'Roboto Mono';
     font-size: 11px;
+}
+
+#control-checkbox {
+  font-family: 'Roboto Mono';
+  font-size: 10px;
+  text-align: center;
+  position: absolute;
+  top: 83px;
+  left: 80px;
 }
 
 .connected {
@@ -56,7 +73,7 @@ h2 {
     width: 167px;
     height: 30px;
     left: 66.5px;
-    top: 90px;
+    top: 112px;
     border: 1px solid #C7C7C7;
     border-color: #C7C7C7;
     border-radius: 12px;

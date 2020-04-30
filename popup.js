@@ -98,6 +98,7 @@ $(function(){
         $('.connected').hide();
         $('.error').hide();
         $('.loading').hide();
+        $('#control-lock').prop("checked", false);
     };
 
     var showLoading = function() {
@@ -156,7 +157,7 @@ $(function(){
     $('#create-session').click(function() {
         console.log('create-session button clicked on.');
         showLoading();
-        sendMessage('create-session', { videoId: videoId }, function(response){
+        sendMessage('create-session', { videoId: videoId, controlLock: $('#control-lock').is(':checked') }, function(response){
             if (response.errorMessage) {
                 showError("Error: " + response.errorMessage)
             } else {

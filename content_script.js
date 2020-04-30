@@ -100,8 +100,8 @@
             currentTime = data.currentTime;
             playing = data.playing;
 
-            player.currentTime = data.currentTime
-
+            player.currentTime = data.currentTime;
+            player.playbackRate = data.playbackRate;
 
             let message = "" 
             
@@ -143,11 +143,13 @@
             let player = video[0];
             currentTime = data.currentTime;
             playing = data.playing;
+            playbackRate = data.playbackRate;
 
             if (Math.floor(player.currentTime) != Math.floor(data.currentTime)) {
                 player.currentTime = data.currentTime;
             }
 
+            player.playbackRate = data.playbackRate;
 
             let message = "" 
             
@@ -273,9 +275,10 @@
 
                 let player = video[0];
                 setTimeout(() => {
-                    currentTime = player.currentTime + 0.0225
+                    currentTime = player.currentTime + 0.0225 //compensate for delay of click 
                     playing = !player.paused 
-                    socket.emit('mouseupdate', { userId: localUserId, currentTime: currentTime, playing: playing, videoId: localVideoId, avatar: localAvatar }, function(data) {
+                    playbackRate = player.playbackRate
+                    socket.emit('mouseupdate', { userId: localUserId, currentTime: currentTime, playing: playing, playbackRate: playbackRate, videoId: localVideoId, avatar: localAvatar }, function(data) {
 
                         if (data.errorMessage) {
                             socket.emit('leaveSession', {}, function(data) {
@@ -326,7 +329,8 @@
                 let player = video[0];
                 currentTime = player.currentTime
                 playing = !player.paused 
-                socket.emit('update', { userId: localUserId, currentTime: currentTime, playing: playing, videoId: localVideoId, avatar: localAvatar }, function(data) {
+                playbackRate = player.playbackRate
+                socket.emit('update', { userId: localUserId, currentTime: currentTime, playing: playing, playbackRate: playbackRate, videoId: localVideoId, avatar: localAvatar }, function(data) {
 
                     if (data.errorMessage) {
                         socket.emit('leaveSession', {}, function() {
@@ -408,7 +412,7 @@
                 case 'create-session':
                     console.log('Request type: ' + request.type)
                     console.log('request.data.videoId = ' + request.data.videoId)
-                    socket.emit('createSession', { videoId: request.data.videoId }, function(data) {
+                    socket.emit('createSession', { videoId: request.data.videoId, controlLock: request.data.controlLock }, function(data) {
                         if (data.errorMessage) {
                             console.log("Error: " + data.errorMessage)
                             sendResponse({ errorMessage: data.errorMessage })
