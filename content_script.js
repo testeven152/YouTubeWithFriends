@@ -108,7 +108,7 @@
             currentTime = data.currentTime;
             playing = data.playing;
             playbackRate = data.playbackRate;
-            lastTimeUpdated = convertSecondsToMinutes(Date.now())
+            lastTimeUpdated = convertMillisecondstoSeconds(Date.now());
 
             player.currentTime = data.currentTime;
             player.playbackRate = data.playbackRate;
@@ -154,7 +154,7 @@
             currentTime = data.currentTime;
             playing = data.playing;
             playbackRate = data.playbackRate;
-            lastTimeUpdated = convertSecondsToMinutes(Date.now());
+            lastTimeUpdated = convertMillisecondstoSeconds(Date.now());
 
             if (Math.floor(player.currentTime) != Math.floor(data.currentTime)) {
                 player.currentTime = data.currentTime;
@@ -185,10 +185,15 @@
             let player = video[0];
 
             // update local information
-            lastTimeUpdated = convertSecondsToMinutes(Date.now())
-            currentTime = data.currentTime + (lastTimeUpdated - data.lastTimeUpdated)
+            lastTimeUpdated = data.lastTimeUpdated
             playing = data.playing
             playbackRate = data.playbackRate
+
+            if (playing == true) {
+                currentTime = data.currentTime + convertMillisecondstoSeconds(Date.now()) - data.lastTimeUpdated
+            } else {
+                currentTime = data.currentTime
+            }
 
 
             player.currentTime = currentTime
@@ -200,7 +205,6 @@
                 player.pause();
             }
 
-            return;
         }
 
         var getVideoIdFromURL = function(url) {
@@ -267,7 +271,7 @@
 
         socket.on('mouseupdate', function(data) {
             if (!mousesync(data, video)) {
-                console.log("Key Sync failed")
+                console.log("Mouse Sync failed")
             }
         })
 
@@ -531,12 +535,13 @@
                                 lastTimeUpdated: data.lastTimeUpdated
                             }
 
-                            syncWithoutMessage(videoDetails, video);
 
                             localVideoId = request.data.videoId;
                             localSessionId = data.sessionId;
                             windowURL = window.location.href;
                             sendResponse({ sessionId: data.sessionId });
+
+                            syncWithoutMessage(videoDetails, video);
                             console.log("Joined Session %s successful.", localSessionId);
                         }
 
