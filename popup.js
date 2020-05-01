@@ -66,7 +66,7 @@ $(function(){
     var showChat = function() {
         $('#show-log-btn').hide()
         $('.log-console').show();
-        $('.connected').height(456);
+        $('.connected').height(460);
         chatcontainer.scrollTop = chatcontainer.scrollHeight
         
     }

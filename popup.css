@@ -91,7 +91,7 @@ h2 {
     width: 167px;
     height: 30px;
     left: 66.5px;
-    top: 134px;
+    top: 140px;
     border: 1px solid #C7C7C7;
     border-color: #C7C7C7;
     border-radius: 12px;
@@ -108,7 +108,7 @@ h2 {
     width: 125px;
     height: 22px;
     left: 66.5px;
-    top: 100px;
+    top: 105px;
     border: 2px solid #C7C7C7;
     border-color: #C7C7C7;
     border-radius: 12px;
@@ -121,7 +121,7 @@ h2 {
 #copy-btn-clicked {
     position: absolute;
     left: 205.5px;
-    top: 100px;
+    top: 105px;
 }
 
 #copy-btn {
@@ -129,7 +129,7 @@ h2 {
     width: 28px;
     height: 28px;
     left: 205.5px;
-    top: 100px;
+    top: 105px;
     background-color: white;
 
     cursor: pointer;
@@ -144,7 +144,7 @@ h2 {
     width: 20px;
     height: 12.52px;
     left: 140px;
-    top: 171.52px;
+    top: 177px;
 
     outline: none;
     background: white;
@@ -153,7 +153,7 @@ h2 {
 .container {
     position: absolute;
     /* box-sizing: border-box; */
-    top: 176px;
+    top: 183px;
     width: 265px;
     left: 15px;
     /* margin: 0 auto; */
@@ -207,7 +207,7 @@ h2 {
     width: 20px;
     height: 12.52px;
     left: 140px;
-    top: 476px;
+    top: 483px;
     transform: rotate(180deg);
 
     outline: none;
