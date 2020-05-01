@@ -522,7 +522,11 @@
                     console.log('Request type: ' + request.type)
                     console.log('request.data.videoId = ' + request.data.videoId)
                     let player = video[0];
-                    socket.emit('createSession', { videoId: request.data.videoId, controlLock: request.data.controlLock, currentTime: player.currentTime, playing: !player.paused, playbackRate: player.playbackRate }, function(data) {
+                    currentTime = player.currentTime
+                    playing = !player.paused
+                    playbackRate = player.playbackRate
+                    lastTimeUpdated = convertMillisecondstoSeconds(Date.now())
+                    socket.emit('createSession', { videoId: request.data.videoId, controlLock: request.data.controlLock, currentTime: currentTime, playing: playing, playbackRate: playbackRate }, function(data) {
                         if (data.errorMessage) {
                             console.log("Error: " + data.errorMessage)
                             sendResponse({ errorMessage: data.errorMessage })
