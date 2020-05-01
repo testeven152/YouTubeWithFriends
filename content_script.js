@@ -151,15 +151,20 @@
             }
             
             let player = video[0];
+
+            if (Math.floor(player.currentTime) == Math.floor(data.currentTime) && playing == data.playing && playbackRate == data.playbackRate) {
+                console.log("Synced but no change.")
+                return true;
+            } else {
+                console.log("Change detected")
+            }
+
             currentTime = data.currentTime;
             playing = data.playing;
             playbackRate = data.playbackRate;
             lastTimeUpdated = convertMillisecondstoSeconds(Date.now());
 
-            if (Math.floor(player.currentTime) != Math.floor(data.currentTime)) {
-                player.currentTime = data.currentTime;
-            }
-
+            player.currentTime = data.currentTime;
             player.playbackRate = data.playbackRate;
 
             let message = "" 
@@ -305,6 +310,8 @@
 
         
         var mouseupListener = function() {
+
+            let player = video[0];
             if (localSessionId != null) {
                 console.log("mouseupListener Triggered");
 
@@ -320,11 +327,32 @@
                     return;
                 }
 
-                let player = video[0];
+
                 setTimeout(() => {
-                    currentTime = player.currentTime + 0.0225 //compensate for delay of click 
-                    playing = !player.paused 
-                    playbackRate = player.playbackRate
+                    let new_currentTime = player.currentTime + 0.0225 //compensate for delay of click 
+                    let new_playing = !player.paused 
+                    let new_playbackRate = player.playbackRate
+
+                    if (playing == new_playing && playbackRate == new_playbackRate) {
+
+                        let expectedPlayingCurrentTime = currentTime + convertMillisecondstoSeconds(Date.now()) - lastTimeUpdated 
+
+                        if(playing && Math.floor(new_currentTime) == Math.floor(expectedPlayingCurrentTime)) {
+                            console.log("No change detected")
+                            return;
+                        }
+                        else if (!playing && Math.floor(new_currentTime) == Math.floor(currentTime)) {
+                            console.log("No change detected")
+                            return
+                        }
+
+                    } 
+
+                    currentTime = new_currentTime
+                    playing = new_playing
+                    playbackRate = new_playbackRate
+                    lastTimeUpdated = convertMillisecondstoSeconds(Date.now())
+
                     socket.emit('mouseupdate', { userId: localUserId, currentTime: currentTime, playing: playing, playbackRate: playbackRate, videoId: localVideoId, avatar: localAvatar }, function(data) {
 
                         if (data.errorMessage) {
@@ -374,6 +402,8 @@
         }
 
         var keyupListener = function() {
+
+            let player = video[0];
             if (localSessionId != null) {
                 console.log("keyupListener Triggered");
 
@@ -389,10 +419,10 @@
                     return;
                 }
 
-                let player = video[0];
                 currentTime = player.currentTime
                 playing = !player.paused 
                 playbackRate = player.playbackRate
+                lastTimeUpdated = convertMillisecondstoSeconds(Date.now())
                 socket.emit('update', { userId: localUserId, currentTime: currentTime, playing: playing, playbackRate: playbackRate, videoId: localVideoId, avatar: localAvatar }, function(data) {
 
                     if (data.errorMessage) {
