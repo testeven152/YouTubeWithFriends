@@ -69,6 +69,11 @@ $(function(){
         $('.connected').height(490);
         $('.settings').hide()
         $('#hide-log-btn').css({ top: '513px' })
+
+        $('#settings-icon').show()
+        $('#chat-icon').hide()
+
+
         chatcontainer.scrollTop = chatcontainer.scrollHeight
         
     }
@@ -83,7 +88,11 @@ $(function(){
         $('.container').hide()
         $('.settings').show()
         $('.connected').height(320)
-        $('#hide-log-btn').css({ top: '338px' })
+        $('#hide-log-btn').css({ top: '343px' })
+
+        $('#settings-icon').hide()
+        $('#chat-icon').show()
+
     }
 
     var showConnected = function(url, chatenabled = false) {
@@ -94,7 +103,13 @@ $(function(){
         $('.loading').hide();
         $('#show-log-btn').show();
         $('#share-url').val(url);
-        $('#current-username').text("Current Username: " + userAvatar);
+
+        if (userAvatar == null) {
+            $('#current-username').text("Username: ");
+        } else {
+            $('#current-username').text("Current Username: " + userAvatar);
+        }
+        
 
         if (chatenabled == true) {
             showChat();
@@ -157,6 +172,20 @@ $(function(){
 
         return true;
 
+    }
+
+    var isValidUsername =  function(username) {
+        // need to implement this...
+
+        invalidChars = "~/"
+
+        for (var i = 0; i < username.length; i++) {
+            if (username.charAt(i) in invalidChars) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     // ---------------------------------------------------------------------------------------------------------
@@ -228,12 +257,14 @@ $(function(){
     $('.change-username').on('submit', function(event) {
         event.preventDefault();
         let changeUsername = $('#change-username-input').val(); // need to check if valid username
-        if (changeUsername != '') {
+        if (changeUsername != '' && isValidUsername(changeUsername)) {
             sendMessage('change-username', { username: changeUsername }, function(response) {
                 $('#change-username-input').val('');
                 userAvatar = changeUsername;
-                $('#current-username').text("Current username: " + changeUsername);
+                $('#current-username').text("Current Username: " + changeUsername);
             })
+        } else {
+            $('#change-username-input').val('');
         }
     })
 

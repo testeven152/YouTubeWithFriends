@@ -282,22 +282,14 @@
 
         socket.on('update-message', function(data) {
             let message = ""
-            if (data.avatar == localAvatar) {
-                message = data.avatar + "(you) " + data.type + " the party."
-            } else {
-                message = data.avatar + " " + data.type + " the party."
-            }
+            message = data.avatar + " " + data.type + " the party."
             sendMessageToPopup("message", message);
             messages.push(message)
         })
 
         socket.on('chat-message', function(data) {
             let message = ""
-            if (data.avatar == localAvatar) {
-                message = data.avatar+ "(you): " + data.message;
-            } else {
-                message = data.avatar + ": " + data.message;
-            }
+            message = data.avatar + ": " + data.message;
             console.log(message)
             sendMessageToPopup("message", message);
             messages.push(message)
