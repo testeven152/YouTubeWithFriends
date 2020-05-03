@@ -177,13 +177,17 @@ $(function(){
     var isValidUsername =  function(username) {
         // need to implement this...
 
-        invalidChars = "~/"
-
-        for (var i = 0; i < username.length; i++) {
-            if (username.charAt(i) in invalidChars) {
-                return false;
-            }
+        if (username.trim() == '') {
+            return false;
         }
+
+        let invalidChars = "~/"
+
+        // for (var i = 0; i < username.length; i++) {
+        //     if (username.charAt(i) in invalidChars) {
+        //         return false;
+        //     }
+        // }
 
         return true;
     }

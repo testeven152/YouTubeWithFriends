@@ -270,7 +270,7 @@
 
         socket.on('update', function(data) {
             if (!sync(data, video)) {
-                console.log("Mouse Sync failed");
+                console.log("Key Sync failed");
             } 
         })
 
@@ -295,7 +295,7 @@
             messages.push(message)
         })
 
-        socket.on('updateAvatar-message', function(data) {
+        socket.on('updateAvatar-Message', function(data) {
             let message = data.oldAvatar + " changed name to " + data.newAvatar + "."
             console.log(message)
             sendMessageToPopup("message", message);
