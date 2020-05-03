@@ -65,16 +65,22 @@ $(function(){
 
     var showChat = function() {
         $('#show-log-btn').hide()
-        $('.log-console').show();
-        $('.connected').height(460);
+        $('.container').show();
+        $('.connected').height(490);
+        $('.settings').hide()
         chatcontainer.scrollTop = chatcontainer.scrollHeight
         
     }
 
-    var hideChat = function() {
+    var hideLogConsole = function() {
         $('#show-log-btn').show();
         $('.log-console').hide();
         $('.connected').height(156);
+    }
+
+    var showSettings = function() {
+        $('.container').hide()
+        $('.settings').show()
     }
 
     var showConnected = function(url, chatenabled = false) {
@@ -85,11 +91,12 @@ $(function(){
         $('.loading').hide();
         $('#show-log-btn').show();
         $('#share-url').val(url);
+        $('#current-username').text("Current Username: " + userAvatar);
 
         if (chatenabled == true) {
             showChat();
         } else {
-            hideChat();
+            hideLogConsole();
         }
     };
 
@@ -194,16 +201,17 @@ $(function(){
     });
 
     $('#show-log-btn').click(function() {
+        $('.log-console').show();
         showChat();
         sendMessage('open-chat', { setChatEnabled: true }, function() {})
     })
 
     $('#hide-log-btn').click(function() {
-        hideChat();
+        hideLogConsole();
         sendMessage('open-chat', { setChatEnabled: false }, function() {})
     })
 
-    $('form').on('submit', function(event) {
+    $('.send-message').on('submit', function(event) {
         event.preventDefault();
         let chatMessage = $('#message-input').val();
         if (chatMessage != '') {
@@ -213,6 +221,26 @@ $(function(){
         }
 
       });
+
+    $('.change-username').on('submit', function(event) {
+        event.preventDefault();
+        let changeUsername = $('#change-username-input').val();
+        if (changeUsername != '') {
+            sendMessage('change-username', { username: changeUsername }, function(response) {
+                $('#change-username-input').val('');
+                userAvatar = changeUsername;
+                $('#current-username').text("Current username: " + changeUsername);
+            })
+        }
+    })
+
+    $('#chat-icon').click(function() {
+        showChat();
+    })
+
+    $('#settings-icon').click(function() {
+        showSettings();
+    })
 
 
     // $('#play-pause-button').click(function() {

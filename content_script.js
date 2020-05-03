@@ -302,6 +302,13 @@
             sendMessageToPopup("message", message);
             messages.push(message)
         })
+
+        socket.on('updateAvatar-message', function(data) {
+            let message = data.oldAvatar + " changed name to " + data.newAvatar + "."
+            console.log(message)
+            sendMessageToPopup("message", message);
+            messages.push(message)
+        })
     
         // ------------------------------------------------------------------------------------------------------------------------------------
 
@@ -626,6 +633,14 @@
                 case 'open-chat':
                     console.log('Request type: ' + request.type);
                     chatEnabled = request.data.setChatEnabled;
+                    return true;
+                case 'change-username':
+                    console.log('Request type: ' + request.type);
+                    localAvatar = request.data.username;
+                    socket.emit('updateAvatar', { avatar: localAvatar }, function() {
+                        console.log('User updated avatar: %s', localAvatar)
+                    })
+                    sendResponse({});
                     return true;
                 default:
                     console.log('Unknown request type: ' + request.type);
