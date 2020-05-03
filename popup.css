@@ -183,7 +183,8 @@ h2 {
 }
 
 hr.solid {
-  border-top: 3px solid #bbb;
+  border-top: 3px solid #C7C7C7;
+  border-radius: 10px;
   position: absolute;
   top: 243px;
   left: 15px;
@@ -192,7 +193,7 @@ hr.solid {
 
 #current-username {
   position: absolute;
-  top: 247px;
+  top: 250px;
   left: 16px;
 }
 

@@ -68,6 +68,7 @@ $(function(){
         $('.container').show();
         $('.connected').height(490);
         $('.settings').hide()
+        $('#hide-log-btn').css({ top: '513px' })
         chatcontainer.scrollTop = chatcontainer.scrollHeight
         
     }
@@ -81,6 +82,8 @@ $(function(){
     var showSettings = function() {
         $('.container').hide()
         $('.settings').show()
+        $('.connected').height(320)
+        $('#hide-log-btn').css({ top: '338px' })
     }
 
     var showConnected = function(url, chatenabled = false) {
@@ -224,7 +227,7 @@ $(function(){
 
     $('.change-username').on('submit', function(event) {
         event.preventDefault();
-        let changeUsername = $('#change-username-input').val();
+        let changeUsername = $('#change-username-input').val(); // need to check if valid username
         if (changeUsername != '') {
             sendMessage('change-username', { username: changeUsername }, function(response) {
                 $('#change-username-input').val('');
