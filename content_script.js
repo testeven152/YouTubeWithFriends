@@ -266,6 +266,7 @@
         socket.on('avatar', function(data) {
             console.log("User avatar retrieved: %s", data);
             localAvatar = data;
+            sendMessageToPopup('avatar', localAvatar)
         })
 
         socket.on('update', function(data) {
@@ -386,7 +387,7 @@
                                 isPlaying = "paused"
                             }
         
-                            let message = localAvatar + "(you) " + isPlaying + " video at " + convertSecondsToMinutes(currentTime) + "."
+                            let message = localAvatar + " " + isPlaying + " video at " + convertSecondsToMinutes(currentTime) + "."
         
                             sendMessageToPopup(message)
                             console.log(message)
@@ -457,7 +458,7 @@
                             isPlaying = "paused"
                         }
     
-                        let message = localAvatar + "(you) " + isPlaying + " video at " + convertSecondsToMinutes(currentTime) + "."
+                        let message = localAvatar + " " + isPlaying + " video at " + convertSecondsToMinutes(currentTime) + "."
     
                         sendMessageToPopup(message)
                         console.log(message)

@@ -309,6 +309,11 @@ $(function(){
             message.appendTo('.chat-container')
             chatcontainer.scrollTop = chatcontainer.scrollHeight
         }
+        else if (request.type == "avatar") {
+            console.log("Retrieved avatar: %s", request.data)
+            userAvatar = request.data
+            $('#current-username').text("Current Username: " + request.data);
+        }
     })
 
     showDisconnected();
