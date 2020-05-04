@@ -282,9 +282,10 @@ $(function(){
         let changeUsername = $('#change-username-input').val(); // need to check if valid username
         if (changeUsername != '' && isValidUsername(changeUsername)) {
             sendMessage('change-username', { username: changeUsername }, function(response) {
-                $('#change-username-input').val('');
                 setCurrentUsername(changeUsername);
                 userAvatar = changeUsername;
+                $('#change-username-input').val('');
+                chrome.storage.sync.set({avatar: changeUsername}, function() { console.log("Avatar saved to sync storage") })
             })
         } else {
             $('#change-username-input').val('');

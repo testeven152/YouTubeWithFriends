@@ -654,6 +654,16 @@
 
         // ----------------------------------- Main Logic ----------------------------------------------------------------------
 
+        chrome.storage.sync.get(['avatar'], function(result) {
+            if (result.avatar) {
+                socket.emit('updateAvatar', { avatar: result.avatar }, function() {
+                    console.log('Sync Avatar %s', result.avatar)
+                    localAvatar = result.avatar
+                    sendMessageToPopup("avatar", result.avatar)
+                })
+            }
+        })
+
         sendMessageToPopup("test", "Testing: popup.js messageListener working...");
 
         prepareVideoPlayer();
