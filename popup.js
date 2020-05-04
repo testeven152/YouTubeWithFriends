@@ -9,6 +9,7 @@ $(function(){
     var ywfid = null;
     var hasywfsession = null;
     var userAvatar = null;
+    var masterUser = null;
 
     const chatcontainer = document.getElementById('chat')
 
@@ -87,8 +88,8 @@ $(function(){
     var showSettings = function() {
         $('.container').hide()
         $('.settings').show()
-        $('.connected').height(320)
-        $('#hide-log-btn').css({ top: '343px' })
+        $('.connected').height(340)
+        $('#hide-log-btn').css({ top: '363px' })
 
         $('#settings-icon').hide()
         $('#chat-icon').show()
@@ -103,12 +104,6 @@ $(function(){
         $('.loading').hide();
         $('#show-log-btn').show();
         $('#share-url').val(url);
-
-        if (userAvatar == null) {
-            $('#current-username').text("Username: ");
-        } else {
-            $('#current-username').text("Current Username: " + userAvatar);
-        }
         
 
         if (chatenabled == true) {
@@ -174,6 +169,28 @@ $(function(){
 
     }
 
+    var setMasterUser = function(masterUser = null) {
+
+        if (masterUser == null) {
+            $('#master-user').text("Master Control: No")
+        }
+        else {
+            $('#master-user').text("Master Control: " + masterUser)
+        }
+
+    }
+
+    var setCurrentUsername = function(username = null) {
+
+        if (username == null) {
+            $('#current-username').text("Username :")
+        }
+        else {
+            $('#current-username').text("Current Username: " + username);
+        }
+
+    }
+
     var isValidUsername =  function(username) {
         // need to implement this...
 
@@ -206,6 +223,8 @@ $(function(){
             } else {
                 shareurl = "https://www.youtube.com/watch?v=" + videoId + "&ywf=" + response.sessionId
                 showConnected(shareurl)
+                setMasterUser(response.masterUser)
+                setCurrentUsername(response.avatar)
             }
         });
     });
@@ -264,8 +283,8 @@ $(function(){
         if (changeUsername != '' && isValidUsername(changeUsername)) {
             sendMessage('change-username', { username: changeUsername }, function(response) {
                 $('#change-username-input').val('');
+                setCurrentUsername(changeUsername);
                 userAvatar = changeUsername;
-                $('#current-username').text("Current Username: " + changeUsername);
             })
         } else {
             $('#change-username-input').val('');
@@ -312,7 +331,12 @@ $(function(){
         else if (request.type == "avatar") {
             console.log("Retrieved avatar: %s", request.data)
             userAvatar = request.data
-            $('#current-username').text("Current Username: " + request.data);
+            setCurrentUsername(request.data)
+        }
+        else if (request.type == "new-master") {
+            console.log("New Master User: %s", request.data)
+            masterUser = request.data
+            setMasterUser(request.data)
         }
     })
 
@@ -329,6 +353,8 @@ $(function(){
             userAvatar = response.avatar;
             appendMessagesToConsole(response.messages);
             showConnected(shareurl, response.chatEnabled);
+            setMasterUser(response.masterUser)
+            setCurrentUsername(response.avatar)
         }
         // if content_script doesnt have an existing session and link has ywfid, try to join session
         else if (hasywfsession && !response.sessionId) { 
@@ -342,6 +368,8 @@ $(function(){
                     userAvatar = response.avatar;
                     showConnected(shareurl, false);
                     appendMessagesToConsole(response.messages)
+                    setMasterUser(response.masterUser)
+                    setCurrentUsername(response.avatar)
                 } 
             })
         } 

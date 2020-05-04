@@ -205,15 +205,21 @@ hr.solid {
   outline: none;
 }
 
+#master-user {
+  position: absolute;
+  top: 255px;
+  left: 16px;
+}
+
 #current-username {
   position: absolute;
-  top: 251px;
+  top: 285px;
   left: 16px;
 }
 
 .change-username {
   position: absolute;
-  top: 293px;
+  top: 330px;
   left: 15px;
 
   font-family: 'Roboto Mono';

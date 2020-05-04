@@ -36,6 +36,7 @@
         var localVideoId = null;
         var windowURL = window.location.href;
         var chatEnabled = false;
+        var masterUser = null;
 
 
         // ------------- video properties -----------------
@@ -301,6 +302,10 @@
             console.log(message)
             sendMessageToPopup("message", message);
             messages.push(message)
+
+            if (data.isMasterUser) {
+                sendMessageToPopup("new-master", data.newAvatar)
+            }
         })
     
         // ------------------------------------------------------------------------------------------------------------------------------------
@@ -515,7 +520,7 @@
                     //     sendResponse({ sessionId: localSessionId }); 
                     // }
 
-                    sendResponse({ sessionId: localSessionId, messages: messages, avatar: localAvatar, chatEnabled: chatEnabled });
+                    sendResponse({ sessionId: localSessionId, messages: messages, avatar: localAvatar, masterUser: masterUser, chatEnabled: chatEnabled });
 
                     return;
                 case 'create-session':
@@ -534,8 +539,9 @@
                             localSessionId = data.sessionId;
                             localVideoId = request.data.videoId;
                             windowURL = window.location.href;
+                            masterUser = data.masterUser;
                             chatEnabled = false;
-                            sendResponse({ sessionId: localSessionId });
+                            sendResponse({ sessionId: localSessionId, avatar: data.avatar, masterUser: data.masterUser });
                         }
                     })
                     return true;
@@ -583,7 +589,8 @@
                             localVideoId = request.data.videoId;
                             localSessionId = data.sessionId;
                             windowURL = window.location.href;
-                            sendResponse({ sessionId: data.sessionId });
+                            masterUser = data.masterUser;
+                            sendResponse({ sessionId: data.sessionId, avatar: data.avatar, masterUser: data.masterUser });
 
                             syncWithoutMessage(videoDetails, video);
                             console.log("Joined Session %s successful.", localSessionId);
