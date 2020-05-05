@@ -269,7 +269,7 @@ hr.solid {
     font-weight: normal;
   }
   .chat-container .message {
-    border-top: solid 1px #ccc;
+    border-top: solid 1px #EE0000;
     padding: 1px;
     text-align: left;
   }
@@ -282,7 +282,7 @@ hr.solid {
     width: 100%;
 
     border: none;
-    border-top: solid 1px #ccc;
+    border-top: solid 1px #EE0000;
     font-size: 12px;
     padding: 7px;
 

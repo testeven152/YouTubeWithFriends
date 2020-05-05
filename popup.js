@@ -71,7 +71,9 @@ $(function(){
         $('.settings').hide()
         $('#hide-log-btn').css({ top: '513px' })
 
+        $('#settings-icon-clicked').hide()
         $('#settings-icon').show()
+        $('#chat-icon-clicked').show()
         $('#chat-icon').hide()
 
 
@@ -89,9 +91,10 @@ $(function(){
         $('.container').hide()
         $('.settings').show()
         $('.connected').height(340)
-        $('#hide-log-btn').css({ top: '363px' })
-
+        $('#hide-log-btn').css({ top: '365px' })
+        $('#settings-icon-clicked').show()
         $('#settings-icon').hide()
+        $('#chat-icon-clicked').hide()
         $('#chat-icon').show()
 
     }
@@ -171,7 +174,7 @@ $(function(){
 
     var setMasterUser = function(masterUser = null) {
 
-        if (masterUser == null) {
+        if (masterUser == null || masterUser == "") {
             $('#master-user').text("Master Control: No")
         }
         else {
