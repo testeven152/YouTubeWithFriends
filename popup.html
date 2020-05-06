@@ -29,7 +29,7 @@
             <div class="disconnected">
                 <p id="create-help">Click below to start watching videos together with your friends!</p>
                 <label id="control-checkbox"><input type="checkbox" id="control-lock"/> Only I have control</label>
-                <button id="create-session" type="button">START WATCHING</button>
+                <button id="create-session" type="button">Start Watching</button>
             </div>
             <div class="connected">
                 <p id="link-help">Send the link below to friends. Make sure everyone joining clicks on the red YouTube With Friends logo after clicking on the link.</p>
@@ -37,13 +37,16 @@
                 <a id="copy-btn-clicked"><img src="/images/CopyButton_Clicked.svg"></a>
                 <a href="#" id="copy-btn"><img src="/images/CopyButton_Unclicked.svg"></a>
                 <p>
-                    <button id="leave-session" type="button">STOP WATCHING</button>
+                    <button id="leave-session" type="button">Stop Watching</button>
                 </p>
                 <a id="show-log-btn"><img id="more-arrow" src="/images/More_Arrow.svg"></a>
                 <div class="log-console">
                     <img id="chat-icon-clicked" src="/images/chat-icon-clicked.svg">
                     <img id="chat-icon" src="/images/chat-icon.svg">
-                    <img id="separator" src="/images/separator.svg">
+                    <!-- <img id="separator1" src="/images/separator.svg">
+                    <img id="queue-icon-clicked" src="/images/queue-icon-clicked.svg">
+                    <img id="queue-icon" src="/images/queue-icon.svg"> -->
+                    <img id="separator2" src="/images/separator.svg">
                     <img id="settings-icon-clicked" src="/images/settings-icon-clicked.svg">
                     <img id="settings-icon" src="/images/settings-icon.svg">
                     <div class="container">
@@ -52,7 +55,7 @@
                                 <p>Welcome to YouTube With Friends!</p>
                             </div>
                             <div class="message">
-                                <p>How to use: Send this link to your friends. To join, click on the red YouTube With Friends logo after opening the link. After everyone has joined, feel free to use the YouTube video player normally to sync up video playback!</p>
+                                <p>How to use: Send the link above to your friends. To join, click on the red YouTube With Friends logo after opening the link. After everyone has joined, feel free to use the YouTube video player normally to sync up video playback!</p>
                             </div>
                             <div class="message">
                                 <p>Need more support or have suggestions? Email @ ywf56123@gmail.com</p>
@@ -62,14 +65,23 @@
                             <input id="message-input" type="text" maxlength="35" placeholder="Type something...">
                             <button type="submit">Send</button>
                         </form>
-                      </div>
+                    </div>
+                    <!-- <div class="queue">
+                        <div class="queue-container">
+
+                        </div>
+                        <form class="enter-video" autocomplete="off">
+                            <input id="video-input" type="text" placeholder="Enter video url here...">
+                            <button type="submit">Send</button>
+                        </form>
+                    </div> -->
                     <div class="settings">
                         <p id="settings-head">Settings:</p>
                         <hr class="solid">
                         <p id="master-user">Master Control:</p>
                         <p id="current-username"></p>
                         <form class="change-username" autocomplete="off">
-                            <input id="change-username-input" type="text" maxlength="30" placeholder="Enter username...">
+                            <input id="change-username-input" type="text" maxlength="30" placeholder="Enter username">
                             <button type="submit">Send</button>
                         </form>
                     </div>

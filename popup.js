@@ -63,39 +63,62 @@ $(function(){
         $('#error-msg').html(err);
     };
 
-
-    var showChat = function() {
-        $('#show-log-btn').hide()
-        $('.container').show();
-        $('.connected').height(490);
-        $('.settings').hide()
-        $('#hide-log-btn').css({ top: '513px' })
-
-        $('#settings-icon-clicked').hide()
-        $('#settings-icon').show()
-        $('#chat-icon-clicked').show()
-        $('#chat-icon').hide()
-
-
-        chatcontainer.scrollTop = chatcontainer.scrollHeight
-        
-    }
-
     var hideLogConsole = function() {
         $('#show-log-btn').show();
         $('.log-console').hide();
         $('.connected').height(156);
     }
 
+    var showChat = function() {
+        $('#show-log-btn').hide()
+        $('.container').show();
+        $('.connected').height(490);
+        $('.settings').hide()
+        $('.queue').hide()
+        $('#hide-log-btn').css({ top: '513px' })
+
+        $('#settings-icon-clicked').hide()
+        $('#settings-icon').show()
+        $('#chat-icon-clicked').show()
+        $('#chat-icon').hide()
+        // $('#queue-icon-clicked').hide()
+        // $('#queue-icon').show()
+
+
+        chatcontainer.scrollTop = chatcontainer.scrollHeight
+        
+    }
+
+    var showQueue = function() {
+        $('#show-log-btn').hide()
+        $('.connected').height(490);
+        $('.container').hide()
+        $('.settings').hide()
+        $('.queue').show()
+        $('#hide-log-btn').css({ top: '365px' })
+        $('#settings-icon-clicked').hide()
+        $('#settings-icon').show()
+        $('#chat-icon-clicked').hide()
+        $('#chat-icon').show()
+        $('#queue-icon-clicked').show()
+        $('#queue-icon').hide()
+
+        $('#hide-log-btn').css({ top: '513px' })
+
+    }
+
     var showSettings = function() {
         $('.container').hide()
         $('.settings').show()
-        $('.connected').height(340)
-        $('#hide-log-btn').css({ top: '365px' })
+        $('.queue').hide()
+        $('.connected').height(345)
+        $('#hide-log-btn').css({ top: '368px' })
         $('#settings-icon-clicked').show()
         $('#settings-icon').hide()
         $('#chat-icon-clicked').hide()
         $('#chat-icon').show()
+        // $('#queue-icon-clicked').hide()
+        // $('#queue-icon').show()
 
     }
 
@@ -302,6 +325,10 @@ $(function(){
     $('#settings-icon').click(function() {
         showSettings();
     })
+
+    // $('#queue-icon').click(function() {
+    //     showQueue();
+    // })
 
 
     // $('#play-pause-button').click(function() {

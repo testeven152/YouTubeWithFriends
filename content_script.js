@@ -320,18 +320,6 @@
             if (localSessionId != null) {
                 console.log("mouseupListener Triggered");
 
-                if (checkForUrlChange() == false) {
-                    socket.emit('leaveSession', {}, function() {
-                        localSessionId = null;
-                        windowURL = null;
-                        messages = [];
-                        chatEnabled = false;
-                        console.log("URL changed. Leaving session...");
-                    })
-
-                    return;
-                }
-
 
                 setTimeout(() => {
                     let new_currentTime = player.currentTime + 0.0225 //compensate for delay of click 
@@ -412,18 +400,6 @@
             if (localSessionId != null) {
                 console.log("keyupListener Triggered");
 
-                if (checkForUrlChange() == false) {
-                    socket.emit('leaveSession', {}, function() {
-                        localSessionId = null;
-                        windowURL = null;
-                        messages = [];
-                        chatEnabled = false;
-                        console.log("URL changed. Leaving session...");
-                    })
-
-                    return;
-                }
-
                 currentTime = player.currentTime
                 playing = !player.paused 
                 playbackRate = player.playbackRate
@@ -484,6 +460,19 @@
             // jQuery("#player").mouseup(playerListener); 
             jQuery(window).mouseup(mouseupListener); // perhaps need to change this to clicks on the player
             jQuery(window).keyup(keyupListener);
+            window.addEventListener('yt-page-data-updated', function () {
+
+                if (localSessionId != null && getVideoIdFromURL(window.location.href) != localVideoId) {
+                    socket.emit('leaveSession', {}, function() {
+                        localSessionId = null;
+                        windowURL = null;
+                        messages = [];
+                        chatEnabled = false;
+                        console.log("URL changed. Leaving session...");
+                    })
+                }
+
+            });
             console.log("Video Player prepared.")
         };
 

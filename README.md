@@ -1,6 +1,6 @@
 # Youtube With Friends
 
-Youtube With Friends is a Chrome Extension that allows friends to watch YouTube videos together online by synchronizing YouTube video playback.
+Youtube With Friends is a Chrome Extension that allows friends to watch YouTube videos together online by synchronizing YouTube video playback. The source for the server can be found [here](https://github.com/testeven152/YouTubeWithFriendsServer)
 
 ## How to use:
 
