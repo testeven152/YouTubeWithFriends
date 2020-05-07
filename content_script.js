@@ -640,8 +640,8 @@
                     return true;
                 case 'change-username':
                     console.log('Request type: ' + request.type);
-                    localAvatar = request.data.username;
-                    socket.emit('updateAvatar', { avatar: localAvatar }, function() {
+                    socket.emit('updateAvatar', { avatar: request.data.username }, function(data) {
+                        localAvatar = data.avatar
                         console.log('User updated avatar: %s', localAvatar)
                     })
                     sendResponse({});
@@ -660,10 +660,10 @@
 
         chrome.storage.sync.get(['avatar'], function(result) {
             if (result.avatar) {
-                socket.emit('updateAvatar', { avatar: result.avatar }, function() {
-                    console.log('Sync Avatar %s', result.avatar)
-                    localAvatar = result.avatar
-                    sendMessageToPopup("avatar", result.avatar)
+                socket.emit('updateAvatar', { avatar: result.avatar }, function(data) {
+                    console.log('Sync Avatar %s', data.avatar)
+                    localAvatar = data.avatar
+                    sendMessageToPopup("avatar", data.avatar)
                 })
             }
         })
