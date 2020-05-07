@@ -37,6 +37,7 @@
         var windowURL = window.location.href;
         var chatEnabled = false;
         var masterUser = null;
+        var sessionAvatars = [];
 
 
         // ------------- video properties -----------------
@@ -82,6 +83,14 @@
             }
 
             return minutes + ":" + seconds
+        }
+
+        var resetVariables = function() {
+            localSessionId = null;
+            chatEnabled = false;
+            windowURL = null;
+            messages = [];
+            sessionAvatars = [];
         }
 
     
@@ -287,6 +296,19 @@
             message = data.avatar + " " + data.type + " the party."
             sendMessageToPopup("message", message);
             messages.push(message)
+
+            // adds and deletes avatars from sessionAvatars list
+            if (data.type == "joined") {
+                sessionAvatars.push(data.avatar)
+            } 
+            else if (data.type == "left") {
+                for (var i = 0; i < sessionAvatars.length; i++) {
+                    if (sessionAvatars[i] == data.avatar) {
+                        sessionAvatars.splice(i, 1);
+                        break;
+                    }
+                }
+            }
         })
 
         socket.on('chat-message', function(data) {
@@ -305,6 +327,15 @@
 
             if (data.isMasterUser) {
                 sendMessageToPopup("new-master", data.newAvatar)
+            }
+
+            // removes the old avatar and addes new avatar
+            for (var i = 0; i < sessionAvatars.length; i++) {
+                if (sessionAvatars[i] == data.oldAvatar) {
+                    sessionAvatars.splice(i, 1);
+                    sessionAvatars.push(data.newAvatar)
+                    break;
+                }
             }
         })
     
@@ -350,10 +381,7 @@
 
                         if (data.errorMessage) {
                             socket.emit('leaveSession', {}, function(data) {
-                                localSessionId = null;
-                                windowURL = null;
-                                messages = [];
-                                chatEnabled = false;
+                                resetVariables();
                                 console.log("Error: %s", data.errorMessage);
                             })
     
@@ -408,10 +436,7 @@
 
                     if (data.errorMessage) {
                         socket.emit('leaveSession', {}, function() {
-                            localSessionId = null;
-                            windowURL = null;
-                            messages = [];
-                            chatEnabled = false;
+                            resetVariables();
                             console.log("Error: %s", data.errorMessage);
                         })
 
@@ -464,10 +489,7 @@
 
                 if (localSessionId != null && getVideoIdFromURL(window.location.href) != localVideoId) {
                     socket.emit('leaveSession', {}, function() {
-                        localSessionId = null;
-                        windowURL = null;
-                        messages = [];
-                        chatEnabled = false;
+                        resetVariables();
                         console.log("URL changed. Leaving session...");
                     })
                 }
@@ -537,10 +559,7 @@
                 case 'leave-session':
                     console.log('Request type: ' + request.type);
                     socket.emit('leaveSession', {}, function() {
-                        localSessionId = null;
-                        windowURL = null;
-                        messages = [];
-                        chatEnabled = false;
+                        resetVariables();
                         sendResponse({});
                     })
                     return true;
@@ -549,8 +568,7 @@
                     // console.log("Local User %s attempting to join session %s...", localUserId, request.data.sessionId); // userId isn't being recieved immediately upon opening the chrome extension
                     socket.emit('joinSession', { sessionId: request.data.sessionId }, function(data) {
                         if (data.errorMessage) {
-                            localSessionId = null;
-                            windowURL = null;
+                            resetVariables();
                             // let tempVideoId = getVideoIdFromURL(window.location.url)
                             // window.location.url = "https://www.youtube.com/watch?v=" + tempVideoId;
                             sendResponse({ errorMessage: data.errorMessage })
@@ -558,8 +576,7 @@
                         } 
                         else if (data.videoId != request.data.videoId) {
                             socket.emit('leaveSession', {}, function() {
-                                localSessionId = null;
-                                windowURL = null;
+                                resetVariables();
                                 // let tempVideoId = getVideoIdFromURL(window.location.url)
                                 // window.location.url = "https://www.youtube.com/watch?v=" + tempVideoId;
                                 sendResponse({ errorMessage: "Invalid Video IDs" })
@@ -579,6 +596,7 @@
                             localSessionId = data.sessionId;
                             windowURL = window.location.href;
                             masterUser = data.masterUser;
+                            sessionAvatars = data.avatars;
                             sendResponse({ sessionId: data.sessionId, avatar: data.avatar, masterUser: data.masterUser });
 
                             syncWithoutMessage(videoDetails, video);
@@ -606,10 +624,7 @@
                     socket.emit('chatMessage', { message: request.data.message, avatar: localAvatar }, function(data) {
                         if (data.errorMessage) {
                             socket.emit('leaveSession', {}, function() {
-                                localSessionId = null;
-                                windowURL = null;
-                                messages = [];
-                                chatEnabled = false;
+                                resetVariables();
                                 console.log("Error: " + data.errorMessage)
                                 sendResponse({ errorMessage: data.errorMessage })
                             })
