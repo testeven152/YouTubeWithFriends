@@ -152,53 +152,55 @@ h2 {
 #chat-icon-clicked {
   position: absolute;
   top: 185px;
-  left: 102px;
+  left: 95px;
 }
 
 #chat-icon {
   position: absolute;
   top: 185px;
-  left: 102px;
+  left: 95px;
 }
 
-/* #separator1 {
+#separator1 {
   position: absolute;
   top: 183px;
-  left: 129px;
+  left: 125px;
+  height: 16px;
+  width: 4px;
 }
 
-#queue-icon-clicked {
+#party-icon-clicked {
   position: absolute;
   top: 186px;
-  left: 143px;
-  width: 14px;
+  left: 139.5px;
+  width: 21px;
 }
 
-#queue-icon {
+#party-icon {
   position: absolute;
   top: 186px;
-  left: 143px;
-  width: 14px;
-} */
+  left: 139.5px;
+  width: 21px;
+}
 
 #separator2 {
   position: absolute;
   top: 183px;
-  left: 148px;
+  left: 173px;
   height: 16px;
   width: 4px;
 }
 
 #settings-icon-clicked {
   position: absolute;
-  top: 173px;
-  left: 171px;
+  top: 174px;
+  left: 178px;
 }
 
 #settings-icon {
   position: absolute;
-  top: 173px;
-  left: 171px;
+  top: 174px;
+  left: 178px;
 }
 
 .settings {
@@ -258,6 +260,42 @@ hr.solid {
 
 .change-username button {
   display: none;
+}
+
+.party-container {
+  position: absolute;
+  top: 213px;
+  width: 265px;
+  height: 260px;
+  left: 16px;
+  border: solid 1px #EB3323;
+  border-radius: 5px;
+  overflow: hidden;
+  font-family: 'Roboto Mono'
+}
+
+.party-header {
+  text-align: left;
+  font-size: 10px;
+  border-bottom: solid 1px #EB3323;
+}
+
+.party-header p {
+  margin-left: 1em;
+}
+
+.party-container p {
+  margin-left: 1em;
+  font-size: 10px;
+}
+
+#party-count {
+  position: absolute;
+  top: 473px;
+  left: 18px;
+
+  font-family: 'Roboto Mono';
+  font-size: 10px;
 }
 
 .container {

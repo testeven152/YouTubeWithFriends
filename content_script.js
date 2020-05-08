@@ -298,7 +298,7 @@
             messages.push(message)
 
             // adds and deletes avatars from sessionAvatars list
-            if (data.type == "joined") {
+            if (data.type == "joined" || data.type == "created") {
                 sessionAvatars.push(data.avatar)
             } 
             else if (data.type == "left") {
@@ -309,6 +309,8 @@
                     }
                 }
             }
+
+            sendMessageToPopup("new-avatar", { type: data.type, avatar: data.avatar })
         })
 
         socket.on('chat-message', function(data) {
@@ -337,6 +339,8 @@
                     break;
                 }
             }
+
+            sendMessageToPopup("avatar-update", { oldAvatar: data.oldAvatar, newAvatar: data.newAvatar })
         })
     
         // ------------------------------------------------------------------------------------------------------------------------------------
@@ -351,6 +355,14 @@
             if (localSessionId != null) {
                 console.log("mouseupListener Triggered");
 
+                if (checkForUrlChange() == false) {
+                    socket.emit('leaveSession', {}, function() {
+                        resetVariables();
+                        console.log("URL changed. Leaving session...");
+                    })
+
+                    return;
+                }
 
                 setTimeout(() => {
                     let new_currentTime = player.currentTime + 0.0225 //compensate for delay of click 
@@ -428,6 +440,16 @@
             if (localSessionId != null) {
                 console.log("keyupListener Triggered");
 
+
+                if (checkForUrlChange() == false) {
+                    socket.emit('leaveSession', {}, function() {
+                        resetVariables();
+                        console.log("URL changed. Leaving session...");
+                    })
+
+                    return;
+                }
+
                 currentTime = player.currentTime
                 playing = !player.paused 
                 playbackRate = player.playbackRate
@@ -487,7 +509,7 @@
             jQuery(window).keyup(keyupListener);
             window.addEventListener('yt-page-data-updated', function () {
 
-                if (localSessionId != null && getVideoIdFromURL(window.location.href) != localVideoId) {
+                if (localSessionId != null && checkForUrlChange()) {
                     socket.emit('leaveSession', {}, function() {
                         resetVariables();
                         console.log("URL changed. Leaving session...");
@@ -531,7 +553,7 @@
                     //     sendResponse({ sessionId: localSessionId }); 
                     // }
 
-                    sendResponse({ sessionId: localSessionId, messages: messages, avatar: localAvatar, masterUser: masterUser, chatEnabled: chatEnabled });
+                    sendResponse({ sessionId: localSessionId, messages: messages, avatars: sessionAvatars, avatar: localAvatar, masterUser: masterUser, chatEnabled: chatEnabled });
 
                     return;
                 case 'create-session':

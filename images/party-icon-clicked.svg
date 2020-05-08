@@ -1,24 +1,24 @@
-<svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+<svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g filter="url(#filter0_b)">
-<path d="M14.28 13.7308C14.28 17.7455 11.0833 21 7.14002 21C3.19671 21 2.06848e-05 17.7455 2.06848e-05 13.7308C2.06848e-05 9.71609 3.19671 6.46155 7.14002 6.46155C11.0833 6.46155 14.28 9.71609 14.28 13.7308Z" fill="white"/>
-<path d="M13.28 13.7308C13.28 17.2102 10.5142 20 7.14002 20C3.76583 20 1.00002 17.2102 1.00002 13.7308C1.00002 10.2514 3.76583 7.46155 7.14002 7.46155C10.5142 7.46155 13.28 10.2514 13.28 13.7308Z" stroke="#A82317" stroke-width="2"/>
+<path d="M17 16.3462C17 21.1256 13.1944 25 8.50002 25C3.8056 25 2.46247e-05 21.1256 2.46247e-05 16.3462C2.46247e-05 11.5668 3.8056 7.69232 8.50002 7.69232C13.1944 7.69232 17 11.5668 17 16.3462Z" fill="white"/>
+<path d="M16 16.3462C16 20.5903 12.6253 24 8.50002 24C4.37472 24 1.00002 20.5903 1.00002 16.3462C1.00002 12.1021 4.37472 8.69232 8.50002 8.69232C12.6253 8.69232 16 12.1021 16 16.3462Z" stroke="#A82317" stroke-width="2"/>
 </g>
-<path d="M10.1066 4.03846C10.1066 5.73354 8.76159 7.07692 7.13998 7.07692C5.51837 7.07692 4.17331 5.73354 4.17331 4.03846C4.17331 2.34338 5.51837 1 7.13998 1C8.76159 1 10.1066 2.34338 10.1066 4.03846Z" fill="white" stroke="#A82317" stroke-width="2"/>
-<rect y="12.9231" width="14.28" height="8.07692" fill="white"/>
+<path d="M12.2222 4.80769C12.2222 6.92761 10.5389 8.61538 8.49999 8.61538C6.4611 8.61538 4.77777 6.92761 4.77777 4.80769C4.77777 2.68778 6.4611 1 8.49999 1C10.5389 1 12.2222 2.68778 12.2222 4.80769Z" fill="white" stroke="#A82317" stroke-width="2"/>
+<rect y="15.3846" width="17" height="9.61538" fill="white"/>
 <g filter="url(#filter1_b)">
-<path d="M21 13.7308C21 17.7455 17.8033 21 13.86 21C9.91671 21 6.72002 17.7455 6.72002 13.7308C6.72002 9.71609 9.91671 6.46155 13.86 6.46155C17.8033 6.46155 21 9.71609 21 13.7308Z" fill="white"/>
-<path d="M20 13.7308C20 17.2102 17.2342 20 13.86 20C10.4858 20 7.72002 17.2102 7.72002 13.7308C7.72002 10.2514 10.4858 7.46155 13.86 7.46155C17.2342 7.46155 20 10.2514 20 13.7308Z" stroke="#EB3323" stroke-width="2"/>
+<path d="M25 16.3462C25 21.1256 21.1944 25 16.5 25C11.8056 25 8.00002 21.1256 8.00002 16.3462C8.00002 11.5668 11.8056 7.69232 16.5 7.69232C21.1944 7.69232 25 11.5668 25 16.3462Z" fill="white"/>
+<path d="M24 16.3462C24 20.5903 20.6253 24 16.5 24C12.3747 24 9.00002 20.5903 9.00002 16.3462C9.00002 12.1021 12.3747 8.69232 16.5 8.69232C20.6253 8.69232 24 12.1021 24 16.3462Z" stroke="#EB3323" stroke-width="2"/>
 </g>
-<rect x="6.72" y="12.9231" width="14.28" height="8.07692" fill="white"/>
-<path d="M16.8266 4.03846C16.8266 5.73354 15.4816 7.07692 13.86 7.07692C12.2384 7.07692 10.8933 5.73354 10.8933 4.03846C10.8933 2.34338 12.2384 1 13.86 1C15.4816 1 16.8266 2.34338 16.8266 4.03846Z" fill="white" stroke="#EB3323" stroke-width="2"/>
+<rect x="8" y="15.3846" width="17" height="9.61538" fill="white"/>
+<path d="M20.2222 4.80769C20.2222 6.92761 18.5389 8.61538 16.5 8.61538C14.4611 8.61538 12.7777 6.92761 12.7777 4.80769C12.7777 2.68778 14.4611 1 16.5 1C18.5389 1 20.2222 2.68778 20.2222 4.80769Z" fill="white" stroke="#EB3323" stroke-width="2"/>
 <defs>
-<filter id="filter0_b" x="-3.99997" y="2.46155" width="22.28" height="22.5385" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<filter id="filter0_b" x="-3.99997" y="3.69232" width="25" height="25.3077" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
 <feFlood flood-opacity="0" result="BackgroundImageFix"/>
 <feGaussianBlur in="BackgroundImage" stdDeviation="2"/>
 <feComposite in2="SourceAlpha" operator="in" result="effect1_backgroundBlur"/>
 <feBlend mode="normal" in="SourceGraphic" in2="effect1_backgroundBlur" result="shape"/>
 </filter>
-<filter id="filter1_b" x="2.72003" y="2.46155" width="22.28" height="22.5385" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<filter id="filter1_b" x="4.00003" y="3.69232" width="25" height="25.3077" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
 <feFlood flood-opacity="0" result="BackgroundImageFix"/>
 <feGaussianBlur in="BackgroundImage" stdDeviation="2"/>
 <feComposite in2="SourceAlpha" operator="in" result="effect1_backgroundBlur"/>

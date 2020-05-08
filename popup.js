@@ -11,6 +11,8 @@ $(function(){
     var userAvatar = null;
     var masterUser = null;
 
+    var numUsers = 0;
+
     const chatcontainer = document.getElementById('chat')
 
     chrome.tabs.query({
@@ -18,35 +20,55 @@ $(function(){
         currentWindow: true
     }, function(tabs) {
 
+        var getVideoIdFromUrl = function(url) {
+            let videoId = url.split('=')[1]
+            videoId = videoId.split('&')[0]
+            return videoId
+        }
+    
+        var getYWFIdFromUrl = function(url) {
+            let id = url.split('&')
+            id = id[id.length - 1]
+            id = id.split('=')
+            id = id[id.length - 1]
+            return id
+        }
+
         hasywfsession = tabs[0].url.includes('&ywf=');
 
         if(hasywfsession) {
 
             // https://www.youtube.com/watch?v=NJ7djRRZr_4&ywf=b32fcb277112b555
 
-            let spliturl = tabs[0].url.split('&')
+            // let spliturl = tabs[0].url.split('&')
     
-            var baseurl = spliturl[0];
-            ywfid = spliturl[spliturl.length - 1];
-            videoId = baseurl.split('=')[1];
-            var ywfarray = ywfid.split('=');
-            ywfid = ywfarray[ywfarray.length - 1]
+            // var baseurl = spliturl[0];
+            // ywfid = spliturl[spliturl.length - 1];
+            // videoId = baseurl.split('=')[1];
+            // var ywfarray = ywfid.split('=');
+            // ywfid = ywfarray[ywfarray.length - 1]
 
+            videoId = getVideoIdFromUrl(tabs[0].url)
+            ywfid = getYWFIdFromUrl(tabs[0].url)
 
             shareurl = "https://www.youtube.com/watch?v=" + videoId + "&ywf=" + ywfid;
     
             
         } else {
 
-            var baseurl = tabs[0].url
-            videoId = baseurl.split('=')[1];
-            videoId = videoId.split('&')[0];
+            // var baseurl = tabs[0].url
+            // videoId = baseurl.split('=')[1];
+            // videoId = videoId.split('&')[0];
+            videoId = getVideoIdFromUrl(tabs[0].url)
+
         }
 
         console.log("YWF ID: " + ywfid);
         console.log("Video ID: " + videoId);
         console.log("Share URL: " + shareurl);
 
+        console.log("Test: %s == %s = %s ", getVideoIdFromUrl(tabs[0].url), videoId, (getVideoIdFromUrl(tabs[0].url) == videoId))
+        console.log("Test: %s == %s = %s ", getYWFIdFromUrl(tabs[0].url), ywfid, (getYWFIdFromUrl(tabs[0].url) == ywfid))
 
     })
 
@@ -74,34 +96,52 @@ $(function(){
         $('.container').show();
         $('.connected').height(490);
         $('.settings').hide()
-        $('.queue').hide()
+        $('.party-room').hide()
         $('#hide-log-btn').css({ top: '513px' })
 
         $('#settings-icon-clicked').hide()
         $('#settings-icon').show()
         $('#chat-icon-clicked').show()
         $('#chat-icon').hide()
-        // $('#queue-icon-clicked').hide()
-        // $('#queue-icon').show()
+        $('#party-icon-clicked').hide()
+        $('#party-icon').show()
 
 
         chatcontainer.scrollTop = chatcontainer.scrollHeight
         
     }
 
-    var showQueue = function() {
+    // var showQueue = function() {
+    //     $('#show-log-btn').hide()
+    //     $('.connected').height(490);
+    //     $('.container').hide()
+    //     $('.settings').hide()
+    //     $('.queue').show()
+    //     $('#hide-log-btn').css({ top: '365px' })
+    //     $('#settings-icon-clicked').hide()
+    //     $('#settings-icon').show()
+    //     $('#chat-icon-clicked').hide()
+    //     $('#chat-icon').show()
+    //     $('#party-icon-clicked').show()
+    //     $('#party-icon').hide()
+
+    //     $('#hide-log-btn').css({ top: '513px' })
+
+    // }
+
+    var showParty = function() {
         $('#show-log-btn').hide()
         $('.connected').height(490);
         $('.container').hide()
         $('.settings').hide()
-        $('.queue').show()
+        $('.party-room').show()
         $('#hide-log-btn').css({ top: '365px' })
         $('#settings-icon-clicked').hide()
         $('#settings-icon').show()
         $('#chat-icon-clicked').hide()
         $('#chat-icon').show()
-        $('#queue-icon-clicked').show()
-        $('#queue-icon').hide()
+        $('#party-icon-clicked').show()
+        $('#party-icon').hide()
 
         $('#hide-log-btn').css({ top: '513px' })
 
@@ -110,15 +150,15 @@ $(function(){
     var showSettings = function() {
         $('.container').hide()
         $('.settings').show()
-        $('.queue').hide()
+        $('.party-room').hide()
         $('.connected').height(345)
         $('#hide-log-btn').css({ top: '368px' })
         $('#settings-icon-clicked').show()
         $('#settings-icon').hide()
         $('#chat-icon-clicked').hide()
         $('#chat-icon').show()
-        // $('#queue-icon-clicked').hide()
-        // $('#queue-icon').show()
+        $('#party-icon-clicked').hide()
+        $('#party-icon').show()
 
     }
 
@@ -195,6 +235,32 @@ $(function(){
 
     }
 
+    var addAvatar = function(avatar) {
+        let user = '<p id="' + avatar.split(" ").join("") + '">' + avatar + '</p>'
+        $(user).appendTo('.party-container')
+        numUsers++
+        $('#party-count').text("Number of users in room: " + numUsers)
+    }
+
+    var removeAvatar = function(avatar) {
+        let id = "#" + avatar.split(" ").join("");
+        $(id).remove();
+        numUsers--
+    }
+
+    var appendAvatarsToConsole = function(avatars) {
+        if(avatars.length == 0 || avatars == null) {
+            return false;
+        }
+
+        for(var i = 0; i < avatars.length; i++) {
+            addAvatar(avatars[i])
+        }
+
+
+        return true;
+    }
+
     var setMasterUser = function(masterUser = null) {
 
         if (masterUser == null || masterUser == "") {
@@ -248,6 +314,7 @@ $(function(){
                 showError("Error: " + response.errorMessage)
             } else {
                 shareurl = "https://www.youtube.com/watch?v=" + videoId + "&ywf=" + response.sessionId
+                userAvatar = response.avatar
                 showConnected(shareurl)
                 setMasterUser(response.masterUser)
                 setCurrentUsername(response.avatar)
@@ -259,6 +326,7 @@ $(function(){
         console.log('leave-session button clicked on'); 
         showLoading();
         sendMessage('leave-session', {}, function() {
+            removeAvatar(userAvatar)
             showDisconnected();
         });
     });
@@ -311,7 +379,7 @@ $(function(){
                 setCurrentUsername(changeUsername);
                 userAvatar = changeUsername;
                 $('#change-username-input').val('');
-                chrome.storage.sync.set({avatar: changeUsername}, function() { console.log("Avatar saved to sync storage") })
+                chrome.storage.sync.set({ avatar: changeUsername }, function() { console.log("Avatar saved to sync storage") })
             })
         } else {
             $('#change-username-input').val('');
@@ -320,6 +388,10 @@ $(function(){
 
     $('#chat-icon').click(function() {
         showChat();
+    })
+
+    $('#party-icon').click(function() {
+        showParty();
     })
 
     $('#settings-icon').click(function() {
@@ -369,6 +441,22 @@ $(function(){
             masterUser = request.data
             setMasterUser(request.data)
         }
+        else if (request.type == "new-avatar") {
+            console.log("%s %s the party.", request.data.avatar, request.data.type)
+
+            if (request.data.type == "joined" || request.data.type == "created") {
+                addAvatar(request.data.avatar)
+            } 
+            else if (request.data.type == "left") {
+                removeAvatar(request.data.avatar)
+            }
+            
+        }
+        else if (request.type == "avatar-update") {
+            console.log("Avatar %s changed name to %s", request.data.oldAvatar, request.data.newAvatar)
+            removeAvatar(request.data.oldAvatar)
+            addAvatar(request.data.newAvatar)
+        }
     })
 
     showDisconnected();
@@ -383,6 +471,7 @@ $(function(){
             var shareurl = "https://www.youtube.com/watch?v=" + videoId + "&ywf=" + response.sessionId;
             userAvatar = response.avatar;
             appendMessagesToConsole(response.messages);
+            appendAvatarsToConsole(response.avatars);
             showConnected(shareurl, response.chatEnabled);
             setMasterUser(response.masterUser)
             setCurrentUsername(response.avatar)
@@ -399,6 +488,7 @@ $(function(){
                     userAvatar = response.avatar;
                     showConnected(shareurl, false);
                     appendMessagesToConsole(response.messages)
+                    appendAvatarsToConsole(response.avatars)
                     setMasterUser(response.masterUser)
                     setCurrentUsername(response.avatar)
                 } 
