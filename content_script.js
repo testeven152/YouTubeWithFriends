@@ -619,7 +619,7 @@
                             windowURL = window.location.href;
                             masterUser = data.masterUser;
                             sessionAvatars = data.avatars;
-                            sendResponse({ sessionId: data.sessionId, avatar: data.avatar, masterUser: data.masterUser });
+                            sendResponse({ sessionId: data.sessionId, avatar: data.avatar, masterUser: data.masterUser, avatars: data.avatars });
 
                             syncWithoutMessage(videoDetails, video);
                             console.log("Joined Session %s successful.", localSessionId);
