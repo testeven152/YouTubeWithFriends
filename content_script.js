@@ -664,7 +664,7 @@
                     console.log('Request type: ' + request.type);
                     socket.emit('updateAvatar', { avatar: request.data.username }, function(data) {
                         localAvatar = data.avatar
-                        console.log('User updated avatar: %s', localAvatar)
+                        console.log('User updated avatar: %s', data.avatar)
                     })
                     sendResponse({});
                     return true;

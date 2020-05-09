@@ -246,6 +246,7 @@ $(function(){
         let id = "#" + avatar.split(" ").join("");
         $(id).remove();
         numUsers--
+        $('#party-count').text("Number of users in room: " + numUsers)
     }
 
     var appendAvatarsToConsole = function(avatars) {
