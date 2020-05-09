@@ -12,7 +12,7 @@ h2 {
     font-family: 'Roboto Mono';
     font-style: normal;
     font-size: 15px;
-    line-height: 15xpx;
+    line-height: 15px;
     text-align: center;
     color: #000000;
 }
@@ -23,12 +23,28 @@ h2 {
     text-align: center;
 }
 
-#close-error {
+#error-msg {
   position: absolute;
-  height: 20px;
-  width: 70px;
-  top: 100px;
-  left: 115px;
+  top: 40px;
+  font-family: 'Roboto Mono';
+  font-size: 12px;
+}
+
+#close-error {
+  background: #EB3323;
+  position: absolute;
+  width: 90px;
+  height: 25px;
+  left: 105px;
+  top: 90px;
+  border: 1px solid;
+  border-color: #EB3323;
+  border-radius: 12px;
+  outline: none;
+
+  font-family: 'Roboto Mono';
+  font-size: 14px;
+  color: white;
 }
 
 .disconnected {

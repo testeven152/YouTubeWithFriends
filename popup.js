@@ -239,14 +239,14 @@ $(function(){
         let user = '<p id="' + avatar.split(" ").join("") + '">' + avatar + '</p>'
         $(user).appendTo('.party-container')
         numUsers++
-        $('#party-count').text("Number of users in room: " + numUsers)
+        $('#party-count').text("Number of users in party: " + numUsers)
     }
 
     var removeAvatar = function(avatar) {
         let id = "#" + avatar.split(" ").join("");
         $(id).remove();
         numUsers--
-        $('#party-count').text("Number of users in room: " + numUsers)
+        $('#party-count').text("Number of users in party: " + numUsers)
     }
 
     var appendAvatarsToConsole = function(avatars) {
@@ -488,8 +488,9 @@ $(function(){
                     var shareurl = "https://www.youtube.com/watch?v=" + videoId + "&ywf=" + response.sessionId;
                     userAvatar = response.avatar;
                     showConnected(shareurl, false);
-                    appendMessagesToConsole(response.messages)
+                    // appendMessagesToConsole(response.messages)
                     appendAvatarsToConsole(response.avatars)
+                    removeAvatar(response.avatar) // for now, remove duplicate
                     setMasterUser(response.masterUser)
                     setCurrentUsername(response.avatar)
                 } 
