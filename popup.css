@@ -129,7 +129,8 @@ h2 {
     outline: none;
 
     font-family: 'Roboto Mono';
-    font-size: 10px;
+    font-size: 11px;
+    font-weight: bold;
 } 
 
 
@@ -278,6 +279,10 @@ hr.solid {
   display: none;
 }
 
+.party-room {
+  overflow: hidden;
+}
+
 .party-container {
   position: absolute;
   top: 213px;
@@ -307,7 +312,7 @@ hr.solid {
 
 #party-count {
   position: absolute;
-  top: 473px;
+  top: 480px;
   left: 18px;
 
   font-family: 'Roboto Mono';

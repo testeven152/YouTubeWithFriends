@@ -94,7 +94,7 @@ $(function(){
     var showChat = function() {
         $('#show-log-btn').hide()
         $('.container').show();
-        $('.connected').height(490);
+        $('.connected').height(494);
         $('.settings').hide()
         $('.party-room').hide()
         $('#hide-log-btn').css({ top: '513px' })
@@ -131,11 +131,10 @@ $(function(){
 
     var showParty = function() {
         $('#show-log-btn').hide()
-        $('.connected').height(490);
+        $('.connected').height(494);
         $('.container').hide()
         $('.settings').hide()
         $('.party-room').show()
-        $('#hide-log-btn').css({ top: '365px' })
         $('#settings-icon-clicked').hide()
         $('#settings-icon').show()
         $('#chat-icon-clicked').hide()
@@ -151,7 +150,7 @@ $(function(){
         $('.container').hide()
         $('.settings').show()
         $('.party-room').hide()
-        $('.connected').height(345)
+        $('.connected').height(350)
         $('#hide-log-btn').css({ top: '368px' })
         $('#settings-icon-clicked').show()
         $('#settings-icon').hide()
@@ -379,7 +378,7 @@ $(function(){
 
     $('.change-username').on('submit', function(event) {
         event.preventDefault();
-        let changeUsername = $('#change-username-input').val(); // need to check if valid username
+        let changeUsername = $('#change-username-input').val().trim(); // need to check if valid username
         if (changeUsername != '' && isValidUsername(changeUsername)) {
             sendMessage('change-username', { username: changeUsername }, function(response) {
                 setCurrentUsername(changeUsername);
