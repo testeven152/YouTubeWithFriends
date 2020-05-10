@@ -286,7 +286,7 @@ hr.solid {
   left: 16px;
   border: solid 1px #EB3323;
   border-radius: 5px;
-  overflow: hidden;
+  overflow: auto;
   font-family: 'Roboto Mono'
 }
 

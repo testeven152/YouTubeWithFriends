@@ -235,15 +235,20 @@ $(function(){
 
     }
 
+    var stripAvatar = function(avatar) {
+        let newAvatar = avatar.replace(/[\W_]+/g,"")
+        return newAvatar
+    }
+
     var addAvatar = function(avatar) {
-        let user = '<p id="' + avatar.split(" ").join("") + '">' + avatar + '</p>'
+        let user = '<p id="' + stripAvatar(avatar) + '">' + avatar + '</p>'
         $(user).appendTo('.party-container')
         numUsers++
         $('#party-count').text("Number of users in party: " + numUsers)
     }
 
     var removeAvatar = function(avatar) {
-        let id = "#" + avatar.split(" ").join("");
+        let id = "#" + stripAvatar(avatar);
         $(id).remove();
         numUsers--
         $('#party-count').text("Number of users in party: " + numUsers)
@@ -327,8 +332,8 @@ $(function(){
         console.log('leave-session button clicked on'); 
         showLoading();
         sendMessage('leave-session', {}, function() {
-            removeAvatar(userAvatar)
             showDisconnected();
+            removeAvatar(userAvatar)
         });
     });
 
