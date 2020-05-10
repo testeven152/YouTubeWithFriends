@@ -458,6 +458,10 @@ $(function(){
             removeAvatar(request.data.oldAvatar)
             addAvatar(request.data.newAvatar)
         }
+        else if (request.type == "error") {
+            console.log("Error received: %s", request.data.errorMessage)
+            showError(request.data.errorMessage)
+        }
     })
 
     showDisconnected();

@@ -395,6 +395,7 @@
                             socket.emit('leaveSession', {}, function(data) {
                                 resetVariables();
                                 console.log("Error: %s", data.errorMessage);
+                                // sendMessageToPopup("error", { errorMessage: data.errorMessage })
                             })
     
                             return;
@@ -445,6 +446,7 @@
                     socket.emit('leaveSession', {}, function() {
                         resetVariables();
                         console.log("URL changed. Leaving session...");
+                        // sendMessageToPopup("error", { errorMessage: data.errorMessage })
                     })
 
                     return;
