@@ -11,7 +11,7 @@ body {
 h2 {
     font-family: 'Roboto Mono';
     font-style: normal;
-    font-size: 15px;
+    font-size: 16px;
     line-height: 15px;
     text-align: center;
     color: #000000;
@@ -71,7 +71,7 @@ h2 {
 }
 
 .connected {
-    height: 156px;
+    height: 158px;
     width: 300px;
 }
 
@@ -130,7 +130,6 @@ h2 {
 
     font-family: 'Roboto Mono';
     font-size: 11px;
-    font-weight: bold;
 } 
 
 

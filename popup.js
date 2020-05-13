@@ -88,7 +88,7 @@ $(function(){
     var hideLogConsole = function() {
         $('#show-log-btn').show();
         $('.log-console').hide();
-        $('.connected').height(156);
+        $('.connected').height(158);
     }
 
     var showChat = function() {
@@ -243,14 +243,14 @@ $(function(){
         let user = '<p id="' + stripAvatar(avatar) + '">' + avatar + '</p>'
         $(user).appendTo('.party-container')
         numUsers++
-        $('#party-count').text("Number of users in party: " + numUsers)
+        $('#party-count').text("# of users: " + numUsers)
     }
 
     var removeAvatar = function(avatar) {
         let id = "#" + stripAvatar(avatar);
         $(id).remove();
         numUsers--
-        $('#party-count').text("Number of users in party: " + numUsers)
+        $('#party-count').text("# of users: " + numUsers)
     }
 
     var appendAvatarsToConsole = function(avatars) {
