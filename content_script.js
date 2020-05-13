@@ -365,9 +365,13 @@
                 }
 
                 setTimeout(() => {
-                    let new_currentTime = player.currentTime + 0.0225 //compensate for delay of click 
+                    let new_currentTime = player.currentTime
                     let new_playing = !player.paused 
                     let new_playbackRate = player.playbackRate
+
+                    if (new_playing) {
+                        new_currentTime = player.currentTime + 0.0225 //compensate delay of click
+                    }
 
                     if (playing == new_playing && playbackRate == new_playbackRate) {
 
