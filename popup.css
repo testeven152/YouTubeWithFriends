@@ -120,7 +120,7 @@ h2 {
     outline: none;
 
     font-family: 'Roboto Mono';
-    font-size: 14px;
+    font-size: 15px;
     color: white;
 }
 
@@ -358,7 +358,7 @@ h2 {
     /* box-sizing: border-box; */
     top: 155px;
     width: 305px;
-    left: 16px;
+    left: 15px;
     /* margin: 0 auto; */
     /* border: solid 1px #EB3323;
     border-radius: 5px; */
@@ -391,10 +391,10 @@ h2 {
   }
 
   .send-message input {
-    width: 92%;
+    width: 94%;
     border: solid 1px #C7C7C7;
     border-radius: 8px;
-    font-size: 10px;
+    font-size: 11px;
     padding: 7px;
 
     outline: none;
