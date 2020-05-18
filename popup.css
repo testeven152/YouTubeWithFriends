@@ -8,18 +8,38 @@ body {
     padding: 0;
 }
 
+.title {
+  height: 25px;
+  background-color: white;
+}
+
 h2 {
-    font-family: 'Roboto Mono';
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
-    font-size: 16px;
-    line-height: 15px;
-    text-align: center;
-    color: #000000;
+    font-size: 18px;
+    line-height: 10px;
+    text-align: left;
+    color: black;
+    margin-left: 15px;
+}
+
+#ywflogo {
+  position: relative;
+  top: 4px;
+  height: 20px;
+  width: 30px;
+  margin-right: 5px;
+}
+
+#help-icon {
+  position: relative;
+  float: right;
+  margin-right: 15px;
 }
 
 .error {
     height: 100px;
-    width: 300px;
+    width: 330px;
     text-align: center;
 }
 
@@ -48,51 +68,61 @@ h2 {
 }
 
 .disconnected {
-    height: 117px;
-    width: 300px;
-    background: #FFFFFF;
+    height: 145px;
+    width: 330px;
+    background: #F9F9F9;
 }
 
 #create-help {
     text-align: center;
     padding-left: 10px;
     padding-right: 10px;
-    font-family: 'Roboto Mono';
-    font-size: 11px;
+    font-family: 'Roboto';
+    font-size: 12px;
+    position: relative;
+    top: 15px;
+    color: #757575;
 }
 
 #control-checkbox {
-  font-family: 'Roboto Mono';
-  font-size: 10px;
+  font-family: 'Roboto';
+  font-size: 11px;
   text-align: center;
   position: absolute;
-  top: 83px;
-  left: 80px;
+  top: 120px;
+  left: 76px;
 }
 
 .connected {
-    height: 158px;
-    width: 300px;
+    height: 140px;
+    width: 330px;
+    background: #F9F9F9;
 }
 
 #link-help {
     text-align: left;
     margin-left: 5px;
-    padding-left: 5px;
-    font-family: 'Roboto Mono';
-    font-size: 11px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
+    position: relative;
+    top: 10px;
+    font-family: 'Roboto';
+    font-size: 12px;
+    line-height: 14px;
+    color: #757575;
 }
 
 #create-session {
     background: #EB3323;
     position: absolute;
-    width: 167px;
+    width: 190px;
     height: 30px;
-    left: 66.5px;
-    top: 112px;
+    top: 150px;
+    left: 70px;
     border: 1px solid;
     border-color: #EB3323;
-    border-radius: 12px;
+    border-radius: 8px;
     outline: none;
 
     font-family: 'Roboto Mono';
@@ -101,50 +131,53 @@ h2 {
 }
 
 #leave-session {
-    background: #EB3323;
     position: absolute;
-    width: 167px;
-    height: 30px;
-    left: 66.5px;
-    top: 140px;
-    border: 1px solid;
-    border-color: #EB3323;
+    width: 80px;
+    height: 28px;
+    left: 230px;
+    top: 120px;
+    border: 2px solid;
+    border-color: #C7C7C7;
     border-radius: 12px;
     outline: none;
+    background-color: #F9F9F9;
 
     font-family: 'Roboto Mono';
     font-size: 14px;
-    color: white;
+    color: #EB3323;
 }
 
 #share-url {
     position: absolute;
-    width: 125px;
+    width: 157px;
     height: 22px;
-    left: 66.5px;
-    top: 105px;
+    left: 20px;
+    top: 120px;
     border: 2px solid #C7C7C7;
     border-color: #C7C7C7;
     border-radius: 12px;
     outline: none;
 
-    font-family: 'Roboto Mono';
+    background-color: #F9F9F9;
+
+    font-family: 'Roboto';
     font-size: 11px;
+    color: #757575;
 } 
 
 
 #copy-btn-clicked {
     position: absolute;
-    left: 205.5px;
-    top: 105px;
+    left: 193px;
+    top: 120px;
 }
 
 #copy-btn {
     position: absolute;
     width: 28px;
     height: 28px;
-    left: 205.5px;
-    top: 105px;
+    left: 193px;
+    top: 120px;
     background-color: white;
 
     cursor: pointer;
@@ -158,8 +191,8 @@ h2 {
     position: absolute;
     width: 20px;
     height: 12.52px;
-    left: 140px;
-    top: 177px;
+    left: 155px;
+    top: 165px;
 
     outline: none;
     background: white;
@@ -167,107 +200,108 @@ h2 {
 
 #chat-icon-clicked {
   position: absolute;
-  top: 185px;
-  left: 95px;
+  top: 167px;
+  left: 89.75px;
 }
 
 #chat-icon {
   position: absolute;
-  top: 185px;
-  left: 95px;
+  top: 167px;
+  left: 89.75px;
 }
 
 #separator1 {
   position: absolute;
-  top: 183px;
-  left: 125px;
+  top: 165px;
+  left: 129.625px;
   height: 16px;
   width: 4px;
 }
 
 #party-icon-clicked {
   position: absolute;
-  top: 186px;
-  left: 139.5px;
+  top: 168px;
+  left: 154.5px;
   width: 21px;
 }
 
 #party-icon {
   position: absolute;
-  top: 186px;
-  left: 139.5px;
+  top: 168px;
+  left: 154.5px;
   width: 21px;
 }
 
 #separator2 {
   position: absolute;
-  top: 183px;
-  left: 173px;
+  top: 165px;
+  left: 196.375px;
   height: 16px;
   width: 4px;
 }
 
 #settings-icon-clicked {
   position: absolute;
-  top: 174px;
-  left: 178px;
+  top: 156px;
+  left: 213.25px;
 }
 
 #settings-icon {
   position: absolute;
-  top: 174px;
-  left: 178px;
+  top: 156px;
+  left: 213.25px;
 }
 
 .settings {
-  font-family: 'Roboto Mono';
+  font-family: 'Roboto';
   font-size: 11px;
 }
 
 #settings-head {
   position: absolute;
-  top: 203px;
+  top: 190px;
   left: 16px;
-  font-size: 13px;
+  font-size: 15px;
+  color: #757575;
 }
 
 hr.solid {
-  border-top: 3px solid #EB3323;
+  border-top: 3px solid #C7C7C7;
   border-radius: 10px;
   position: absolute;
-  top: 238px;
+  top: 220px;
   left: 15px;
-  width: 270px;
+  width: 300px;
   outline: none;
 }
 
 #master-user {
   position: absolute;
-  top: 255px;
+  top: 235px;
   left: 16px;
 }
 
 #current-username {
   position: absolute;
-  top: 285px;
+  top: 310px;
   left: 16px;
 }
 
 .change-username {
   position: absolute;
-  top: 330px;
+  top: 345px;
   left: 15px;
 
-  font-family: 'Roboto Mono';
+  font-family: 'Roboto';
 }
 
 .change-username input {
   height: 20px;
-  width: 263px;
-  font-family: 'Roboto Mono';
+  width: 300px;
+  font-family: 'Roboto';
 
-  border: 2px solid #EE0000;
-  border-radius: 10px;
+  border: 1px solid #C7C7C7;
+  border-radius: 12px;
   outline: none;
   padding: 12px 12px;
   box-sizing: border-box;
@@ -284,20 +318,20 @@ hr.solid {
 
 .party-container {
   position: absolute;
-  top: 213px;
-  width: 265px;
-  height: 260px;
-  left: 16px;
-  border: solid 1px #EB3323;
+  top: 195px;
+  width: 300px;
+  height: 300px;
+  left: 15px;
+  border: solid 1px #C7C7C7;
   border-radius: 5px;
   overflow: auto;
-  font-family: 'Roboto Mono'
+  font-family: 'Roboto'
 }
 
 .party-header {
   text-align: left;
   font-size: 10px;
-  border-bottom: solid 1px #EB3323;
+  border-bottom: solid 1px #C7C7C7;
 }
 
 .party-header p {
@@ -311,60 +345,56 @@ hr.solid {
 
 #party-count {
   position: absolute;
-  top: 480px;
+  top: 500px;
   left: 18px;
 
-  font-family: 'Roboto Mono';
+  font-family: 'Roboto';
   font-size: 10px;
 }
 
 .container {
     position: absolute;
     /* box-sizing: border-box; */
-    top: 213px;
-    width: 265px;
+    top: 195px;
+    width: 300px;
     left: 16px;
     /* margin: 0 auto; */
-    border: solid 1px #EB3323;
-    border-radius: 5px;
+    /* border: solid 1px #EB3323;
+    border-radius: 5px; */
     overflow: hidden;
 
-    font-family: 'Roboto Mono';
+    font-family: 'Roboto';
     font-size: 11px;
     
 }
   .chat-container {
-    height: 260px;
-    width: 265px;
+    height: 295px;
+    width: 300px;
     overflow: auto;
   }
   .chat-container .intro-message {
-    padding: 1px;
+    padding: 0.5px;
     text-align: center;
     font-size: 13px;
     font-weight: normal;
   }
   .chat-container .message {
-    border-top: solid 1px #EB3323;
-    padding: 1px;
+    padding: 0.5px;
     text-align: left;
   }
 
-  .chat-container .message p {
-      margin-left: 0.5em;
-  }
 
   .send-message input {
-    width: 100%;
+    width: 90%;
 
-    border: none;
-    border-top: solid 1px #EB3323;
-    font-size: 12px;
+    border: solid 1px #C7C7C7;
+    border-radius: 8px;
+    font-size: 10px;
     padding: 7px;
 
     outline: none;
 
-    font-family: 'Roboto Mono';
+    font-family: 'Roboto';
   }
   .send-message button {
     display: none;
@@ -374,8 +404,8 @@ hr.solid {
     position: absolute;
     width: 20px;
     height: 12.52px;
-    left: 141px;
-    top: 513px;
+    left: 155px;
+    top: 525px;
     transform: rotate(180deg);
 
     outline: none;
@@ -384,7 +414,7 @@ hr.solid {
 
 .loading {
     height: 107px;
-    width: 300px;
+    width: 330px;
 }
 
 .sk-fading-circle {
@@ -393,8 +423,8 @@ hr.solid {
     height: 40px;
     position: absolute;
 
-    left: 130px;
-    top: 60px;
+    left: 145px;
+    top: 80px;
   }
   
   .sk-fading-circle .sk-circle {

@@ -88,7 +88,7 @@ $(function(){
     var hideLogConsole = function() {
         $('#show-log-btn').show();
         $('.log-console').hide();
-        $('.connected').height(158);
+        $('.connected').height(140);
     }
 
     var showChat = function() {
@@ -97,7 +97,7 @@ $(function(){
         $('.connected').height(494);
         $('.settings').hide()
         $('.party-room').hide()
-        $('#hide-log-btn').css({ top: '513px' })
+        $('#hide-log-btn').css({ top: '525px' })
 
         $('#settings-icon-clicked').hide()
         $('#settings-icon').show()
@@ -142,7 +142,7 @@ $(function(){
         $('#party-icon-clicked').show()
         $('#party-icon').hide()
 
-        $('#hide-log-btn').css({ top: '513px' })
+        $('#hide-log-btn').css({ top: '525px' })
 
     }
 
@@ -151,7 +151,7 @@ $(function(){
         $('.settings').show()
         $('.party-room').hide()
         $('.connected').height(350)
-        $('#hide-log-btn').css({ top: '368px' })
+        $('#hide-log-btn').css({ top: '380px' })
         $('#settings-icon-clicked').show()
         $('#settings-icon').hide()
         $('#chat-icon-clicked').hide()
