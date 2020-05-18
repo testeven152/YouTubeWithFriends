@@ -92,12 +92,12 @@ $(function(){
     }
 
     var showChat = function() {
-        $('#show-log-btn').hide()
+        // $('#show-log-btn').hide()
         $('.container').show();
-        $('.connected').height(475);
+        $('.connected').height(460);
         $('.settings').hide()
         $('.party-room').hide()
-        $('#hide-log-btn').css({ top: '505px' })
+        // $('#hide-log-btn').css({ top: '505px' })
 
         $('#exit-settings-icon').hide()
         $('#settings-icon').show()
@@ -134,7 +134,7 @@ $(function(){
 
     var showParty = function() {
         $('#show-log-btn').hide()
-        $('.connected').height(369);
+        $('.connected').height(355);
         $('.container').hide()
         $('.settings').hide()
         $('.party-room').show()
@@ -145,7 +145,7 @@ $(function(){
         $('#party-icon-clicked').show()
         $('#party-icon').hide()
 
-        $('#hide-log-btn').css({ top: '400px' })
+        // $('#hide-log-btn').css({ top: '400px' })
 
     }
 
@@ -177,13 +177,10 @@ $(function(){
         $('.loading').hide();
         $('#show-log-btn').show();
         $('#share-url').val(url);
-        
 
-        if (chatenabled == true) {
-            showChat();
-        } else {
-            hideLogConsole();
-        }
+
+        showChat();
+
 
 
     };
@@ -384,16 +381,16 @@ $(function(){
         showDisconnected();
     });
 
-    $('#show-log-btn').click(function() {
-        $('.log-console').show();
-        showChat();
-        sendMessage('open-chat', { setChatEnabled: true }, function() {})
-    })
+    // $('#show-log-btn').click(function() {
+    //     $('.log-console').show();
+    //     showChat();
+    //     sendMessage('open-chat', { setChatEnabled: true }, function() {})
+    // })
 
-    $('#hide-log-btn').click(function() {
-        hideLogConsole();
-        sendMessage('open-chat', { setChatEnabled: false }, function() {})
-    })
+    // $('#hide-log-btn').click(function() {
+    //     hideLogConsole();
+    //     sendMessage('open-chat', { setChatEnabled: false }, function() {})
+    // })
 
     $('.send-message').on('submit', function(event) {
         event.preventDefault();
@@ -517,7 +514,7 @@ $(function(){
             userAvatar = response.avatar;
             appendMessagesToConsole(response.messages);
             appendAvatarsToConsole(response.avatars);
-            showConnected(shareurl, response.chatEnabled);
+            showConnected(shareurl);
             setMasterUser(response.masterUser)
             setCurrentUsername(response.avatar)
         }
@@ -531,7 +528,7 @@ $(function(){
                 else {
                     var shareurl = "https://www.youtube.com/watch?v=" + videoId + "&ywf=" + response.sessionId;
                     userAvatar = response.avatar;
-                    showConnected(shareurl, false);
+                    showConnected(shareurl);
                     // appendMessagesToConsole(response.messages)
                     appendAvatarsToConsole(response.avatars)
                     removeAvatar(response.avatar) // for now, remove duplicate

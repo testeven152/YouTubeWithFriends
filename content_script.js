@@ -35,9 +35,9 @@
         var localSessionId = null;
         var localVideoId = null;
         var windowURL = window.location.href;
-        var chatEnabled = false;
+        // var chatEnabled = false;
         var masterUser = null;
-        var sessionAvatars = [];
+
 
 
         // ------------- video properties -----------------
@@ -50,7 +50,7 @@
         // ------------ message log ------------
 
         var messages = [];
-
+        var sessionAvatars = [];
 
 
 
@@ -87,7 +87,7 @@
 
         var resetVariables = function() {
             localSessionId = null;
-            chatEnabled = false;
+            // chatEnabled = false;
             windowURL = null;
             messages = [];
             sessionAvatars = [];
@@ -598,7 +598,7 @@
                     //     sendResponse({ sessionId: localSessionId }); 
                     // }
 
-                    sendResponse({ sessionId: localSessionId, messages: messages, avatars: sessionAvatars, avatar: localAvatar, masterUser: masterUser, chatEnabled: chatEnabled });
+                    sendResponse({ sessionId: localSessionId, messages: messages, avatars: sessionAvatars, avatar: localAvatar, masterUser: masterUser});
 
                     return;
                 case 'create-session':
@@ -618,7 +618,6 @@
                             localVideoId = request.data.videoId;
                             windowURL = window.location.href;
                             masterUser = data.masterUser;
-                            chatEnabled = false;
                             sendResponse({ sessionId: localSessionId, avatar: data.avatar, masterUser: data.masterUser });
                         }
                     })
@@ -701,10 +700,10 @@
                         }
                     })
                     return true;
-                case 'open-chat':
-                    console.log('Request type: ' + request.type);
-                    chatEnabled = request.data.setChatEnabled;
-                    return true;
+                // case 'open-chat':
+                //     console.log('Request type: ' + request.type);
+                //     chatEnabled = request.data.setChatEnabled;
+                //     return true;
                 case 'change-username':
                     console.log('Request type: ' + request.type);
                     socket.emit('updateAvatar', { avatar: request.data.username }, function(data) {

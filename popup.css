@@ -181,7 +181,7 @@ h2 {
     opacity: 0;
 }
 
-#show-log-btn {
+/* #show-log-btn {
     position: absolute;
     width: 26px;
     height: 12px;
@@ -191,7 +191,7 @@ h2 {
 
     outline: none;
     background: white;
-}
+} */
 
 /* #chat-icon-clicked {
   position: absolute;
@@ -268,21 +268,27 @@ h2 {
   color: black;
 }
 
+#dark-mode {
+  position: absolute;
+  top: 200px;
+  left: 16px;
+}
+
 #master-user {
   position: absolute;
-  top: 220px;
+  top: 230px;
   left: 16px;
 }
 
 #current-username {
   position: absolute;
-  top: 245px;
+  top: 260px;
   left: 16px;
 }
 
 .change-username {
   position: absolute;
-  top: 280px;
+  top: 300px;
   left: 15px;
 
   font-family: 'Roboto';
@@ -401,7 +407,7 @@ h2 {
     display: none;
   }
 
-  #hide-log-btn {
+  /* #hide-log-btn {
     position: absolute;
     width: 26px;
     height: 12px;
@@ -410,7 +416,7 @@ h2 {
 
     outline: none;
     background: white;
-}
+} */
 
 .loading {
     height: 107px;
