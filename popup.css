@@ -31,12 +31,6 @@ h2 {
   margin-right: 5px;
 }
 
-#help-icon {
-  position: relative;
-  float: right;
-  margin-right: 15px;
-}
-
 .error {
     height: 100px;
     width: 330px;
@@ -62,7 +56,7 @@ h2 {
   border-radius: 12px;
   outline: none;
 
-  font-family: 'Roboto Mono';
+  font-family: 'Roboto';
   font-size: 14px;
   color: white;
 }
@@ -189,16 +183,17 @@ h2 {
 
 #show-log-btn {
     position: absolute;
-    width: 20px;
-    height: 12.52px;
-    left: 155px;
+    width: 26px;
+    height: 12px;
+    left: 152px;
     top: 165px;
+    transform: rotate(180deg);
 
     outline: none;
     background: white;
 }
 
-#chat-icon-clicked {
+/* #chat-icon-clicked {
   position: absolute;
   top: 167px;
   left: 89.75px;
@@ -208,61 +203,69 @@ h2 {
   position: absolute;
   top: 167px;
   left: 89.75px;
-}
+} */
 
 #separator1 {
   position: absolute;
-  top: 165px;
-  left: 129.625px;
+  top: 158px;
+  left: 163px;
   height: 16px;
   width: 4px;
 }
 
 #party-icon-clicked {
   position: absolute;
-  top: 168px;
-  left: 154.5px;
+  top: 160px;
+  left: 127px;
   width: 21px;
 }
 
 #party-icon {
   position: absolute;
-  top: 168px;
-  left: 154.5px;
+  top: 160px;
+  left: 127px;
   width: 21px;
+  background-color: #F9F9F9;
 }
 
-#separator2 {
+/* #separator2 {
   position: absolute;
   top: 165px;
   left: 196.375px;
   height: 16px;
   width: 4px;
+} */
+
+#exit-settings-icon {
+  position: absolute;
+  top: 21px;
+  left: 301px;
 }
 
 #settings-icon-clicked {
   position: absolute;
-  top: 156px;
-  left: 213.25px;
+  top: 148px;
+  left: 172px;
 }
 
 #settings-icon {
   position: absolute;
-  top: 156px;
-  left: 213.25px;
+  top: 10px;
+  left: 290px;
 }
 
 .settings {
   font-family: 'Roboto';
   font-size: 11px;
+  color: #757575;
 }
 
 #settings-head {
   position: absolute;
-  top: 190px;
+  top: 170px;
   left: 16px;
   font-size: 15px;
-  color: #757575;
+  color: black;
 }
 
 #master-user {
@@ -311,9 +314,9 @@ h2 {
 
 .party-container {
   position: absolute;
-  top: 195px;
+  top: 170px;
   width: 300px;
-  height: 300px;
+  height: 200px;
   left: 15px;
   /* border: solid 1px #C7C7C7;
   border-radius: 5px; */
@@ -325,6 +328,7 @@ h2 {
 .party-header {
   text-align: left;
   border-bottom: solid 2px #C7C7C7;
+  color: #757575;
 }
 
 /* .party-header p {
@@ -338,28 +342,31 @@ h2 {
 
 #party-count {
   position: absolute;
-  top: 495px;
+  top: 370px;
   left: 18px;
+  color: #757575;
 }
 
 .container {
     position: absolute;
     /* box-sizing: border-box; */
-    top: 195px;
-    width: 300px;
+    top: 155px;
+    width: 305px;
     left: 16px;
     /* margin: 0 auto; */
     /* border: solid 1px #EB3323;
     border-radius: 5px; */
     overflow: hidden;
 
+    /* border-top: solid 1px black; */
+
     font-family: 'Roboto';
     font-size: 11.5px;
     
 }
   .chat-container {
-    height: 295px;
-    width: 300px;
+    height: 315px;
+    width: 305px;
     overflow: auto;
   }
   /* .chat-container .intro-message {
@@ -378,8 +385,7 @@ h2 {
   }
 
   .send-message input {
-    width: 90%;
-
+    width: 92%;
     border: solid 1px #C7C7C7;
     border-radius: 8px;
     font-size: 10px;
@@ -397,11 +403,10 @@ h2 {
 
   #hide-log-btn {
     position: absolute;
-    width: 20px;
-    height: 12.52px;
-    left: 155px;
+    width: 26px;
+    height: 12px;
+    left: 152px;
     top: 525px;
-    transform: rotate(180deg);
 
     outline: none;
     background: white;

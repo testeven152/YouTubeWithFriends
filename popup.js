@@ -94,17 +94,20 @@ $(function(){
     var showChat = function() {
         $('#show-log-btn').hide()
         $('.container').show();
-        $('.connected').height(494);
+        $('.connected').height(475);
         $('.settings').hide()
         $('.party-room').hide()
-        $('#hide-log-btn').css({ top: '525px' })
+        $('#hide-log-btn').css({ top: '505px' })
 
-        $('#settings-icon-clicked').hide()
+        $('#exit-settings-icon').hide()
         $('#settings-icon').show()
+        $('#settings-icon').css({ top: '10px', left: '290px' })
+        $('#settings-icon-clicked').hide()
         $('#chat-icon-clicked').show()
         $('#chat-icon').hide()
         $('#party-icon-clicked').hide()
-        $('#party-icon').show()
+        $('#party-icon').hide()
+        $('#separator1').hide()
 
 
         chatcontainer.scrollTop = chatcontainer.scrollHeight
@@ -131,18 +134,18 @@ $(function(){
 
     var showParty = function() {
         $('#show-log-btn').hide()
-        $('.connected').height(494);
+        $('.connected').height(369);
         $('.container').hide()
         $('.settings').hide()
         $('.party-room').show()
         $('#settings-icon-clicked').hide()
         $('#settings-icon').show()
-        $('#chat-icon-clicked').hide()
-        $('#chat-icon').show()
+        // $('#chat-icon-clicked').hide()
+        // $('#chat-icon').show()
         $('#party-icon-clicked').show()
         $('#party-icon').hide()
 
-        $('#hide-log-btn').css({ top: '525px' })
+        $('#hide-log-btn').css({ top: '400px' })
 
     }
 
@@ -152,12 +155,17 @@ $(function(){
         $('.party-room').hide()
         $('.connected').height(285)
         $('#hide-log-btn').css({ top: '315px' })
-        $('#settings-icon-clicked').show()
-        $('#settings-icon').hide()
-        $('#chat-icon-clicked').hide()
-        $('#chat-icon').show()
+        $('#exit-settings-icon').show()
+        // $('#settings-icon').hide()
+        // $('#chat-icon-clicked').hide()
+        // $('#chat-icon').show()
         $('#party-icon-clicked').hide()
         $('#party-icon').show()
+        $('#separator1').show()
+
+        $('#settings-icon').css({ top: '148px', left: '172px'})
+        $('#settings-icon').hide()
+        $('#settings-icon-clicked').show()
 
     }
 
@@ -176,6 +184,8 @@ $(function(){
         } else {
             hideLogConsole();
         }
+
+
     };
 
     var showDisconnected = function() {
@@ -300,7 +310,7 @@ $(function(){
     var setCurrentUsername = function(username = null) {
 
         if (username == null) {
-            $('#current-username').text("Username :")
+            $('#current-username').text("Username:")
         }
         else {
             $('#current-username').text("Current Username: " + username);
@@ -421,6 +431,10 @@ $(function(){
 
     $('#settings-icon').click(function() {
         showSettings();
+    })
+
+    $('#exit-settings-icon').click(function() {
+        showChat();
     })
 
     // $('#queue-icon').click(function() {
