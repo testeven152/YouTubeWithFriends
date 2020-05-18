@@ -150,8 +150,8 @@ $(function(){
         $('.container').hide()
         $('.settings').show()
         $('.party-room').hide()
-        $('.connected').height(350)
-        $('#hide-log-btn').css({ top: '380px' })
+        $('.connected').height(285)
+        $('#hide-log-btn').css({ top: '315px' })
         $('#settings-icon-clicked').show()
         $('#settings-icon').hide()
         $('#chat-icon-clicked').hide()
@@ -219,20 +219,6 @@ $(function(){
         })
     }
 
-    var appendMessagesToConsole = function(messages) {
-        if(messages.length == 0 || messages == null) {
-            return false;
-        }
-
-        for(var i = 0; i < messages.length; i++) {
-            var message = $('.message').first().clone()
-            message.find('p').text(messages[i])
-            message.appendTo('.chat-container')
-        }
-
-        return true;
-
-    }
 
     var stripAvatar = function(avatar) {
         let newAvatar = avatar.replace(/[\W_]+/g,"")
@@ -264,6 +250,40 @@ $(function(){
 
 
         return true;
+    }
+
+    var addMessage = function(avatar, type, message) {
+        if (type == "createjoinleave") {
+            let chatmessage = '<p id="lighten"><i><b>' + avatar + '</b> ' + message + '</i></p>'
+            $(chatmessage).appendTo('.chat-container')
+        }
+        else if (type == "message") {
+            let chatmessage = '<p><b>' + avatar + '</b>: ' + message + '</p>'
+            $(chatmessage).appendTo('.chat-container')
+        }
+        else if (type == "avatar") {
+            let chatmessage = '<p id="lighten"><i><b>' + avatar + '</b> changed name to <b>' + message + '</b>.</i></p>'
+            $(chatmessage).appendTo('.chat-container')
+        }
+
+        chatcontainer.scrollTop = chatcontainer.scrollHeight
+        
+    }
+
+    var appendMessagesToConsole = function(messages) {
+        if(messages.length == 0 || messages == null) {
+            return false;
+        }
+
+        for(var i = 0; i < messages.length; i++) {
+            // var message = $('.message').first().clone()
+            // message.find('p').text(messages[i])
+            // message.appendTo('.chat-container')
+            addMessage(messages[i].avatar, messages[i].type, messages[i].text)
+        }
+
+        return true;
+
     }
 
     var setMasterUser = function(masterUser = null) {
@@ -430,11 +450,13 @@ $(function(){
             console.log(request.data);
         }
         else if (request.type == "message") {
-            console.log(request.data)
-            var message = $('.message').first().clone()
-            message.find('p').text(request.data)
-            message.appendTo('.chat-container')
-            chatcontainer.scrollTop = chatcontainer.scrollHeight
+            // console.log(request.data)
+            // var message = $('.message').first().clone()
+            // message.find('p').text(request.data)
+            // message.appendTo('.chat-container')
+            // chatcontainer.scrollTop = chatcontainer.scrollHeight
+
+            addMessage(request.data.avatar, request.data.type, request.data.text)
         }
         else if (request.type == "avatar") {
             console.log("Retrieved avatar: %s", request.data)

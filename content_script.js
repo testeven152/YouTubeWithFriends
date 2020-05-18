@@ -94,7 +94,7 @@
         }
 
     
-        var sync = function(data, video) { // mouse sync
+        var sync = function(data, video) { // video sync
 
             // data: currentTime, playing, videoId
 
@@ -123,16 +123,22 @@
             player.currentTime = data.currentTime;
             player.playbackRate = data.playbackRate;
 
-            let message = "" 
+            // let message = "" 
+            let message = {}
+            message.avatar = data.avatar
+            message.type = "createjoinleave"
             
             if (player.paused == true && data.playing == true) {
                 player.play();
-                message = data.avatar + " played video at " + convertSecondsToMinutes(currentTime) + "."
+                // message = data.avatar + " played video at " + convertSecondsToMinutes(currentTime) + "."
+                message.text = "played video at " + convertSecondsToMinutes(currentTime) + "."
             } else if (player.paused == false && data.playing == false) {
                 player.pause();
-                message = data.avatar + " paused video at " + convertSecondsToMinutes(currentTime) + "."
+                // message = data.avatar + " paused video at " + convertSecondsToMinutes(currentTime) + "."
+                message.text = "paused video at " + convertSecondsToMinutes(currentTime) + "."
             } else {
-                message = data.avatar + " seeked video at " + convertSecondsToMinutes(currentTime) + "."
+                // message = data.avatar + " seeked video at " + convertSecondsToMinutes(currentTime) + "."
+                message.text = "seeked video at " + convertSecondsToMinutes(currentTime) + "."
             }
 
             console.log(message);
@@ -177,16 +183,22 @@
             player.currentTime = data.currentTime;
             player.playbackRate = data.playbackRate;
 
-            let message = "" 
+            // let message = "" 
+            let message = {}
+            message.avatar = data.avatar
+            message.type = "createjoinleave"
             
             if (player.paused == true && data.playing == true) {
                 player.play();
-                message = data.avatar + " played video at " + convertSecondsToMinutes(currentTime) + "."
+                // message = data.avatar + " played video at " + convertSecondsToMinutes(currentTime) + "."
+                message.text = "played video at " + convertSecondsToMinutes(currentTime) + "."
             } else if (player.paused == false && data.playing == false) {
                 player.pause();
-                message = data.avatar + " paused video at " + convertSecondsToMinutes(currentTime) + "."
+                // message = data.avatar + " paused video at " + convertSecondsToMinutes(currentTime) + "."
+                message.text = "played video at " + convertSecondsToMinutes(currentTime) + "."
             } else {
-                message = data.avatar + " seeked video at " + convertSecondsToMinutes(currentTime) + "."
+                // message = data.avatar + " seeked video at " + convertSecondsToMinutes(currentTime) + "."
+                message.text = "played video at " + convertSecondsToMinutes(currentTime) + "."
             }
 
             console.log(message);
@@ -292,8 +304,12 @@
         })
 
         socket.on('update-message', function(data) {
-            let message = ""
-            message = data.avatar + " " + data.type + " the party."
+            let message = {
+                avatar: data.avatar,
+                type: "createjoinleave",
+                text: data.type + " the party."
+            }
+            // message = data.avatar + " " + data.type + " the party." 
             sendMessageToPopup("message", message);
             messages.push(message)
 
@@ -314,17 +330,28 @@
         })
 
         socket.on('chat-message', function(data) {
-            let message = ""
-            message = data.avatar + ": " + data.message;
+            let message = {
+                avatar: data.avatar,
+                type: "message",
+                text: data.message
+            }
+            // message = data.avatar + ": " + data.message;
             console.log(message)
             sendMessageToPopup("message", message);
             messages.push(message)
         })
 
         socket.on('updateAvatar-Message', function(data) {
-            let message = data.oldAvatar + " changed name to " + data.newAvatar + "."
+            // let message = data.oldAvatar + " changed name to " + data.newAvatar + "."
+            // console.log(message)
+            // sendMessageToPopup("message", message);
+            let message = {
+                avatar: data.oldAvatar,
+                type: "avatar", 
+                text: data.newAvatar
+            }
             console.log(message)
-            sendMessageToPopup("message", message);
+            sendMessageToPopup("message", message)
             messages.push(message)
 
             if (data.isMasterUser) {
@@ -425,9 +452,15 @@
                                 isPlaying = "paused"
                             }
         
-                            let message = localAvatar + " " + isPlaying + " video at " + convertSecondsToMinutes(currentTime) + "."
+                            // let message = localAvatar + " " + isPlaying + " video at " + convertSecondsToMinutes(currentTime) + "."
+
+                            let message = {
+                                avatar: localAvatar,
+                                type: "createjoinleave",
+                                text: isPlaying + " video at " + convertSecondsToMinutes(currentTime) + "."
+                            }
         
-                            sendMessageToPopup(message)
+                            sendMessageToPopup("message", message)
                             console.log(message)
                             messages.push(message)
 
@@ -492,9 +525,15 @@
                             isPlaying = "paused"
                         }
     
-                        let message = localAvatar + " " + isPlaying + " video at " + convertSecondsToMinutes(currentTime) + "."
+                        // let message = localAvatar + " " + isPlaying + " video at " + convertSecondsToMinutes(currentTime) + "."
+
+                        let message = {
+                            avatar: localAvatar,
+                            type: "createjoinleave",
+                            text: isPlaying + " video at " + convertSecondsToMinutes(currentTime) + "."
+                        }
     
-                        sendMessageToPopup(message)
+                        sendMessageToPopup("message", message)
                         console.log(message)
                         messages.push(message)
 
