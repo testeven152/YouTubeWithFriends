@@ -226,6 +226,14 @@ $(function(){
         })
     }
 
+    var remove_html_tags = function(string) {
+        if (string == null || string == '') {
+            return false;
+        }
+
+        return string.replace(/<[^>]*>/g, '');
+    }
+
 
     var stripAvatar = function(avatar) {
         let newAvatar = avatar.replace(/[\W_]+/g,"")
@@ -394,7 +402,7 @@ $(function(){
 
     $('.send-message').on('submit', function(event) {
         event.preventDefault();
-        let chatMessage = $('#message-input').val();
+        let chatMessage = remove_html_tags($('#message-input').val());
         if (chatMessage != '') {
             sendMessage('chat-message', { message: chatMessage }, function(response) {
                 $('#message-input').val('');
@@ -406,6 +414,7 @@ $(function(){
     $('.change-username').on('submit', function(event) {
         event.preventDefault();
         let changeUsername = $('#change-username-input').val().trim(); // need to check if valid username
+        changeUsername = remove_html_tags(changeUsername)
         if (changeUsername != '' && isValidUsername(changeUsername)) {
             sendMessage('change-username', { username: changeUsername }, function(response) {
                 setCurrentUsername(changeUsername);
