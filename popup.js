@@ -11,8 +11,6 @@ $(function(){
     var userAvatar = null;
     var masterUser = null;
 
-    var numUsers = 0;
-
     const chatcontainer = document.getElementById('chat')
 
     chrome.tabs.query({
@@ -94,20 +92,20 @@ $(function(){
     var showChat = function() {
         // $('#show-log-btn').hide()
         $('.container').show();
-        $('.connected').height(460);
+        $('.connected').height(490);
         $('.settings').hide()
         $('.party-room').hide()
         // $('#hide-log-btn').css({ top: '505px' })
 
         $('#exit-settings-icon').hide()
         $('#settings-icon').show()
-        $('#settings-icon').css({ top: '10px', left: '290px' })
-        $('#settings-icon-clicked').hide()
-        $('#chat-icon-clicked').show()
-        $('#chat-icon').hide()
-        $('#party-icon-clicked').hide()
-        $('#party-icon').hide()
-        $('#separator1').hide()
+        // $('#settings-icon').css({ top: '10px', left: '290px' })
+        // $('#settings-icon-clicked').hide()
+        // $('#chat-icon-clicked').show()
+        // $('#chat-icon').hide()
+        // $('#party-icon-clicked').hide()
+        // $('#party-icon').hide()
+        // $('#separator1').hide()
 
 
         chatcontainer.scrollTop = chatcontainer.scrollHeight
@@ -152,20 +150,19 @@ $(function(){
     var showSettings = function() {
         $('.container').hide()
         $('.settings').show()
-        $('.party-room').hide()
-        $('.connected').height(285)
+        $('.connected').height(490)
         $('#hide-log-btn').css({ top: '315px' })
         $('#exit-settings-icon').show()
-        // $('#settings-icon').hide()
+        $('#settings-icon').hide()
         // $('#chat-icon-clicked').hide()
         // $('#chat-icon').show()
-        $('#party-icon-clicked').hide()
-        $('#party-icon').show()
-        $('#separator1').show()
-
-        $('#settings-icon').css({ top: '148px', left: '172px'})
-        $('#settings-icon').hide()
-        $('#settings-icon-clicked').show()
+        // $('#party-icon-clicked').hide()
+        // $('#party-icon').show()
+        // $('#separator1').show()
+        // $('#settings-icon').css({ top: '148px', left: '172px'})
+        // $('#settings-icon').hide()
+        // $('#settings-icon-clicked').show()
+        $('.party-room').show()
 
     }
 
@@ -241,17 +238,13 @@ $(function(){
     }
 
     var addAvatar = function(avatar) {
-        let user = '<p id="' + stripAvatar(avatar) + '">' + avatar + '</p>'
+        let user = '<p id="' + stripAvatar(avatar) + '"><i>' + avatar + '</i></p>'
         $(user).appendTo('.party-container')
-        numUsers++
-        $('#party-count').text("# of users: " + numUsers)
     }
 
     var removeAvatar = function(avatar) {
         let id = "#" + stripAvatar(avatar);
-        $(id).remove();
-        numUsers--
-        $('#party-count').text("# of users: " + numUsers)
+        $(id).remove()
     }
 
     var appendAvatarsToConsole = function(avatars) {
@@ -315,10 +308,10 @@ $(function(){
     var setCurrentUsername = function(username = null) {
 
         if (username == null) {
-            $('#current-username').html("<b>Username</b>:")
+            $('#current-username').html("Username:")
         }
         else {
-            $('#current-username').html("<b>Username</b>: " + username);
+            $('#current-username').html("Username: <i>" + username + "</i>");
         }
 
     }
@@ -427,19 +420,27 @@ $(function(){
         }
     })
 
-    $('#chat-icon').click(function() {
-        showChat();
-    })
+    // $('#chat-icon').click(function() {
+    //     showChat();
+    // })
 
-    $('#party-icon').click(function() {
-        showParty();
-    })
+    // $('#party-icon').click(function() {
+    //     showParty();
+    // })
 
     $('#settings-icon').click(function() {
         showSettings();
     })
 
     $('#exit-settings-icon').click(function() {
+        showChat();
+    })
+
+    $('#see-party').click(function() {
+        showSettings();
+    })
+
+    $('#go-back-chat').click(function() {
         showChat();
     })
 

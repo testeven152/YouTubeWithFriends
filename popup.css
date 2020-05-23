@@ -204,7 +204,7 @@ h2 {
   top: 167px;
   left: 89.75px;
 } */
-
+/* 
 #separator1 {
   position: absolute;
   top: 158px;
@@ -226,7 +226,7 @@ h2 {
   left: 127px;
   width: 21px;
   background-color: #F9F9F9;
-}
+} */
 
 /* #separator2 {
   position: absolute;
@@ -240,18 +240,20 @@ h2 {
   position: absolute;
   top: 21px;
   left: 301px;
+  cursor: pointer;
 }
 
-#settings-icon-clicked {
+/* #settings-icon-clicked {
   position: absolute;
   top: 148px;
   left: 172px;
-}
+} */
 
 #settings-icon {
   position: absolute;
   top: 10px;
   left: 290px;
+  cursor: pointer;
 }
 
 .settings {
@@ -262,32 +264,66 @@ h2 {
 
 #settings-head {
   position: absolute;
-  top: 170px;
-  left: 16px;
-  font-size: 15px;
+  top: 310px;
+  left: 15px;
+  font-size: 13px;
 }
 
-#dark-mode {
+.dark-mode {
   position: absolute;
-  top: 200px;
-  left: 16px;
+  top: 345px;
+  left: 65px;
+  line-height: 20px;
+}
+
+.switch {
+  position: absolute;
+  display: inline-block;
+  width: 40px;
+  height: 20px;
+  left: -50px;
+  background-color: rgba(0, 0, 0, 0.25);
+  border-radius: 20px;
+  transition: all 0.3s;
+}
+.switch::after {
+  content: '';
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-radius:50%;
+  background-color: white;
+  top: 1px;
+  left: 1px;
+  transition: all 0.3s;
+}
+
+.checkbox:checked + .switch::after {
+  left : 20px;
+}
+.checkbox:checked + .switch {
+  background-color: #EB3323;
+}
+.checkbox {
+  display : none;
 }
 
 #master-user {
   position: absolute;
-  top: 230px;
-  left: 16px;
+  top: 365px;
+  left: 15px;
 }
 
 #current-username {
   position: absolute;
-  top: 260px;
-  left: 16px;
+  top: 385px;
+  left: 15px;
+  font-size: 13px;
 }
 
 .change-username {
   position: absolute;
-  top: 300px;
+  top: 422px;
   left: 15px;
 
   font-family: 'Roboto';
@@ -319,9 +355,9 @@ h2 {
 
 .party-container {
   position: absolute;
-  top: 170px;
+  top: 160px;
   width: 300px;
-  height: 200px;
+  height: 150px;
   left: 15px;
   /* border: solid 1px #C7C7C7;
   border-radius: 5px; */
@@ -330,10 +366,13 @@ h2 {
 
 }
 
+.party-container p {
+  color: #757575;
+}
+
 .party-header {
   text-align: left;
-  border-bottom: solid 2px #C7C7C7;
-  color: #757575;
+  /* border-bottom: solid 2px #C7C7C7; */
 }
 
 /* .party-header p {
@@ -345,11 +384,30 @@ h2 {
   font-size: 10px;
 } */
 
-#party-count {
+/* #party-count {
   position: absolute;
   top: 370px;
   left: 18px;
   color: #757575;
+} */
+
+.support {
+  position: absolute;
+  top: 445px;
+  left: 15px;
+}
+
+#support-head {
+  font-size: 13px;
+}
+
+#go-back-chat {
+  position: absolute;
+  top: 499px;
+  left: 181px;
+  font-size: 11px;
+  color: #045FD4;
+  cursor: pointer;
 }
 
 .container {
@@ -416,6 +474,15 @@ h2 {
     outline: none;
     background: white;
 } */
+
+#see-party {
+  position: relative;
+  padding-right: 10px;
+  float: right;
+  color: #045FD4;
+  font-size: 11px;
+  cursor: pointer;
+}
 
 .loading {
     height: 107px;
