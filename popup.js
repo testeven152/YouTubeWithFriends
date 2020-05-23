@@ -162,6 +162,54 @@ $(function(){
         $('.loading').show();
     }
 
+    var toggleDarkMode = function(darkMode) {
+
+        if (darkMode) {
+            $('body').css({ 'background-color': '#282828' })
+
+            $('.title').css({ 'background-color': '#282828' });
+            $('.title h2').css({ color: 'white'});
+            $('.disconnected').css({ color: 'white', background: '#1F1F1F'})
+            $('.connected').css({ background: '#1F1F1F'})
+            $('.settings').css({ color: 'white' })
+
+            $('#copy-unclicked-img').attr("src", "/images/CopyButton_Unclicked_Dark.svg")
+            $('#copy-clicked-img').attr("src", "/images/CopyButton_Clicked_Dark.svg")
+            $('#settings-icon').attr("src", "/images/settings-icon-dark.svg")
+            $('#exit-settings-icon').attr("src", "/images/exit-dark.svg")
+
+
+            $('#share-url').css({ 'background-color': '#1F1F1F', 'border-color': '#303030' })
+            $('#leave-session').css({ 'background-color': '#1F1F1F', 'border-color': '#303030'})
+            $('.change-username input').css({ 'color': 'white', 'background-color': '#1F1F1F', 'border-color': '#303030'})
+            $('.send-message input').css({ 'color': 'white', 'background-color': '#1F1F1F', 'border-color': '#303030'})
+
+            $('.container').css({ 'color': 'white' })
+        }
+        else {
+            $('body').css({ 'background-color': 'white' })
+
+            $('.title').css({ 'background-color': 'white' });
+            $('.title h2').css({ color: 'black'});
+            $('.disconnected').css({ color: 'black', background: '#F9F9F9'})
+            $('.connected').css({ background: '#F9F9F9'})
+            $('.settings').css({ color: 'black' })
+
+            $('#copy-unclicked-img').attr("src", "/images/CopyButton_Unclicked.svg")
+            $('#copy-clicked-img').attr("src", "/images/CopyButton_Clicked.svg")
+            $('#settings-icon').attr("src", "/images/settings-icon.svg")
+            $('#exit-settings-icon').attr("src", "/images/exit.svg")
+
+            $('#share-url').css({ 'background-color': '#F9F9F9', 'border-color': '#C7C7C7' })
+            $('#leave-session').css({ 'background-color': '#F9F9F9', 'border-color': '#C7C7C7' })
+            $('.change-username input').css({ 'color': 'black', 'background-color': '#F9F9F9', 'border-color': '#C7C7C7' })
+            $('.send-message input').css({ 'color': 'black', 'background-color': '#F9F9F9', 'border-color': '#C7C7C7' })
+
+            $('.container').css({ 'color': 'black' })
+        }
+
+    }
+
 
     // ---------------------------------------------------------------------------------------------------------
 
@@ -389,6 +437,17 @@ $(function(){
         showChat();
     })
 
+    $('#dark-mode-toggle').click(function() {
+
+        toggleDarkMode($(this).is(':checked'))
+
+        sendMessage('dark-mode', { darkMode: $(this).is(':checked') }, function() {
+            chrome.storage.sync.set({ darkMode: $(this).is(':checked') }, function() {
+                console.log("darkMode set to %s", $(this).is(':checked'))
+            })
+        })
+    })
+
 
     // ---------------------------------------------------------------------------------------------------------
 
@@ -440,6 +499,15 @@ $(function(){
         // console.log("videoId = " + videoId);
         // console.log("response.sessionId = " + response.sessionId);
         // console.log("hasywfsession = " + hasywfsession);
+
+        toggleDarkMode(response.darkMode);
+
+        if (response.darkMode) {
+            $('#dark-mode-toggle').attr('checked', 'checked')
+        }
+
+
+
         if(response.sessionId) {
             var shareurl = "https://www.youtube.com/watch?v=" + videoId + "&ywf=" + response.sessionId;
             userAvatar = response.avatar;
@@ -468,6 +536,9 @@ $(function(){
                 } 
             })
         } 
+        else if (response.errorMessage) {
+            showError(response.errorMessage);
+        }
         else {
             showDisconnected();
         }

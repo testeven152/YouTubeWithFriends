@@ -181,73 +181,12 @@ h2 {
     opacity: 0;
 }
 
-/* #show-log-btn {
-    position: absolute;
-    width: 26px;
-    height: 12px;
-    left: 152px;
-    top: 165px;
-    transform: rotate(180deg);
-
-    outline: none;
-    background: white;
-} */
-
-/* #chat-icon-clicked {
-  position: absolute;
-  top: 167px;
-  left: 89.75px;
-}
-
-#chat-icon {
-  position: absolute;
-  top: 167px;
-  left: 89.75px;
-} */
-/* 
-#separator1 {
-  position: absolute;
-  top: 158px;
-  left: 163px;
-  height: 16px;
-  width: 4px;
-}
-
-#party-icon-clicked {
-  position: absolute;
-  top: 160px;
-  left: 127px;
-  width: 21px;
-}
-
-#party-icon {
-  position: absolute;
-  top: 160px;
-  left: 127px;
-  width: 21px;
-  background-color: #F9F9F9;
-} */
-
-/* #separator2 {
-  position: absolute;
-  top: 165px;
-  left: 196.375px;
-  height: 16px;
-  width: 4px;
-} */
-
 #exit-settings-icon {
   position: absolute;
   top: 21px;
   left: 301px;
   cursor: pointer;
 }
-
-/* #settings-icon-clicked {
-  position: absolute;
-  top: 148px;
-  left: 172px;
-} */
 
 #settings-icon {
   position: absolute;
@@ -334,7 +273,7 @@ h2 {
   width: 300px;
   font-family: 'Roboto';
 
-  border: 1px solid #C7C7C7;
+  border: 2px solid #C7C7C7;
   border-radius: 12px;
   outline: none;
   padding: 12px 12px;
@@ -362,7 +301,7 @@ h2 {
   /* border: solid 1px #C7C7C7;
   border-radius: 5px; */
   overflow: auto;
-  border-bottom: solid 2px #C7C7C7;
+  /* border-bottom: solid 2px #C7C7C7; */
 
 }
 

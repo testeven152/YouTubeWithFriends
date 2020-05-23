@@ -28,6 +28,7 @@
     
         // ----------------------------------- Variables --------------------------------------------------------------------------------------
 
+        var darkMode = false;
     
         // ---------- session properties ---------------
         var localUserId = null;
@@ -588,17 +589,27 @@
 
                     // if videoIds dont match, user leaves session
                     // problem where request.data.videoId is null while it should always be the videoId 
-                    // if (localVideoId != null && request.data.videoId != localVideoId) { 
 
-                    //     socket.emit('leaveSession', { userId: localUserId }, function() {
-                    //         localSessionId = null;
-                    //         sendResponse({});
-                    //     })
-                    // } else {
-                    //     sendResponse({ sessionId: localSessionId }); 
-                    // }
+                    if (localVideoId != null && getVideoIdFromURL(window.location.href) != localVideoId) { 
 
-                    sendResponse({ sessionId: localSessionId, messages: messages, avatars: sessionAvatars, avatar: localAvatar, masterUser: masterUser});
+
+                        socket.emit('leaveSession', { userId: localUserId }, function() {
+                            localSessionId = null;
+                            console.log("Invalid URL, disconnecting from session...")
+                            sendResponse({ darkMode: darkMode, errorMessage: "Invalid URL"});
+                        })
+                    } else {
+                        sendResponse({ 
+                            darkMode: darkMode,
+                            sessionId: localSessionId, 
+                            messages: messages, 
+                            avatars: sessionAvatars, 
+                            avatar: localAvatar, 
+                            masterUser: masterUser
+                        });
+                    }
+
+
 
                     return;
                 case 'create-session':
@@ -672,19 +683,6 @@
 
                     })
                     return true;
-                // case 'play-pause':
-                //     console.log('Request type: ' + request.type);
-                //     socket.emit('playpause', { sessionId: localSessionId, videoId: localVideoId }, function() {
-                //         playpausevideo(video);
-                //     })
-                //     return true;
-                // case 'sync':
-                //     console.log('Request type: ' + request.type);
-                //     currentTime = getPlayerTime(video);
-                //     socket.emit('sync', { sessionId: localSessionId, time: currentTime, userId: localUserId }, function() {
-
-                //     })
-                //     return true;
                 case 'chat-message':
                     console.log('Request type: ' + request.type);
                     socket.emit('chatMessage', { message: request.data.message, avatar: localAvatar }, function(data) {
@@ -700,10 +698,6 @@
                         }
                     })
                     return true;
-                // case 'open-chat':
-                //     console.log('Request type: ' + request.type);
-                //     chatEnabled = request.data.setChatEnabled;
-                //     return true;
                 case 'change-username':
                     console.log('Request type: ' + request.type);
                     socket.emit('updateAvatar', { avatar: request.data.username }, function(data) {
@@ -711,6 +705,11 @@
                         console.log('User updated avatar: %s', data.avatar)
                     })
                     sendResponse({});
+                    return true;
+                case 'dark-mode':
+                    console.log('Request type: ' + request.type);
+                    darkMode = request.data.darkMode
+                    console.log('Dark Mode set to %s', darkMode)
                     return true;
                 default:
                     console.log('Unknown request type: ' + request.type);
@@ -724,10 +723,19 @@
 
         // ----------------------------------- Main Logic ----------------------------------------------------------------------
 
+        chrome.storage.sync.get(['darkMode'], function(result) {
+            console.log("darkMode: %s", result.darkMode)
+
+            if (result.darkMode) {
+                darkMode = result.darkMode
+            }
+        })
+
         chrome.storage.sync.get(['avatar'], function(result) {
+            console.log("Avatar from sync: %s", result.avatar)
+
             if (result.avatar) {
                 socket.emit('updateAvatar', { avatar: result.avatar }, function(data) {
-                    console.log('Sync Avatar %s', data.avatar)
                     localAvatar = data.avatar
                     sendMessageToPopup("avatar", data.avatar)
                 })

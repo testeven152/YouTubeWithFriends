@@ -40,8 +40,8 @@
             <div class="connected">
                 <p id="link-help">Send the link below to friends. Make sure everyone joining clicks on the red YouTube With Friends logo after clicking on the link.</p>
                 <input id="share-url" type="text" readonly="true" autocomplete="off" autofocus />
-                <a id="copy-btn-clicked"><img src="/images/CopyButton_Clicked.svg"></a>
-                <a href="#" id="copy-btn"><img src="/images/CopyButton_Unclicked.svg"></a>
+                <a id="copy-btn-clicked"><img id='copy-clicked-img' src="/images/CopyButton_Clicked.svg"></a>
+                <a href="#" id="copy-btn"><img id='copy-unclicked-img' src="/images/CopyButton_Unclicked.svg"></a>
                 <p>
                     <button id="leave-session" type="button">Quit</button>
                 </p>
@@ -66,8 +66,8 @@
                         </div>
                         <p id="settings-head">Settings:</p>
                         <div class="dark-mode">
-                            <input type="checkbox" id="toggle" class="checkbox" />  
-                            <label for="toggle" class="switch"></label>
+                            <input type="checkbox" id="dark-mode-toggle" class="checkbox" />  
+                            <label for="dark-mode-toggle" class="switch"></label>
                             <b>Dark Mode</b>
                         </div>
                         <p id="master-user">Master Control:</p>
@@ -78,10 +78,10 @@
                         </form>
                         <div class="support">
                             <p id="support-head">Support:</p>
-                            <p id="need-help"><i>Need help? <a href="mailto:ywf56123@gmail.com">Drop a message.</a></i></p>
+                            <p id="need-help"><i>Need help? Drop us a message at ywf56123@gmail.com</i></p>
                         </div>
                         <p id="go-back-chat"><i><b>Let's get back to the party!</b></i></p>
-                    </div>>
+                    </div>
                 </div>
             </div>
         </div>
