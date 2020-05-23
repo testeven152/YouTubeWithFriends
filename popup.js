@@ -304,10 +304,10 @@ $(function(){
     var setMasterUser = function(masterUser = null) {
 
         if (masterUser == null || masterUser == "") {
-            $('#master-user').text("Master Control: No")
+            $('#master-user').html("<b>Master Control</b>: No")
         }
         else {
-            $('#master-user').text("Master Control: " + masterUser)
+            $('#master-user').html("<b>Master Control</b>: " + masterUser)
         }
 
     }
@@ -315,10 +315,10 @@ $(function(){
     var setCurrentUsername = function(username = null) {
 
         if (username == null) {
-            $('#current-username').text("Username:")
+            $('#current-username').html("<b>Username</b>:")
         }
         else {
-            $('#current-username').text("Current Username: " + username);
+            $('#current-username').html("<b>Username</b>: " + username);
         }
 
     }

@@ -257,7 +257,7 @@ h2 {
 .settings {
   font-family: 'Roboto';
   font-size: 11px;
-  color: #757575;
+  color: black;
 }
 
 #settings-head {
@@ -265,7 +265,6 @@ h2 {
   top: 170px;
   left: 16px;
   font-size: 15px;
-  color: black;
 }
 
 #dark-mode {
