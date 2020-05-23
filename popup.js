@@ -90,22 +90,12 @@ $(function(){
     }
 
     var showChat = function() {
-        // $('#show-log-btn').hide()
         $('.container').show();
         $('.connected').height(490);
         $('.settings').hide()
         $('.party-room').hide()
-        // $('#hide-log-btn').css({ top: '505px' })
-
         $('#exit-settings-icon').hide()
         $('#settings-icon').show()
-        // $('#settings-icon').css({ top: '10px', left: '290px' })
-        // $('#settings-icon-clicked').hide()
-        // $('#chat-icon-clicked').show()
-        // $('#chat-icon').hide()
-        // $('#party-icon-clicked').hide()
-        // $('#party-icon').hide()
-        // $('#separator1').hide()
 
 
         chatcontainer.scrollTop = chatcontainer.scrollHeight
@@ -130,22 +120,6 @@ $(function(){
 
     // }
 
-    var showParty = function() {
-        $('#show-log-btn').hide()
-        $('.connected').height(355);
-        $('.container').hide()
-        $('.settings').hide()
-        $('.party-room').show()
-        $('#settings-icon-clicked').hide()
-        $('#settings-icon').show()
-        // $('#chat-icon-clicked').hide()
-        // $('#chat-icon').show()
-        $('#party-icon-clicked').show()
-        $('#party-icon').hide()
-
-        // $('#hide-log-btn').css({ top: '400px' })
-
-    }
 
     var showSettings = function() {
         $('.container').hide()
@@ -154,14 +128,6 @@ $(function(){
         $('#hide-log-btn').css({ top: '315px' })
         $('#exit-settings-icon').show()
         $('#settings-icon').hide()
-        // $('#chat-icon-clicked').hide()
-        // $('#chat-icon').show()
-        // $('#party-icon-clicked').hide()
-        // $('#party-icon').show()
-        // $('#separator1').show()
-        // $('#settings-icon').css({ top: '148px', left: '172px'})
-        // $('#settings-icon').hide()
-        // $('#settings-icon-clicked').show()
         $('.party-room').show()
 
     }
@@ -284,9 +250,6 @@ $(function(){
         }
 
         for(var i = 0; i < messages.length; i++) {
-            // var message = $('.message').first().clone()
-            // message.find('p').text(messages[i])
-            // message.appendTo('.chat-container')
             addMessage(messages[i].avatar, messages[i].type, messages[i].text)
         }
 
@@ -382,16 +345,6 @@ $(function(){
         showDisconnected();
     });
 
-    // $('#show-log-btn').click(function() {
-    //     $('.log-console').show();
-    //     showChat();
-    //     sendMessage('open-chat', { setChatEnabled: true }, function() {})
-    // })
-
-    // $('#hide-log-btn').click(function() {
-    //     hideLogConsole();
-    //     sendMessage('open-chat', { setChatEnabled: false }, function() {})
-    // })
 
     $('.send-message').on('submit', function(event) {
         event.preventDefault();
@@ -420,14 +373,6 @@ $(function(){
         }
     })
 
-    // $('#chat-icon').click(function() {
-    //     showChat();
-    // })
-
-    // $('#party-icon').click(function() {
-    //     showParty();
-    // })
-
     $('#settings-icon').click(function() {
         showSettings();
     })
@@ -444,24 +389,6 @@ $(function(){
         showChat();
     })
 
-    // $('#queue-icon').click(function() {
-    //     showQueue();
-    // })
-
-
-    // $('#play-pause-button').click(function() {
-    //     console.log('play-pause-button clicked on');
-    //     sendMessage('play-pause', {}, function(){
-
-    //     });
-    // })
-
-    // $('#sync-button').click(function() {
-    //     console.log('sync-button clicked on');
-    //     sendMessage('sync', {}, function(){
-
-    //     });
-    // })
 
     // ---------------------------------------------------------------------------------------------------------
 
@@ -471,12 +398,6 @@ $(function(){
             console.log(request.data);
         }
         else if (request.type == "message") {
-            // console.log(request.data)
-            // var message = $('.message').first().clone()
-            // message.find('p').text(request.data)
-            // message.appendTo('.chat-container')
-            // chatcontainer.scrollTop = chatcontainer.scrollHeight
-
             addMessage(request.data.avatar, request.data.type, request.data.text)
         }
         else if (request.type == "avatar") {
