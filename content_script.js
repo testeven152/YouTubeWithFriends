@@ -710,6 +710,9 @@
                     console.log('Request type: ' + request.type);
                     darkMode = request.data.darkMode
                     console.log('Dark Mode set to %s', darkMode)
+                    chrome.storage.sync.set({ 'darkMode': darkMode }, function() {
+                    })
+                    sendResponse({});
                     return true;
                 default:
                     console.log('Unknown request type: ' + request.type);
@@ -723,16 +726,12 @@
 
         // ----------------------------------- Main Logic ----------------------------------------------------------------------
 
-        chrome.storage.sync.get(['darkMode'], function(result) {
-            console.log("darkMode: %s", result.darkMode)
+        chrome.storage.sync.get(['avatar', 'darkMode'], function(result) {
+            console.log("Avatar from sync: %s - Dark Mode: %s", result.avatar, result.darkMode)
 
             if (result.darkMode) {
                 darkMode = result.darkMode
             }
-        })
-
-        chrome.storage.sync.get(['avatar'], function(result) {
-            console.log("Avatar from sync: %s", result.avatar)
 
             if (result.avatar) {
                 socket.emit('updateAvatar', { avatar: result.avatar }, function(data) {

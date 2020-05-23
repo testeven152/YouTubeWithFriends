@@ -414,7 +414,7 @@ $(function(){
                 setCurrentUsername(changeUsername);
                 userAvatar = changeUsername;
                 $('#change-username-input').val('');
-                chrome.storage.sync.set({ avatar: changeUsername }, function() { console.log("Avatar saved to sync storage") })
+                chrome.storage.sync.set({ 'avatar': changeUsername }, function(response) { console.log("Avatar saved to sync storage") })
             })
         } else {
             $('#change-username-input').val('');
@@ -441,11 +441,7 @@ $(function(){
 
         toggleDarkMode($(this).is(':checked'))
 
-        sendMessage('dark-mode', { darkMode: $(this).is(':checked') }, function() {
-            chrome.storage.sync.set({ darkMode: $(this).is(':checked') }, function() {
-                console.log("darkMode set to %s", $(this).is(':checked'))
-            })
-        })
+        sendMessage('dark-mode', { darkMode: $(this).is(':checked') }, function(response) {})
     })
 
 
