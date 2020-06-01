@@ -10,6 +10,7 @@ $(function(){
     var hasywfsession = null;
     var userAvatar = null;
     var masterUser = null;
+    var darkMode = false;
 
     const chatcontainer = document.getElementById('chat')
 
@@ -185,6 +186,10 @@ $(function(){
             $('.send-message input').css({ 'color': 'white', 'background-color': '#1F1F1F', 'border-color': '#303030'})
 
             $('.container').css({ 'color': 'white' })
+
+            if (!$('dark-mode-toggle').is(':checked')) {
+                $('#dark-mode-toggle').attr('checked', 'checked')
+            }
         }
         else {
             $('body').css({ 'background-color': 'white' })
@@ -489,6 +494,8 @@ $(function(){
 
     showDisconnected();
 
+    toggleDarkMode(darkMode);
+
     // sends initial data
     sendMessage('sendInitData', { videoId: videoId }, function(response) {
         
@@ -496,11 +503,14 @@ $(function(){
         // console.log("response.sessionId = " + response.sessionId);
         // console.log("hasywfsession = " + hasywfsession);
 
+        console.log(response.darkMode)
+
+        darkMode = response.darkMode
         toggleDarkMode(response.darkMode);
 
-        if (response.darkMode) {
-            $('#dark-mode-toggle').attr('checked', 'checked')
-        }
+        // if (response.darkMode) {
+        //     $('#dark-mode-toggle').attr('checked', 'checked')
+        // }
 
 
 
