@@ -196,10 +196,10 @@
             } else if (player.paused == false && data.playing == false) {
                 player.pause();
                 // message = data.avatar + " paused video at " + convertSecondsToMinutes(currentTime) + "."
-                message.text = "played video at " + convertSecondsToMinutes(currentTime) + "."
+                message.text = "paused video at " + convertSecondsToMinutes(currentTime) + "."
             } else {
                 // message = data.avatar + " seeked video at " + convertSecondsToMinutes(currentTime) + "."
-                message.text = "played video at " + convertSecondsToMinutes(currentTime) + "."
+                message.text = "seeked video at " + convertSecondsToMinutes(currentTime) + "."
             }
 
             console.log(message);
