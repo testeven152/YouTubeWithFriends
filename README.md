@@ -1,6 +1,12 @@
-# Youtube With Friends
+<h1 align="center">
+  <a name="logo" href="https://chrome.google.com/webstore/detail/youtube-with-friends/boifjkmdjemnjadceofnlcnnfmjfjcoj"><img src="./images/YWFlogo.png" alt="YouTube With Friends" width="200"></a>
+  <br>
+  YouTube With Friends
+</h1>
 
-Youtube With Friends is a Chrome Extension that allows friends to watch YouTube videos together online by synchronizing YouTube video playback. The source for the server can be found [here](https://github.com/testeven152/YouTubeWithFriendsServer)
+YouTube With Friends is a Chrome Extension that allows users to synchronize YouTube video playback with others.
+
+The source for the server can be found [here](https://github.com/testeven152/YouTubeWithFriendsServer)
 
 ## How to use:
 
