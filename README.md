@@ -1,12 +1,13 @@
 <h1 align="center">
   <a name="logo" href="https://chrome.google.com/webstore/detail/youtube-with-friends/boifjkmdjemnjadceofnlcnnfmjfjcoj"><img src="./images/YWFlogo.png" alt="YouTube With Friends" width="200"></a>
   <br>
+  <br>
   YouTube With Friends
 </h1>
 
-YouTube With Friends is a Chrome Extension that allows users to synchronize YouTube video playback with others.
+YouTube With Friends is a Chrome Extension that allows users to synchronize YouTube video playback and chat with others.
 
-The source for the server can be found [here](https://github.com/testeven152/YouTubeWithFriendsServer)
+The source for the server can be found [here](https://github.com/testeven152/YouTubeWithFriendsServer).
 
 ## How to use:
 
@@ -17,18 +18,19 @@ The source for the server can be found [here](https://github.com/testeven152/You
 
 ## Technologies Used
 
-- JavaScript
-- Node.js
-- Socket.IO
-- Lodash
-- Heroku
+- [JavaScript](https://www.javascript.com/)
+- HTML
+- CSS
+- [Node.js](https://nodejs.org/en/)
+- [Socket.IO](https://socket.io/)
+- [Heroku](https://www.heroku.com/)
 
 ## Installation
 
 Follow these steps to install the extension locally.
 
-- Clone the repository
-- Enter chrome://extensions in your chrome browser
-- Click on Load unpacked and load the folder with the chrome extension
+1. Clone the repository.
+2. Enter chrome://extensions in your chrome browser.
+3. Click on 'Load unpacked' and load the folder with the chrome extension.
 
-You can also find the YouTube With Friends Chrome Extension in the Chrome Web Store or click the link [here](https://chrome.google.com/webstore/detail/youtube-with-friends/boifjkmdjemnjadceofnlcnnfmjfjcoj).
+You can also install the YouTube With Friends Chrome Extension through the Chrome Web Store [here](https://chrome.google.com/webstore/detail/youtube-with-friends/boifjkmdjemnjadceofnlcnnfmjfjcoj).
