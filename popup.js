@@ -27,6 +27,8 @@ $(function(){
     
         var getYWFIdFromUrl = function(url) {
 
+            // 1.2.3.5 fixed bug here where this would parse URL incorrectly and give the wrong code
+
             let segments = url.split('&');
 
             for (var i = 0; i < segments.length; i++) {
@@ -37,21 +39,15 @@ $(function(){
                     return segment[1];
                 }
             }
+
+            return 'ERROR';
         }
 
         hasywfsession = tabs[0].url.includes('&ywf=');
 
         if(hasywfsession) {
 
-            // https://www.youtube.com/watch?v=NJ7djRRZr_4&ywf=b32fcb277112b555
-
-            // let spliturl = tabs[0].url.split('&')
-    
-            // var baseurl = spliturl[0];
-            // ywfid = spliturl[spliturl.length - 1];
-            // videoId = baseurl.split('=')[1];
-            // var ywfarray = ywfid.split('=');
-            // ywfid = ywfarray[ywfarray.length - 1]
+            // retrieve video id and ywf id to create share link
 
             videoId = getVideoIdFromUrl(tabs[0].url)
             ywfid = getYWFIdFromUrl(tabs[0].url)
@@ -61,9 +57,6 @@ $(function(){
             
         } else {
 
-            // var baseurl = tabs[0].url
-            // videoId = baseurl.split('=')[1];
-            // videoId = videoId.split('&')[0];
             videoId = getVideoIdFromUrl(tabs[0].url)
 
         }
