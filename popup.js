@@ -26,11 +26,22 @@ $(function(){
         }
     
         var getYWFIdFromUrl = function(url) {
-            let id = url.split('&')
-            id = id[id.length - 1]
-            id = id.split('=')
-            id = id[id.length - 1]
-            return id
+            // let id = url.split('&')
+            // id = id[id.length - 1]
+            // id = id.split('=')
+            // id = id[id.length - 1]
+            // return id
+
+            let segments = url.split('&');
+
+            for (var i = 0; i < segments.length; i++) {
+
+                let segment = segments[i].split('&');
+
+                if (segment.length == 2 && segment[0] == 'ywf') {
+                    return segment[1];
+                }
+            }
         }
 
         hasywfsession = tabs[0].url.includes('&ywf=');
