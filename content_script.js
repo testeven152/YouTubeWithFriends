@@ -580,9 +580,9 @@
     
     
         var popupInteractions = function(request, sender, sendResponse) {
+            console.log('Request type: ' + request.type);
             switch(request.type) {
                 case 'sendInitData':
-                    console.log('Request type: ' + request.type);
 
                     // console.log("localVideoId = " + localVideoId)
                     // console.log("request.data.videoId = " + request.data.videoId)
@@ -613,7 +613,6 @@
 
                     return;
                 case 'create-session':
-                    console.log('Request type: ' + request.type)
                     console.log('request.data.videoId = ' + request.data.videoId)
                     let player = video[0];
                     currentTime = player.currentTime
@@ -634,14 +633,12 @@
                     })
                     return true;
                 case 'leave-session':
-                    console.log('Request type: ' + request.type);
                     socket.emit('leaveSession', {}, function() {
                         resetVariables();
                         sendResponse({});
                     })
                     return true;
                 case 'join-session': 
-                    console.log('Request type: ' + request.type);
                     // console.log("Local User %s attempting to join session %s...", localUserId, request.data.sessionId); // userId isn't being recieved immediately upon opening the chrome extension
                     socket.emit('joinSession', { sessionId: request.data.sessionId }, function(data) {
                         if (data.errorMessage) {
@@ -684,7 +681,6 @@
                     })
                     return true;
                 case 'chat-message':
-                    console.log('Request type: ' + request.type);
                     socket.emit('chatMessage', { message: request.data.message, avatar: localAvatar }, function(data) {
                         if (data.errorMessage) {
                             socket.emit('leaveSession', {}, function() {
@@ -699,7 +695,6 @@
                     })
                     return true;
                 case 'change-username':
-                    console.log('Request type: ' + request.type);
                     socket.emit('updateAvatar', { avatar: request.data.username }, function(data) {
                         localAvatar = data.avatar
                         console.log('User updated avatar: %s', data.avatar)
@@ -707,7 +702,6 @@
                     sendResponse({});
                     return true;
                 case 'dark-mode':
-                    console.log('Request type: ' + request.type);
                     darkMode = request.data.darkMode
                     console.log('Dark Mode set to %s', darkMode)
                     chrome.storage.sync.set({ 'darkMode': darkMode }, function() {})

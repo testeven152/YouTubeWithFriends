@@ -7,10 +7,10 @@ $(function(){
     var videoId = null;
     var shareurl = null;
     var ywfid = null;
-    var hasywfsession = null;
     var userAvatar = null;
     var masterUser = null;
     var darkMode = false;
+    var tabId = null;
 
     const chatcontainer = document.getElementById('chat')
 
@@ -24,49 +24,9 @@ $(function(){
             videoId = videoId.split('&')[0]
             return videoId
         }
-    
-        var getYWFIdFromUrl = function(url) {
 
-            // 1.2.3.5 fixed bug here where this would parse URL incorrectly and give the wrong code
-
-            let segments = url.split('&');
-
-            for (var i = 0; i < segments.length; i++) {
-
-                let segment = segments[i].split('=');
-
-                if (segment.length == 2 && segment[0] == 'ywf') {
-                    return segment[1];
-                }
-            }
-
-            return 'ERROR';
-        }
-
-        hasywfsession = tabs[0].url.includes('&ywf=');
-
-        if(hasywfsession) {
-
-            // retrieve video id and ywf id to create share link
-
-            videoId = getVideoIdFromUrl(tabs[0].url)
-            ywfid = getYWFIdFromUrl(tabs[0].url)
-
-            shareurl = "https://www.youtube.com/watch?v=" + videoId + "&ywf=" + ywfid;
-    
-            
-        } else {
-
-            videoId = getVideoIdFromUrl(tabs[0].url)
-
-        }
-
-        console.log("YWF ID: " + ywfid);
-        console.log("Video ID: " + videoId);
-        console.log("Share URL: " + shareurl);
-
-        console.log("Test: %s == %s = %s ", getVideoIdFromUrl(tabs[0].url), videoId, (getVideoIdFromUrl(tabs[0].url) == videoId))
-        console.log("Test: %s == %s = %s ", getYWFIdFromUrl(tabs[0].url), ywfid, (getYWFIdFromUrl(tabs[0].url) == ywfid))
+        videoId = getVideoIdFromUrl(tabs[0].url);
+        tabId = tabs[0].id;
 
     })
 
@@ -242,26 +202,16 @@ $(function(){
     }
 
     var remove_html_tags = function(string) {
-        if (string == null || string == '') {
-            return false;
-        }
-
         return string.replace(/<[^>]*>/g, '');
     }
 
-
-    var stripAvatar = function(avatar) {
-        let newAvatar = avatar.replace(/[\W_]+/g,"")
-        return newAvatar
-    }
-
     var addAvatar = function(avatar) {
-        let user = '<p id="' + stripAvatar(avatar) + '"><i>' + avatar + '</i></p>'
+        let user = '<p id="' + remove_html_tags(avatar) + '"><i>' + avatar + '</i></p>'
         $(user).appendTo('.party-container')
     }
 
     var removeAvatar = function(avatar) {
-        let id = "#" + stripAvatar(avatar);
+        let id = "#" + remove_html_tags(avatar);
         $(id).remove()
     }
 
@@ -512,8 +462,10 @@ $(function(){
         // }
 
 
-
-        if(response.sessionId) {
+        if(response.errorMessage) {
+            showError(response.errorMessage);
+        }
+        else if(response.sessionId) {
             var shareurl = "https://www.youtube.com/watch?v=" + videoId + "&ywf=" + response.sessionId;
             userAvatar = response.avatar;
             appendMessagesToConsole(response.messages);
@@ -523,27 +475,34 @@ $(function(){
             setCurrentUsername(response.avatar)
         }
         // if content_script doesnt have an existing session and link has ywfid, try to join session
-        else if (hasywfsession && !response.sessionId) { 
-            sendMessage('join-session', { sessionId: ywfid, videoId: videoId }, function(response) {
+        else if (!response.sessionId) { 
+            console.log("Retrieving ywf from background")
+            chrome.runtime.sendMessage({ type: 'urlVariableInfo', tabId: tabId }, function(response) {
                 if (response.errorMessage) {
                     console.log(response.errorMessage)
-                    showError(response.errorMessage)
                 }
-                else {
-                    var shareurl = "https://www.youtube.com/watch?v=" + videoId + "&ywf=" + response.sessionId;
-                    userAvatar = response.avatar;
-                    showConnected(shareurl);
-                    // appendMessagesToConsole(response.messages)
-                    appendAvatarsToConsole(response.avatars)
-                    removeAvatar(response.avatar) // for now, remove duplicate
-                    setMasterUser(response.masterUser)
-                    setCurrentUsername(response.avatar)
-                } 
-            })
+                else if (videoId == response.videoId && tabId == response.tabId) {
+                    ywfid = response.ywfid;
+                    sendMessage('join-session', { sessionId: ywfid, videoId: videoId }, function(response) {
+                        if (response.errorMessage) {
+                            console.log(response.errorMessage)
+                            showError(response.errorMessage)
+                        }
+                        else {
+                            var shareurl = "https://www.youtube.com/watch?v=" + videoId + "&ywf=" + response.sessionId;
+                            userAvatar = response.avatar;
+                            showConnected(shareurl);
+                            // appendMessagesToConsole(response.messages)
+                            appendAvatarsToConsole(response.avatars)
+                            removeAvatar(response.avatar) // for now, remove duplicate
+                            setMasterUser(response.masterUser)
+                            setCurrentUsername(response.avatar)
+                        } 
+                    })
+                }
+            });
+
         } 
-        else if (response.errorMessage) {
-            showError(response.errorMessage);
-        }
         else {
             showDisconnected();
         }
