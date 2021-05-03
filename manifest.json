@@ -27,5 +27,6 @@
         "48": "images/ywflogo48.png",
         "128": "images/ywflogo128.png"
     },
-    "content_security_policy": "script-src 'self' https://cdn.jsdelivr.net; object-src 'self'"
+    "content_security_policy": "script-src 'self' https://cdn.jsdelivr.net; object-src 'self'",
+    "update_URL": "https://edge.microsoft.com/extensionwebstorebase/v1/crx"
 }
